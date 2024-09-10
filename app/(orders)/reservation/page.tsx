@@ -2,22 +2,41 @@
 
 import { useEffect, useState } from "react";
 import { Artist } from "@/app/types/artist.types";
+import { useSession } from "next-auth/react"; // Import de useSession pour vérifier la session
 import { useRouter } from "next/navigation";
 
-//Création d'un type pour typer les artistes
+const ReservationPage = () => {
+  const { data: session, status } = useSession();
+  const router = useRouter();
 
-export default function ReservationForm() {
-  // Utilisation du type Artist pour typer l'état qui contient les artistes
+  // Si l'utilisateur n'est pas connecté, redirection vers la page de login
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login");
+    }
+  }, [status]);
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
+
+  // Utilisation de || "" pour garantir que l'email soit toujours une string
+  const userEmail = session?.user?.email || "";
+
+  return session && session.user ? <ReservationForm email={userEmail} /> : null;
+};
+
+interface ReservationFormProps {
+  email?: string; // email est optionnel
+}
+
+const ReservationForm = ({ email = "" }: ReservationFormProps) => {
   const [artists, setArtists] = useState<Artist[]>([]);
-
-  // Utilisation de useState pour gérer les artistes sélectionnés, les données du formulaire et les frais totaux
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
-
-  // Utilisation de useState pour gérer les données du formulaire
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: "",
+    email: email, // Pré-remplir avec l'email de la session ou une chaîne vide
     phone: "",
     eventAddress: "",
     eventCity: "",
@@ -29,12 +48,10 @@ export default function ReservationForm() {
     budget: 0,
     comment: "",
   });
-
-  // Utilisation de useState pour gérer les frais totaux
   const [totalFee, setTotalFee] = useState<number>(0);
-  const router = useRouter(); // Utilisé pour la redirection
+  const router = useRouter();
 
-  // Récupérer les artistes depuis l'API et typer la réponse
+  // Récupérer les artistes depuis l'API
   useEffect(() => {
     async function fetchArtists() {
       const response = await fetch("/api/artists");
@@ -52,7 +69,7 @@ export default function ReservationForm() {
     );
   };
 
-  // Calcul des frais pour les artistes sélectionnés (ex. basé sur une logique personnalisée)
+  // Calcul des frais pour les artistes sélectionnés
   useEffect(() => {
     const fees = selectedArtists.reduce((acc, artistId) => {
       const artist = artists.find((artist) => artist.id === artistId);
@@ -64,19 +81,24 @@ export default function ReservationForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Convertir les données en chaînes de caractères
+    const selectedArtistsData = selectedArtists
+      .map((id) => {
+        const artist = artists.find((artist) => artist.id === id);
+        return artist ? { id: artist.id, pseudo: artist.pseudo } : null;
+      })
+      .filter(Boolean); // Retirer les valeurs nulles
+
     const queryParams = new URLSearchParams(
       Object.entries({
         ...formData,
-        totalFee: totalFee.toString(), // Convertir en chaîne pour éviter les erreurs
-        selectedArtists: selectedArtists.join(","), // Convertir le tableau en chaîne
+        totalFee: totalFee.toString(),
+        selectedArtists: JSON.stringify(selectedArtistsData),
       }).reduce((acc, [key, value]) => {
-        acc[key] = String(value); // Tout convertir en string
+        acc[key] = String(value);
         return acc;
       }, {} as Record<string, string>)
     ).toString();
 
-    // Rediriger vers la page de récapitulatif
     router.push(`/reservation/summary?${queryParams}`);
   };
 
@@ -99,17 +121,11 @@ export default function ReservationForm() {
         required
       />
       <input
-        type="email"
-        placeholder="Email"
-        value={formData.email}
-        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        required
-      />
-      <input
         type="tel"
         placeholder="Téléphone"
         value={formData.phone}
         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+        required
       />
       <input
         type="text"
@@ -131,15 +147,16 @@ export default function ReservationForm() {
       />
       <input
         type="text"
-        placeholder="Code postal"
+        placeholder="Code postal de l'événement"
         value={formData.eventPostalCode}
         onChange={(e) =>
           setFormData({ ...formData, eventPostalCode: e.target.value })
         }
+        required
       />
       <input
         type="text"
-        placeholder="Pays"
+        placeholder="Pays de l'événement"
         value={formData.eventCountry}
         onChange={(e) =>
           setFormData({ ...formData, eventCountry: e.target.value })
@@ -162,21 +179,31 @@ export default function ReservationForm() {
         onChange={(e) =>
           setFormData({ ...formData, numberOfPeople: parseInt(e.target.value) })
         }
+        required
       />
       <input
         type="text"
-        placeholder="Type de prestation"
+        placeholder="Type de service"
         value={formData.serviceType}
         onChange={(e) =>
           setFormData({ ...formData, serviceType: e.target.value })
         }
+        required
+      />
+      <input
+        type="number"
+        placeholder="Budget"
+        value={formData.budget}
+        onChange={(e) =>
+          setFormData({ ...formData, budget: parseInt(e.target.value) })
+        }
+        required
       />
       <textarea
-        placeholder="Commentaires"
+        placeholder="Commentaire"
         value={formData.comment}
         onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
       />
-
       <h3>Sélectionnez les artistes</h3>
       <div>
         {artists.map((artist) => (
@@ -199,4 +226,6 @@ export default function ReservationForm() {
       <button type="submit">Réserver</button>
     </form>
   );
-}
+};
+
+export default ReservationPage;

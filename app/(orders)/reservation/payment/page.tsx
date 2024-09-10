@@ -1,4 +1,3 @@
-// app/reservation/payment/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
@@ -12,9 +11,8 @@ const stripePromise = loadStripe(
 
 export default function PaymentPage() {
   const searchParams = useSearchParams();
-  const { totalFee, firstName, lastName, email } = Object.fromEntries(
-    searchParams.entries()
-  );
+  const formData = Object.fromEntries(searchParams.entries());
+
   const [stripe, setStripe] = useState<any>(null);
 
   useEffect(() => {
@@ -35,10 +33,21 @@ export default function PaymentPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        totalFee,
-        firstName,
-        lastName,
-        email,
+        totalFee: formData.totalFee,
+        firstName: formData.firstName || "", // Assurer que les champs existent
+        lastName: formData.lastName || "",
+        email: formData.email || "",
+        phone: formData.phone || "",
+        eventAddress: formData.eventAddress || "",
+        eventCity: formData.eventCity || "",
+        eventPostalCode: formData.eventPostalCode || "",
+        eventCountry: formData.eventCountry || "",
+        eventDate: formData.eventDate || "",
+        numberOfPeople: formData.numberOfPeople || "0",
+        serviceType: formData.serviceType || "",
+        budget: formData.budget || "0",
+        comment: formData.comment || "",
+        selectedArtists: formData.selectedArtists?.split(",") || [],
       }),
     });
 
@@ -51,7 +60,7 @@ export default function PaymentPage() {
   return (
     <div>
       <h1>Paiement</h1>
-      <p>Montant total à payer: {totalFee} €</p>
+      <p>Montant total à payer: {formData.totalFee} €</p>
       <button onClick={handlePayment}>Payer avec Stripe</button>
     </div>
   );
