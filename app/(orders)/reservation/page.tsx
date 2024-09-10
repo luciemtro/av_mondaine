@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { Artist } from "@/app/types/artist.types";
+import { useRouter } from "next/navigation";
 
 //Création d'un type pour typer les artistes
 
@@ -31,6 +32,7 @@ export default function ReservationForm() {
 
   // Utilisation de useState pour gérer les frais totaux
   const [totalFee, setTotalFee] = useState<number>(0);
+  const router = useRouter(); // Utilisé pour la redirection
 
   // Récupérer les artistes depuis l'API et typer la réponse
   useEffect(() => {
@@ -62,23 +64,20 @@ export default function ReservationForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const response = await fetch("/api/orders", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    // Convertir les données en chaînes de caractères
+    const queryParams = new URLSearchParams(
+      Object.entries({
         ...formData,
-        selectedArtists,
-        totalFee,
-      }),
-    });
+        totalFee: totalFee.toString(), // Convertir en chaîne pour éviter les erreurs
+        selectedArtists: selectedArtists.join(","), // Convertir le tableau en chaîne
+      }).reduce((acc, [key, value]) => {
+        acc[key] = String(value); // Tout convertir en string
+        return acc;
+      }, {} as Record<string, string>)
+    ).toString();
 
-    if (response.ok) {
-      alert("Commande créée avec succès !");
-    } else {
-      alert("Erreur lors de la création de la commande");
-    }
+    // Rediriger vers la page de récapitulatif
+    router.push(`/reservation/summary?${queryParams}`);
   };
 
   return (

@@ -6,7 +6,7 @@ export async function POST(req: Request) {
   let connection;
   try {
     const body = await req.json();
-
+    //Construct
     const {
       firstName,
       lastName,
