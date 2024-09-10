@@ -1,32 +1,100 @@
-//Importe la fonction createConnection du fichier db.js qui sert à se connecter à la base de données
-import { createConnection } from "../../lib/db";
-//Importe la fonction NextResponse de next/server qui permet de renvoyer une réponse au client
+import { getConnection } from "@/app/lib/db"; // Utilise le pool de connexions
 import { NextResponse } from "next/server";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { Artist } from "@/app/types/artist.types";
 
-/**Méthode GET, elle permet de récupérer tous les artistes de la base de données
-1° createConnection est la méthode qu'on a crée pour se connecter à la base de données, on l'appelle avec await pour attendre la connexion.
-2° On stock la requête SQL dans la variable sql pour récupérer tous les artistes.
-3° On utilise la méthode prédéfini de next, "NextResponse.json" qui sert à convertir les données en Json pour les renvoyer au client.
-4¨° En cas d'erreur, elle renvoie une erreur 500 avec le message d'erreur */
+export async function POST(req: Request) {
+  let connection;
+  try {
+    const body = await req.json();
+
+    const {
+      pseudo,
+      weight,
+      height,
+      city,
+      country,
+      title,
+      description = "",
+      picture_one = "",
+      picture_two = "",
+      picture_three = "",
+    } = body;
+
+    if (!pseudo || !weight || !height || !city || !country || !title) {
+      return NextResponse.json(
+        { error: "Veuillez fournir les informations nécessaires" },
+        { status: 400 }
+      );
+    }
+
+    // Obtenir une connexion depuis le pool
+    connection = await getConnection();
+
+    const insertArtistSql = `
+    INSERT INTO artists
+    (pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    const [result] = await connection.execute<ResultSetHeader>(
+      insertArtistSql,
+      [
+        pseudo,
+        weight,
+        height,
+        city,
+        country,
+        title,
+        description,
+        picture_one,
+        picture_two,
+        picture_three,
+      ]
+    );
+
+    return NextResponse.json({
+      message: "Artiste ajouté avec succès",
+      insertId: result.insertId,
+    });
+  } catch (error) {
+    console.error("Erreur lors de la création de l'artiste :", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Erreur inconnue" },
+      { status: 500 }
+    );
+  } finally {
+    // Relâcher la connexion dans le pool (et non pas la fermer)
+    if (connection) {
+      connection.release(); // Utiliser release() pour renvoyer la connexion au pool
+    }
+  }
+}
 
 export async function GET() {
+  let connection;
   try {
-    const db = await createConnection(); // Crée une connexion à la base de données
-    const sql = "SELECT * FROM artists"; // Requête SQL pour récupérer tous les artistes
-    const [artists] = await db.query(sql); // Exécute la requête SQL et stocke les données dans la variable artists
-    return NextResponse.json({ artists }); // Convertit les données en JSON et les renvoie au client
-  } catch (error) {
-    console.log(error);
+    // Obtenir une connexion depuis le pool
+    connection = await getConnection();
 
-    // Vérification si l'erreur est une instance de Error avant d'accéder à .message
-    if (error instanceof Error) {
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    } else {
-      // Si ce n'est pas une erreur de type Error, on renvoie un message générique
-      return NextResponse.json(
-        { error: "Erreur lors de la récupération des artistes" },
-        { status: 500 }
-      );
+    // Exécuter la requête SQL
+    const [artists] = await connection.query<Artist[] & RowDataPacket[]>(`
+      SELECT id, pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three
+      FROM artists
+    `);
+
+    // Retourner les artistes
+    return NextResponse.json({ artists });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des artistes :", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Erreur inconnue" },
+      { status: 500 }
+    );
+  } finally {
+    // Relâcher la connexion dans le pool
+    if (connection) {
+      connection.release();
     }
   }
 }

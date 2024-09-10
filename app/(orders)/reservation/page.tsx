@@ -1,21 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { Artist } from "@/app/types/artist.types";
 
 //Création d'un type pour typer les artistes
-type Artist = {
-  id: number;
-  pseudo: string;
-  weight: number;
-  height: number;
-  city: string;
-  country: string;
-  title: string;
-  description: string;
-  picture_one: string;
-  picture_two: string;
-  picture_three: string;
-};
 
 export default function ReservationForm() {
   // Utilisation du type Artist pour typer l'état qui contient les artistes
