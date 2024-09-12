@@ -86,15 +86,18 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         const artist = artists.find((artist) => artist.id === id);
         return artist ? { id: artist.id, pseudo: artist.pseudo } : null;
       })
-      .filter(Boolean); // Retirer les valeurs nulles
+      .filter(Boolean); // Filtrer les artistes valides
+
+    console.log("Artistes sélectionnés (avant envoi) :", selectedArtistsData); // Log des artistes sélectionnés
 
     const queryParams = new URLSearchParams(
       Object.entries({
         ...formData,
         totalFee: totalFee.toString(),
+        // JSON.stringify les artistes sélectionnés pour l'envoyer sous forme de chaîne
         selectedArtists: JSON.stringify(selectedArtistsData),
       }).reduce((acc, [key, value]) => {
-        acc[key] = String(value);
+        acc[key] = String(value); // Tout convertir en string pour URLSearchParams
         return acc;
       }, {} as Record<string, string>)
     ).toString();

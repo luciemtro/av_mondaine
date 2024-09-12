@@ -26,6 +26,26 @@ export default function PaymentPage() {
   const handlePayment = async () => {
     if (!stripe) return;
 
+    // Vérifier si formData.selectedArtists est déjà un objet ou une chaîne JSON
+    // Désérialiser les artistes sélectionnés
+    let selectedArtists = [];
+    try {
+      selectedArtists = formData.selectedArtists
+        ? JSON.parse(formData.selectedArtists)
+        : [];
+    } catch (error) {
+      console.error(
+        "Erreur lors de la conversion des artistes sélectionnés :",
+        error
+      );
+      return;
+    }
+
+    console.log(
+      "Artistes sélectionnés (avant envoi à Stripe) :",
+      selectedArtists
+    );
+
     // Créer une session de paiement sur ton serveur
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
@@ -47,7 +67,7 @@ export default function PaymentPage() {
         serviceType: formData.serviceType || "",
         budget: formData.budget || "0",
         comment: formData.comment || "",
-        selectedArtists: formData.selectedArtists?.split(",") || [],
+        selectedArtists: selectedArtists, // Envoyer le tableau d'artistes
       }),
     });
 

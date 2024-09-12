@@ -13,6 +13,14 @@ export default function Summary() {
     ? JSON.parse(formData.selectedArtists)
     : [];
 
+  console.log(
+    "Artistes sélectionnés (dans le récapitulatif) :",
+    selectedArtists
+  ); // Log des artistes
+
+  // Log du formData entier pour suivre toutes les données
+  console.log("Form Data (dans le récapitulatif) :", formData);
+
   const handlePayment = () => {
     // Assurer que toutes les données sont converties en chaînes de caractères et qu'il n'y a pas de valeurs undefined ou null
     const queryParams = new URLSearchParams(
@@ -31,7 +39,7 @@ export default function Summary() {
         serviceType: formData.serviceType || "", // Valeur par défaut
         budget: formData.budget?.toString() || "0", // Conversion en chaîne de caractères
         comment: formData.comment || "", // Valeur par défaut
-        selectedArtists: selectedArtists.join(","), // Convertir les artistes en une chaîne
+        selectedArtists: JSON.stringify(selectedArtists), // Sérialiser en JSON
       })
     ).toString();
 

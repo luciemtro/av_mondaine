@@ -132,17 +132,30 @@ export async function POST(req: Request) {
           const selectedArtists = JSON.parse(
             session.metadata?.selected_artists || "[]"
           );
+          console.log(
+            "Artistes sélectionnés (format JSON) :",
+            JSON.stringify(selectedArtists, null, 2)
+          );
+
+          const artistIds = selectedArtists.map(
+            (artist: { id: number }) => artist.id
+          );
+          console.log("IDs des artistes sélectionnés :", artistIds);
+
           const insertOrderArtistQuery = `
             INSERT INTO order_artists (order_id, artist_id)
             VALUES (?, ?)
           `;
 
-          for (const artistId of selectedArtists) {
+          for (const artistId of artistIds) {
+            console.log(
+              `Insertion artiste ${artistId} pour la commande ${orderId}`
+            );
             await conn.execute(insertOrderArtistQuery, [orderId, artistId]);
             console.log(`Artiste ${artistId} associé à la commande ${orderId}`);
           }
         } catch (err) {
-          const error = err as Error; // Cast explicite de l'erreur
+          const error = err as Error;
           console.error(
             "Erreur lors de l'insertion dans la base de données :",
             error
