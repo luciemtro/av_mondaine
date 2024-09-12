@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { Artist } from "@/app/types/artist.types";
 
+//Fonction pour ajouter un artiste
 export async function POST(req: Request) {
   let connection;
   try {
@@ -71,6 +72,7 @@ export async function POST(req: Request) {
   }
 }
 
+//Fonction pour récupérer tous les artistes
 export async function GET() {
   let connection;
   try {
@@ -93,6 +95,124 @@ export async function GET() {
     );
   } finally {
     // Relâcher la connexion dans le pool
+    if (connection) {
+      connection.release();
+    }
+  }
+}
+
+// Fonction pour modifier un artiste
+export async function PUT(req: Request) {
+  let connection;
+  try {
+    const body = await req.json();
+    const {
+      id,
+      pseudo,
+      weight,
+      height,
+      city,
+      country,
+      title,
+      description = "",
+      picture_one = "",
+      picture_two = "",
+      picture_three = "",
+    } = body;
+
+    if (!id || !pseudo || !weight || !height || !city || !country || !title) {
+      return NextResponse.json(
+        { error: "Veuillez fournir toutes les informations nécessaires" },
+        { status: 400 }
+      );
+    }
+
+    // Obtenir une connexion à la base de données
+    connection = await getConnection();
+
+    const updateArtistSql = `
+      UPDATE artists
+      SET pseudo = ?, weight = ?, height = ?, city = ?, country = ?, title = ?, description = ?, picture_one = ?, picture_two = ?, picture_three = ?
+      WHERE id = ?
+    `;
+
+    const [result] = await connection.execute<ResultSetHeader>(
+      updateArtistSql,
+      [
+        pseudo,
+        weight,
+        height,
+        city,
+        country,
+        title,
+        description,
+        picture_one,
+        picture_two,
+        picture_three,
+        id,
+      ]
+    );
+
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        { error: "Artiste non trouvé" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "Artiste modifié avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la modification de l'artiste :", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Erreur inconnue" },
+      { status: 500 }
+    );
+  } finally {
+    if (connection) {
+      connection.release();
+    }
+  }
+}
+
+// Fonction pour supprimer un artiste
+export async function DELETE(req: Request) {
+  let connection;
+  try {
+    const { searchParams } = new URL(req.url);
+    const id = searchParams.get("id");
+
+    if (!id) {
+      return NextResponse.json(
+        { error: "ID de l'artiste requis" },
+        { status: 400 }
+      );
+    }
+
+    // Obtenir une connexion à la base de données
+    connection = await getConnection();
+
+    const deleteArtistSql = `DELETE FROM artists WHERE id = ?`;
+
+    const [result] = await connection.execute<ResultSetHeader>(
+      deleteArtistSql,
+      [id]
+    );
+
+    if (result.affectedRows === 0) {
+      return NextResponse.json(
+        { error: "Artiste non trouvé" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ message: "Artiste supprimé avec succès" });
+  } catch (error) {
+    console.error("Erreur lors de la suppression de l'artiste :", error);
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "Erreur inconnue" },
+      { status: 500 }
+    );
+  } finally {
     if (connection) {
       connection.release();
     }

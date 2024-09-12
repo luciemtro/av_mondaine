@@ -4,8 +4,8 @@ import { NextResponse } from "next/server";
 import { getConnection } from "@/app/lib/db";
 import bcrypt from "bcryptjs";
 import { RowDataPacket } from "mysql2";
+import { sendEmail } from "@/app/lib/mailer"; // Importer la fonction d'envoi d'email
 
-// Types pour la création de l'utilisateur
 interface User extends RowDataPacket {
   id: number;
   email: string;
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   const {
     email,
     password,
-    role = "user", // Si aucun rôle n'est fourni, par défaut "user"
+    role = "user", // Rôle par défaut : "user"
   }: { email: string; password: string; role?: string } = await request.json();
 
   const connection = await getConnection();
@@ -44,6 +44,21 @@ export async function POST(request: Request) {
       "INSERT INTO users (email, password, role) VALUES (?, ?, ?)",
       [email, hashedPassword, role]
     );
+
+    // Envoyer un e-mail de bienvenue après l'inscription
+    const subject = "Bienvenue sur Avenue Mondaine !";
+    const text = `Bonjour,
+
+    Merci de vous être inscrit sur Avenue Mondaine. Nous sommes ravis de vous accueillir dans notre communauté.
+
+    Si vous avez des questions, n'hésitez pas à nous contacter.
+
+    Bienvenue à bord !
+
+    L'équipe Avenue Mondaine`;
+
+    // Envoi de l'e-mail de bienvenue
+    await sendEmail(email, subject, text);
 
     return NextResponse.json(
       { message: "User created successfully!" },

@@ -1,7 +1,9 @@
 import { getConnection } from "@/app/lib/db"; // Utilise le pool de connexions
 import { NextResponse } from "next/server";
-import { ResultSetHeader } from "mysql2";
+import { ResultSetHeader, RowDataPacket } from "mysql2";
+import { Order } from "@/app/types/order.types";
 
+// Fonction Pour créer une commande
 export async function POST(req: Request) {
   let connection;
   try {
@@ -111,5 +113,57 @@ export async function POST(req: Request) {
       { error: error instanceof Error ? error.message : "Erreur inconnue" },
       { status: 500 }
     );
+  }
+}
+
+// Fonction pour récupérer les commandes
+export async function GET() {
+  let connection;
+  try {
+    // Obtenir une connexion à la base de données
+    connection = await getConnection();
+
+    // Requête pour récupérer les commandes et les artistes associés
+    const query = `
+       SELECT 
+    o.id, 
+    o.first_name, 
+    o.last_name, 
+    o.email, 
+    o.phone, 
+    o.event_address, 
+    o.event_city, 
+    o.event_postal_code, 
+    o.event_country, 
+    o.event_date, 
+    o.number_of_people, 
+    o.service_type, 
+    o.budget, 
+    o.comment, 
+    o.total_fee, 
+    o.created_at,
+    GROUP_CONCAT(a.pseudo) AS artists
+  FROM orders o
+  LEFT JOIN order_artists oa ON o.id = oa.order_id
+  LEFT JOIN artists a ON oa.artist_id = a.id
+  GROUP BY o.id
+  ORDER BY o.id DESC
+    `;
+
+    // Exécuter la requête
+    const [orders] = await connection.query<Order[] & RowDataPacket[]>(query);
+
+    // Retourner les commandes au format JSON
+    return NextResponse.json({ orders });
+  } catch (error) {
+    console.error("Erreur lors de la récupération des commandes :", error);
+    return NextResponse.json(
+      { error: "Erreur lors de la récupération des commandes." },
+      { status: 500 }
+    );
+  } finally {
+    if (connection) {
+      connection.release();
+    }
   }
 }

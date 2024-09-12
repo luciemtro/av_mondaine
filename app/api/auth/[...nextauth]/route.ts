@@ -42,8 +42,8 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
-        token.role = user.role; // Stocker le rôle dans le token JWT
+        token.id = user.id || token.id;
+        token.role = user.role || "user"; // Stocker le rôle dans le token JWT
       }
       return token;
     },

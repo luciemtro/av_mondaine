@@ -1,23 +1,22 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getConnection } from "@/app/lib/db";
-import { ResultSetHeader } from "mysql2/promise"; // Importer ResultSetHeader
+import { sendEmail } from "@/app/lib/mailer"; // Importer la fonction d'envoi d'email
+import { ResultSetHeader } from "mysql2/promise";
 
 // Initialiser Stripe avec la clé secrète
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-06-20",
 });
 
-export const runtime = "nodejs"; // Utilisation du runtime Node.js
+export const runtime = "nodejs";
 
-// Désactiver le parsing automatique pour recevoir le corps brut
 export const config = {
   api: {
     bodyParser: false,
   },
 };
 
-// Fonction pour convertir ReadableStream en Buffer
 async function streamToBuffer(
   stream: ReadableStream<Uint8Array> | null
 ): Promise<Buffer> {
@@ -65,7 +64,6 @@ export async function POST(req: Request) {
       );
       console.log("Événement Stripe décodé :", event);
     } catch (err) {
-      // Cast explicit de 'err' en Error pour accéder à ses propriétés
       const error = err as Error;
       console.log(
         `⚠️ Erreur lors de la validation du webhook : ${error.message}`
@@ -76,11 +74,9 @@ export async function POST(req: Request) {
       );
     }
 
-    // Vérification de l'événement 'checkout.session.completed'
     if (event.type === "checkout.session.completed") {
       const session = event.data.object as Stripe.Checkout.Session;
 
-      // Vérification de `amount_total`
       if (session.amount_total !== null) {
         console.log(
           `Paiement reçu pour la session ${session.id}, montant total : ${
@@ -88,11 +84,9 @@ export async function POST(req: Request) {
           } €`
         );
 
-        // Obtenir une connexion à la base de données
         const conn = await getConnection();
 
         try {
-          // Insérer la commande dans la table "orders"
           const insertOrderQuery = `
             INSERT INTO orders (
               first_name, last_name, email, phone, event_address, event_city,
@@ -102,9 +96,9 @@ export async function POST(req: Request) {
           `;
 
           const orderValues = [
-            session.metadata?.first_name || "", // Si la valeur est undefined, utilise une chaîne vide
+            session.metadata?.first_name || "",
             session.metadata?.last_name || "",
-            session.customer_details?.email || "", // Assurer que l'email est présent
+            session.customer_details?.email || "",
             session.metadata?.phone || "",
             session.metadata?.event_address || "",
             session.metadata?.event_city || "",
@@ -115,45 +109,57 @@ export async function POST(req: Request) {
             session.metadata?.service_type || "",
             session.metadata?.budget || 0,
             session.metadata?.comment || "",
-            session.amount_total / 100, // Montant total en euros
+            session.amount_total / 100,
           ];
-
-          console.log("Données pour l'insertion dans `orders` :", orderValues);
-          console.log("Métadonnées reçues :", session.metadata);
 
           const [result] = await conn.execute<ResultSetHeader>(
             insertOrderQuery,
             orderValues
           );
-          const orderId = result.insertId; // Récupérer l'ID de la commande insérée
+          const orderId = result.insertId;
           console.log(`Commande insérée avec succès, ID : ${orderId}`);
 
-          // Insérer les relations dans la table "order_artists"
-          const selectedArtists = JSON.parse(
-            session.metadata?.selected_artists || "[]"
-          );
-          console.log(
-            "Artistes sélectionnés (format JSON) :",
-            JSON.stringify(selectedArtists, null, 2)
-          );
+          // Envoi d'un email de confirmation à l'admin et au client
+          const adminEmail = process.env.ADMIN_EMAIL!;
+          const customerEmail = session.customer_details?.email || "";
 
-          const artistIds = selectedArtists.map(
-            (artist: { id: number }) => artist.id
-          );
-          console.log("IDs des artistes sélectionnés :", artistIds);
-
-          const insertOrderArtistQuery = `
-            INSERT INTO order_artists (order_id, artist_id)
-            VALUES (?, ?)
+          const emailBody = `
+            Nouvelle commande reçue pour ${session.metadata?.first_name} ${
+            session.metadata?.last_name
+          }.
+            Détails :
+            - Montant: ${session.amount_total / 100} €
+            - Événement: ${session.metadata?.event_date}, ${
+            session.metadata?.event_address
+          }, ${session.metadata?.event_city}
+            - Artistes: ${session.metadata?.selected_artists || "Aucun"}
           `;
 
-          for (const artistId of artistIds) {
-            console.log(
-              `Insertion artiste ${artistId} pour la commande ${orderId}`
-            );
-            await conn.execute(insertOrderArtistQuery, [orderId, artistId]);
-            console.log(`Artiste ${artistId} associé à la commande ${orderId}`);
-          }
+          // Envoyer un email à l'admin
+          await sendEmail(adminEmail, "Nouvelle commande reçue", emailBody);
+
+          // Envoyer un email de confirmation au client
+          const customerEmailBody = `
+            Bonjour ${session.metadata?.first_name},
+            
+            Merci pour votre commande ! Voici un récapitulatif de votre réservation :
+            - Montant: ${session.amount_total / 100} €
+            - Événement: ${session.metadata?.event_date}, ${
+            session.metadata?.event_address
+          }, ${session.metadata?.event_city}
+            
+            Nous vous recontacterons sous peu.
+
+            Merci,
+            L'équipe
+          `;
+          await sendEmail(
+            customerEmail,
+            "Confirmation de votre commande",
+            customerEmailBody
+          );
+
+          console.log("Emails envoyés avec succès.");
         } catch (err) {
           const error = err as Error;
           console.error(
@@ -165,7 +171,7 @@ export async function POST(req: Request) {
             { status: 500 }
           );
         } finally {
-          conn.release(); // Libérer la connexion
+          conn.release();
         }
       } else {
         console.log("Le montant total est nul. Aucun traitement n'est fait.");
@@ -174,7 +180,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ received: true });
   } catch (err) {
-    const error = err as Error; // Cast explicite pour accéder à 'message'
+    const error = err as Error;
     console.log(`⚠️ Erreur générale dans le webhook : ${error.message}`);
     return NextResponse.json(
       { error: `Erreur: ${error.message}` },

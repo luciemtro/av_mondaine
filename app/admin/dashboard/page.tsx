@@ -36,6 +36,21 @@ const AdminDashboard = () => {
       >
         Logout
       </button>
+
+      {/* Bouton pour accéder aux commandes */}
+      <button
+        onClick={() => router.push("/admin/orders")}
+        className="bg-blue-500 text-white px-4 py-2 rounded-md ml-4"
+      >
+        Voir les commandes
+      </button>
+      {/* Bouton pour accéder aux artistes */}
+      <button
+        onClick={() => router.push("/admin/artistForm")}
+        className="bg-blue-500 text-white px-4 py-2 rounded-md ml-4"
+      >
+        Accéder aux artistes
+      </button>
     </div>
   );
 };
