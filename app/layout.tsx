@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import SessionProviderClient from "@/app/SessionProviderClient"; // Import du SessionProvider
+import { Navbar } from "@/app/components/navbar/page"; // Import du composant Navbar
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +31,10 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <SessionProviderClient>{children}</SessionProviderClient>
+        <SessionProviderClient>
+          <Navbar /> {/* Ajout du composant Navbar */}
+          {children}
+        </SessionProviderClient>
       </body>
     </html>
   );

@@ -2,6 +2,9 @@ import { getConnection } from "@/app/lib/db"; // Utilise le pool de connexions
 import { NextResponse } from "next/server";
 import { ResultSetHeader, RowDataPacket } from "mysql2";
 import { Order } from "@/app/types/order.types";
+import { getServerSession } from "next-auth";
+import { handler as authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Session } from "next-auth"; // Import du type Session
 
 // Fonction Pour créer une commande
 export async function POST(req: Request) {
@@ -120,6 +123,16 @@ export async function POST(req: Request) {
 export async function GET() {
   let connection;
   try {
+    // Récupérer la session de l'utilisateur
+    const session: Session | null = await getServerSession(authOptions);
+
+    if (!session || !session.user || !session.user.email) {
+      return NextResponse.json(
+        { error: "Utilisateur non authentifié" },
+        { status: 401 }
+      );
+    }
+    const userEmail = session.user.email;
     // Obtenir une connexion à la base de données
     connection = await getConnection();
 

@@ -1,47 +1,63 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { Order } from "@/app/types/order.types";
 
 const UserDashboard = () => {
   const { data: session, status } = useSession();
-  const router = useRouter();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  // Rediriger vers la page de login si l'utilisateur n'est pas authentifié
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/login"); // Redirection vers /auth/login
-    }
-  }, [status, router]);
+    const fetchOrders = async () => {
+      if (session) {
+        const res = await fetch("/api/orders");
+        const data = await res.json();
+        setOrders(data.orders || []);
+        setLoading(false);
+      }
+    };
 
-  if (status === "loading") {
+    fetchOrders();
+  }, [session]);
+
+  if (status === "loading" || loading) {
     return <p>Chargement...</p>;
   }
 
-  // Si l'utilisateur est authentifié mais n'est pas un admin, il reste sur cette page
-  if (session?.user?.role === "user") {
-    return (
-      <div>
-        <h1>
-          Bienvenue sur le tableau de bord utilisateur, {session?.user?.email}
-        </h1>
-
-        {/* Bouton de déconnexion */}
-        <button
-          onClick={() => signOut({ callbackUrl: "/auth/login" })} // Redirection vers /auth/login après déconnexion
-          className="bg-red-500 text-white px-4 py-2 rounded-md"
-        >
-          Déconnexion
-        </button>
-      </div>
-    );
-  } else if (session?.user?.role === "admin") {
-    router.push("/admin/dashboard"); // Rediriger les admins vers leur propre dashboard
-    return null;
+  if (!session) {
+    return <p>Vous devez être connecté pour voir vos commandes.</p>;
   }
 
-  return null;
+  return (
+    <div>
+      <h1>Bienvenue, {session.user.email}</h1>
+
+      {orders.length === 0 ? (
+        <p>Vous n'avez aucune commande pour le moment.</p>
+      ) : (
+        <div>
+          <h2>Vos commandes</h2>
+          <ul>
+            {orders.map((order) => (
+              <li key={order.id}>
+                <p>
+                  Commande #{order.id} - {order.total_fee} € -{" "}
+                  {new Date(order.event_date).toLocaleDateString()}
+                </p>
+                <p>Artistes : {order.artists || "Aucun artiste sélectionné"}</p>
+                <p>
+                  Adresse : {order.event_address}, {order.event_city},{" "}
+                  {order.event_country}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default UserDashboard;
