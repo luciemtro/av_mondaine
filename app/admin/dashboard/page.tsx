@@ -1,6 +1,6 @@
 "use client";
 
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -28,15 +28,6 @@ const AdminDashboard = () => {
       <h1>
         Bienvenue dans le tableau de bord administrateur, {session?.user?.email}
       </h1>
-
-      {/* Bouton de déconnexion */}
-      <button
-        onClick={() => signOut({ callbackUrl: "/auth/login" })}
-        className="bg-red-500 text-white px-4 py-2 rounded-md"
-      >
-        Logout
-      </button>
-
       {/* Bouton pour accéder aux commandes */}
       <button
         onClick={() => router.push("/admin/orders")}

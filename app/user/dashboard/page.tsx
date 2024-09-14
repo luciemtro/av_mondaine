@@ -12,7 +12,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       if (session) {
-        const res = await fetch("/api/orders");
+        const res = await fetch("/api/orders_user"); // Utiliser la nouvelle API ici
         const data = await res.json();
         setOrders(data.orders || []);
         setLoading(false);
@@ -46,7 +46,16 @@ const UserDashboard = () => {
                   Commande #{order.id} - {order.total_fee} € -{" "}
                   {new Date(order.event_date).toLocaleDateString()}
                 </p>
-                <p>Artistes : {order.artists || "Aucun artiste sélectionné"}</p>
+                <p>
+                  Artistes :{" "}
+                  {order.artists
+                    ? order.artists
+                        .split(",")
+                        .map((artist, index) => (
+                          <span key={index}>{artist}</span>
+                        ))
+                    : "Aucun artiste sélectionné"}
+                </p>
                 <p>
                   Adresse : {order.event_address}, {order.event_city},{" "}
                   {order.event_country}

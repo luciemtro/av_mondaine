@@ -119,6 +119,39 @@ export async function POST(req: Request) {
           const orderId = result.insertId;
           console.log(`Commande insérée avec succès, ID : ${orderId}`);
 
+          // Récupérer les artistes sélectionnés (vérifier si `selected_artists` est une chaîne JSON)
+          const selectedArtists = JSON.parse(
+            session.metadata?.selected_artists || "[]"
+          );
+
+          if (selectedArtists.length > 0) {
+            console.log(
+              `Artistes sélectionnés : ${JSON.stringify(selectedArtists)}`
+            );
+
+            const insertOrderArtistSql = `
+                INSERT INTO order_artists (order_id, artist_id) VALUES (?, ?)
+              `;
+
+            for (const artist of selectedArtists) {
+              console.log(
+                `Tentative d'association de l'artiste ${artist.id} à la commande ${orderId}`
+              );
+
+              const [artistResult] = await conn.execute<ResultSetHeader>(
+                insertOrderArtistSql,
+                [orderId, artist.id]
+              );
+
+              console.log(
+                `Artiste ${artist.id} associé à la commande ${orderId} avec succès.`
+              );
+            }
+
+            console.log("Tous les artistes ont été associés avec succès.");
+          } else {
+            console.log("Aucun artiste associé à la commande.");
+          }
           // Envoi d'un email de confirmation à l'admin et au client
           const adminEmail = process.env.ADMIN_EMAIL!;
           const customerEmail = session.customer_details?.email || "";
