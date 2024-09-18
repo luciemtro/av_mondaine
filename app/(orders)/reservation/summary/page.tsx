@@ -13,14 +13,6 @@ export default function Summary() {
     ? JSON.parse(formData.selectedArtists)
     : [];
 
-  console.log(
-    "Artistes sélectionnés (dans le récapitulatif) :",
-    selectedArtists
-  ); // Log des artistes
-
-  // Log du formData entier pour suivre toutes les données
-  console.log("Form Data (dans le récapitulatif) :", formData);
-
   const handlePayment = () => {
     // Assurer que toutes les données sont converties en chaînes de caractères et qu'il n'y a pas de valeurs undefined ou null
     const queryParams = new URLSearchParams(
@@ -35,6 +27,7 @@ export default function Summary() {
         eventPostalCode: formData.eventPostalCode || "", // Valeur par défaut
         eventCountry: formData.eventCountry || "", // Valeur par défaut
         eventDate: formData.eventDate || "", // Valeur par défaut
+        eventHour: formData.eventHour?.toString() || "", // Valeur par
         numberOfPeople: formData.numberOfPeople?.toString() || "0", // Conversion en chaîne de caractères
         serviceType: formData.serviceType || "", // Valeur par défaut
         budget: formData.budget?.toString() || "0", // Conversion en chaîne de caractères
@@ -48,7 +41,7 @@ export default function Summary() {
   };
 
   return (
-    <div>
+    <div className="mt-28">
       <h1>Récapitulatif de la réservation</h1>
       <p>Prénom: {formData.firstName}</p>
       <p>Nom: {formData.lastName}</p>
@@ -59,6 +52,7 @@ export default function Summary() {
       <p>Code postal de l'événement: {formData.eventPostalCode}</p>
       <p>Pays de l'événement: {formData.eventCountry}</p>
       <p>Date de l'événement: {formData.eventDate}</p>
+      <p>Heure de l'événemment: {formData.eventHour}</p>
       <p>Nombre de personnes: {formData.numberOfPeople}</p>
       <p>Type de service: {formData.serviceType}</p>
       <h3>Artistes sélectionnés :</h3>

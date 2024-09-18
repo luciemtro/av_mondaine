@@ -63,6 +63,7 @@ export default function PaymentPage() {
         eventPostalCode: formData.eventPostalCode || "",
         eventCountry: formData.eventCountry || "",
         eventDate: formData.eventDate || "",
+        eventHour: formData.eventHour || "", // Assurer que l'heure est bien une chaîne
         numberOfPeople: formData.numberOfPeople || "0",
         serviceType: formData.serviceType || "",
         budget: formData.budget || "0",
@@ -78,7 +79,7 @@ export default function PaymentPage() {
   };
 
   return (
-    <div>
+    <div className="mt-28">
       <h1>Paiement</h1>
       <p>Montant total à payer: {formData.totalFee} €</p>
       <button onClick={handlePayment}>Payer avec Stripe</button>

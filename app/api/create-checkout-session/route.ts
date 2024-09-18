@@ -55,7 +55,7 @@ export async function POST(req: Request) {
         event_postal_code: eventPostalCode || "",
         event_country: eventCountry || "",
         event_date: eventDate || "",
-        event_hour: eventHour?.toString() || "", // Convertir l'heure en chaîne
+        event_hour: eventHour ? eventHour.toString() : "", // Gérer les cas où eventHour est null
         number_of_people: numberOfPeople?.toString() || "0", // Convertir en chaîne
         service_type: serviceType || "",
         budget: budget?.toString() || "0",
@@ -66,6 +66,9 @@ export async function POST(req: Request) {
       success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/reservation/success`,
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/reservation/cancel`,
     });
+
+    // Log des métadonnées Stripe avant envoi
+    console.log("Métadonnées Stripe envoyées :", session.metadata);
 
     return NextResponse.json({ sessionId: session.id });
   } catch (err) {

@@ -43,7 +43,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     eventPostalCode: "",
     eventCountry: "",
     eventDate: "",
-    eventHour: "",
+    eventHour: "" as string | null,
     numberOfPeople: 0,
     serviceType: "",
     budget: 0,
@@ -105,9 +105,12 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
 
     router.push(`/reservation/summary?${queryParams}`);
   };
+  useEffect(() => {
+    console.log("Données du formulaire mises à jour :", formData);
+  }, [formData]);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="mt-28">
       <input
         type="text"
         placeholder="Prénom"
@@ -179,10 +182,11 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
       <input
         type="time"
         placeholder="Heure de l'événement"
-        value={formData.eventHour}
-        onChange={(e) =>
-          setFormData({ ...formData, eventHour: e.target.value })
-        }
+        value={formData.eventHour || ""} // Utilise une chaîne vide si 'null'
+        onChange={(e) => {
+          console.log("Heure sélectionnée :", e.target.value); // Afficher l'heure sélectionnée
+          setFormData({ ...formData, eventHour: e.target.value });
+        }}
         required
       />
       <input

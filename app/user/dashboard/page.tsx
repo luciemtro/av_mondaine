@@ -55,6 +55,7 @@ const UserDashboard = () => {
                   <thead>
                     <tr>
                       <th>Date de l'événement</th>
+                      <th>Heure de l'événement</th>
                       <th>Téléphone</th>
                       <th>Nombre de personnes</th>
                       <th>Type de service</th>
@@ -69,6 +70,7 @@ const UserDashboard = () => {
                   <tbody>
                     <tr>
                       <td>{new Date(order.event_date).toLocaleDateString()}</td>
+                      <td>{order.event_hour}</td>
                       <td>{order.phone}</td>
                       <td>{order.number_of_people}</td>
                       <td>{order.service_type}</td>
