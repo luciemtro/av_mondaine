@@ -24,7 +24,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div>
+    <div className="mt-28">
       <h1>
         Bienvenue dans le tableau de bord administrateur, {session?.user?.email}
       </h1>

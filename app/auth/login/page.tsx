@@ -4,6 +4,7 @@
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -41,7 +42,7 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
+    <div className="mt-28">
       <h2>Login</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleLogin}>
@@ -59,6 +60,7 @@ const LoginPage = () => {
         />
         <button type="submit">Login</button>
       </form>
+      <Link href="/auth/reset-password/request">Mot de passe oublié ?</Link>
     </div>
   );
 };

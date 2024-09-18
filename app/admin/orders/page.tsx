@@ -39,58 +39,68 @@ const AdminOrdersPage = () => {
   }
 
   return (
-    <div>
+    <div className="mt-28">
       <button
-        className="bg-blue-500 text-white px-4 py-2 mb-4 rounded-md"
+        className="metallic-button mb-4 ml-11"
         onClick={() => router.push("/admin/dashboard")} // Redirige vers le dashboard
       >
         Retour au dashboard
       </button>
-      <h1>Liste des commandes</h1>
-
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nom</th>
-            <th>Email</th>
-            <th>Tél</th>
-            <th>Adresse</th>
-            <th>Nbr personne</th>
-            <th>Type de service</th>
-            <th>Budget</th>
-            <th>Commentaire</th>
-            <th>Date de l'événement</th>
-            <th>Artistes sélectionnés</th>
-            <th>Montant total</th>
-            <th>Création de commande</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.id}>
-              <td>{order.id}</td>
-              <td>
-                {order.first_name} {order.last_name}
-              </td>
-              <td>{order.email}</td>
-              <td>{order.phone}</td>
-              <td>
-                {order.event_address}, {order.event_city},{" "}
-                {order.event_postal_code}, {order.event_country}
-              </td>
-              <td>{order.number_of_people}</td>
-              <td>{order.service_type}</td>
-              <td>{order.budget} €</td>
-              <td>{order.comment}</td>
-              <td>{order.event_date}</td>
-              <td>{order.artists}</td>
-              <td>{order.total_fee} €</td>
-              <td>{order.created_at}</td>
+      <h1 className="pl-11 pb-5 metallic-text">
+        Liste des commandes - Total ({orders.length})
+      </h1>
+      <div className="metallic-border order-table ml-11 mr-11">
+        <table className="order-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nom</th>
+              <th>Email</th>
+              <th>Tél</th>
+              <th>Adresse</th>
+              <th>Nbr personne</th>
+              <th>Type de service</th>
+              <th>Budget</th>
+              <th>Commentaire</th>
+              <th>Date de l'événement</th>
+              <th>Heure de l'événement</th>
+              <th>Artistes sélectionnés</th>
+              <th>Montant total</th>
+              <th>Date commande</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.id}>
+                <td>{order.id}</td>
+                <td>
+                  {order.first_name} {order.last_name}
+                </td>
+                <td>{order.email}</td>
+                <td>{order.phone}</td>
+                <td className="min-w-[200px]">
+                  {order.event_address}, {order.event_city},{" "}
+                  {order.event_postal_code}, {order.event_country}
+                </td>
+                <td>{order.number_of_people}</td>
+                <td>{order.service_type}</td>
+                <td>{order.budget} €</td>
+                <td>{order.comment}</td>
+                <td>
+                  {new Date(order.event_date).toLocaleDateString("fr-FR")}
+                </td>
+
+                <td>{order.event_hour}</td>
+                <td>{order.artists}</td>
+                <td>{order.total_fee} €</td>
+                <td>
+                  {new Date(order.created_at).toLocaleDateString("fr-FR")}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
