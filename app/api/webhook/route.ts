@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { getConnection } from "@/app/lib/db";
-import { sendEmail } from "@/app/lib/mailer"; // Importer la fonction d'envoi d'email
+import { sendEmail } from "@/app/lib/mailer";
 import { ResultSetHeader } from "mysql2/promise";
 
 // Initialiser Stripe avec la clé secrète
@@ -10,12 +10,6 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 });
 
 export const runtime = "nodejs";
-
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
 
 async function streamToBuffer(
   stream: ReadableStream<Uint8Array> | null
@@ -119,7 +113,6 @@ export async function POST(req: Request) {
           const orderId = result.insertId;
           console.log(`Commande insérée avec succès, ID : ${orderId}`);
 
-          // Récupérer les artistes sélectionnés (vérifier si `selected_artists` est une chaîne JSON)
           const selectedArtists = JSON.parse(
             session.metadata?.selected_artists || "[]"
           );
@@ -152,7 +145,7 @@ export async function POST(req: Request) {
           } else {
             console.log("Aucun artiste associé à la commande.");
           }
-          // Envoi d'un email de confirmation à l'admin et au client
+
           const adminEmail = process.env.ADMIN_EMAIL!;
           const customerEmail = session.customer_details?.email || "";
 
@@ -168,10 +161,8 @@ export async function POST(req: Request) {
             - Artistes: ${session.metadata?.selected_artists || "Aucun"}
           `;
 
-          // Envoyer un email à l'admin
           await sendEmail(adminEmail, "Nouvelle commande reçue", emailBody);
 
-          // Envoyer un email de confirmation au client
           const customerEmailBody = `
             Bonjour ${session.metadata?.first_name},
             

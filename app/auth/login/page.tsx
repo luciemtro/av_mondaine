@@ -35,7 +35,7 @@ const LoginPage = () => {
       if (session?.user?.role === "admin") {
         router.push("/admin/dashboard"); // Rediriger vers le dashboard admin
       } else {
-        router.push("/user/dashboard"); // Rediriger vers le dashboard utilisateur
+        router.push("/"); // Rediriger vers le dashboard utilisateur
       }
     }
   };
