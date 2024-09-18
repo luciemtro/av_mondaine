@@ -33,6 +33,21 @@ interface ReservationFormProps {
 const ReservationForm = ({ email = "" }: ReservationFormProps) => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
+
+  // Liste des pays prédéfinis, incluant la Suisse
+  const countries = [
+    { code: "FR", name: "France" },
+    { code: "CH", name: "Suisse" },
+    { code: "DE", name: "Allemagne" },
+    { code: "BE", name: "Belgique" },
+    { code: "LU", name: "Luxembourg" },
+    { code: "IT", name: "Italie" },
+    { code: "ES", name: "Espagne" },
+    { code: "PORT", name: "Portugal" },
+    { code: "NL", name: "Pays-Bas" },
+    // Ajoute d'autres pays ici
+  ];
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -41,7 +56,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     eventAddress: "",
     eventCity: "",
     eventPostalCode: "",
-    eventCountry: "",
+    eventCountry: "France",
     eventDate: "",
     eventHour: "" as string | null,
     numberOfPeople: 0,
@@ -51,6 +66,13 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
   });
   const [totalFee, setTotalFee] = useState<number>(0);
   const router = useRouter();
+
+  // Calcul du prix par artiste en fonction du pays sélectionné
+  useEffect(() => {
+    const feePerArtist = formData.eventCountry === "Suisse" ? 200 : 100; // Si le pays est Suisse, 200, sinon 100
+    const totalFees = selectedArtists.length * feePerArtist;
+    setTotalFee(totalFees);
+  }, [formData.eventCountry, selectedArtists]);
 
   // Récupérer les artistes depuis l'API
   useEffect(() => {
@@ -70,14 +92,12 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     );
   };
 
-  // Calcul des frais pour les artistes sélectionnés
+  // Calculer le prix total basé sur le pays sélectionné et le nombre d'artistes
   useEffect(() => {
-    const fees = selectedArtists.reduce((acc, artistId) => {
-      const artist = artists.find((artist) => artist.id === artistId);
-      return artist ? acc + 100 /* Exemple de tarif fixe */ : acc;
-    }, 0);
-    setTotalFee(fees);
-  }, [selectedArtists, artists]);
+    const feePerArtist = formData.eventCountry === "Suisse" ? 200 : 100; // 200€ pour la Suisse, 100€ pour les autres
+    const totalFees = selectedArtists.length * feePerArtist;
+    setTotalFee(totalFees);
+  }, [formData.eventCountry, selectedArtists]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -94,11 +114,10 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     const queryParams = new URLSearchParams(
       Object.entries({
         ...formData,
-        totalFee: totalFee.toString(),
-        // JSON.stringify les artistes sélectionnés pour l'envoyer sous forme de chaîne
-        selectedArtists: JSON.stringify(selectedArtistsData),
+        totalFee: totalFee.toString(), // Le totalFee est déjà calculé côté frontend
+        selectedArtists: JSON.stringify(selectedArtists), // JSON.stringify pour envoyer les artistes
       }).reduce((acc, [key, value]) => {
-        acc[key] = String(value); // Tout convertir en string pour URLSearchParams
+        acc[key] = String(value); // Convertir tout en string pour l'URL
         return acc;
       }, {} as Record<string, string>)
     ).toString();
@@ -161,15 +180,20 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         }
         required
       />
-      <input
-        type="text"
-        placeholder="Pays de l'événement"
+      {/* Sélection du pays */}
+      <select
         value={formData.eventCountry}
         onChange={(e) =>
           setFormData({ ...formData, eventCountry: e.target.value })
         }
         required
-      />
+      >
+        {countries.map((country) => (
+          <option key={country.code} value={country.name}>
+            {country.name}
+          </option>
+        ))}
+      </select>
       <input
         type="date"
         placeholder="Date de l'événement"

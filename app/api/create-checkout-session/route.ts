@@ -29,6 +29,11 @@ export async function POST(req: Request) {
   } = await req.json();
 
   try {
+    // Définir le montant par artiste en fonction du pays
+    const feePerArtist = eventCountry === "Suisse" ? 200 : 100;
+
+    // Recalculer le total des frais en fonction du nombre d'artistes sélectionnés
+    const calculatedTotalFee = selectedArtists.length * feePerArtist;
     // Créer une session de paiement Stripe
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ["card"],
@@ -39,7 +44,7 @@ export async function POST(req: Request) {
             product_data: {
               name: "Réservation d'événement",
             },
-            unit_amount: Math.round(Number(totalFee) * 100), // Montant en centimes
+            unit_amount: Math.round(calculatedTotalFee * 100), // Montant en centimes
           },
           quantity: 1,
         },
