@@ -149,6 +149,7 @@ export async function GET() {
     o.event_postal_code, 
     o.event_country, 
     o.event_date, 
+    o.event_hour,
     o.number_of_people, 
     o.service_type, 
     o.budget, 

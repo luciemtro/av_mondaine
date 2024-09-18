@@ -53,6 +53,9 @@
   &.hamburgerOpen span:nth-child(3) {
     transform: rotate(-45deg) translate(5px, -5px);
   }
+  @media (max-width: 768px) {
+    display: flex;
+  }
 }
 
 .navMenu {
@@ -72,11 +75,7 @@
           }
         }
         font-size: 1rem;
-        transition: color 0.3s ease-in-out;
-
-        &:hover {
-          color: #ddd;
-        }
+        transition: 0.3s ease-in-out;
       }
     }
   }

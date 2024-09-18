@@ -20,6 +20,7 @@ export async function POST(req: Request) {
     eventPostalCode,
     eventCountry,
     eventDate,
+    eventHour,
     numberOfPeople,
     serviceType,
     budget,
@@ -54,6 +55,7 @@ export async function POST(req: Request) {
         event_postal_code: eventPostalCode || "",
         event_country: eventCountry || "",
         event_date: eventDate || "",
+        event_hour: eventHour?.toString() || "", // Convertir l'heure en chaîne
         number_of_people: numberOfPeople?.toString() || "0", // Convertir en chaîne
         service_type: serviceType || "",
         budget: budget?.toString() || "0",

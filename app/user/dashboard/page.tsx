@@ -12,7 +12,7 @@ const UserDashboard = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       if (session) {
-        const res = await fetch("/api/orders_user"); // Utiliser la nouvelle API ici
+        const res = await fetch("/api/orders_user");
         const data = await res.json();
         setOrders(data.orders || []);
         setLoading(false);
@@ -37,33 +37,65 @@ const UserDashboard = () => {
       {orders.length === 0 ? (
         <p>Vous n'avez aucune commande pour le moment.</p>
       ) : (
-        <div>
-          <h2>Vos commandes</h2>
-          <ul>
-            {orders.map((order) => (
-              <li key={order.id}>
-                <p>
-                  Commande #{order.id} - {order.total_fee} € -{" "}
-                  {new Date(order.event_date).toLocaleDateString()}
-                </p>
-                <p>
-                  Artistes :{" "}
-                  {order.artists
-                    ? order.artists
-                        .split(",")
-                        .map((artist, index) => (
-                          <span key={index}>{artist}</span>
-                        ))
-                    : "Aucun artiste sélectionné"}
-                </p>
-                <p>
-                  Adresse : {order.event_address}, {order.event_city},{" "}
-                  {order.event_country}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <section className="mt-20">
+          <h2 className="pb-5 pl-11 metallic-text">Vos commandes</h2>
+          {orders.map((order) => (
+            <div key={order.id} className="mb-8">
+              {/* Informations de la commande au-dessus du tableau */}
+              <div className="order-info pl-11 pr-11">
+                <h3>
+                  Commande #{order.id} - Créée le{" "}
+                  {new Date(order.created_at).toLocaleDateString()}
+                </h3>
+              </div>
+
+              {/* Tableau des détails de la commande */}
+              <div className="metallic-border order-table ml-11 mr-11">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Date de l'événement</th>
+                      <th>Téléphone</th>
+                      <th>Nombre de personnes</th>
+                      <th>Type de service</th>
+                      <th>Budget (€)</th>
+                      {/* Afficher le commentaire seulement s'il existe */}
+                      {order.comment && <th>Commentaire</th>}
+                      <th>Artiste(s)</th>
+                      <th>Adresse de l'événement</th>
+                      <th>Prix total (€)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{new Date(order.event_date).toLocaleDateString()}</td>
+                      <td>{order.phone}</td>
+                      <td>{order.number_of_people}</td>
+                      <td>{order.service_type}</td>
+                      <td>{order.budget}</td>
+                      {/* Afficher la cellule de commentaire seulement s'il y a un commentaire */}
+                      {order.comment && <td>{order.comment}</td>}
+                      <td>
+                        {order.artists
+                          ? order.artists
+                              .split(",")
+                              .map((artist, index) => (
+                                <span key={index}>{artist}</span>
+                              ))
+                          : "Aucun artiste sélectionné"}
+                      </td>
+                      <td>
+                        {order.event_address}, {order.event_city},{" "}
+                        {order.event_country}
+                      </td>
+                      <td>{order.total_fee} €</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ))}
+        </section>
       )}
     </div>
   );

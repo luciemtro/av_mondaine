@@ -43,6 +43,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     eventPostalCode: "",
     eventCountry: "",
     eventDate: "",
+    eventHour: "",
     numberOfPeople: 0,
     serviceType: "",
     budget: 0,
@@ -172,6 +173,15 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         value={formData.eventDate}
         onChange={(e) =>
           setFormData({ ...formData, eventDate: e.target.value })
+        }
+        required
+      />
+      <input
+        type="time"
+        placeholder="Heure de l'événement"
+        value={formData.eventHour}
+        onChange={(e) =>
+          setFormData({ ...formData, eventHour: e.target.value })
         }
         required
       />

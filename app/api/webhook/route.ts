@@ -84,9 +84,9 @@ export async function POST(req: Request) {
           const insertOrderQuery = `
             INSERT INTO orders (
               first_name, last_name, email, phone, event_address, event_city,
-              event_postal_code, event_country, event_date, number_of_people,
+              event_postal_code, event_country, event_date, event_hour, number_of_people,
               service_type, budget, comment, total_fee, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())
           `;
 
           const orderValues = [
@@ -99,6 +99,7 @@ export async function POST(req: Request) {
             session.metadata?.event_postal_code || "",
             session.metadata?.event_country || "",
             session.metadata?.event_date || null,
+            session.metadata?.event_hour || null,
             session.metadata?.number_of_people || 0,
             session.metadata?.service_type || "",
             session.metadata?.budget || 0,

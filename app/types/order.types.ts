@@ -7,6 +7,7 @@ export type Order = {
   phone: string;
   total_fee: number;
   event_date: string;
+  event_hour: string;
   created_at: string;
   artists: string; // Artistes associés sous forme de chaîne de caractères (GROUP_CONCAT)
   event_address: string;
