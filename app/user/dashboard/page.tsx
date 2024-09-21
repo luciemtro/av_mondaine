@@ -38,7 +38,7 @@ const UserDashboard = () => {
         <p>Vous n'avez aucune commande pour le moment.</p>
       ) : (
         <section className="mt-20">
-          <h2 className="pb-5 pl-11 metallic-text">Vos commandes</h2>
+          <h2 className="pb-5 pl-11 golden-text">Vos commandes</h2>
           {orders.map((order) => (
             <div key={order.id} className="mb-8">
               {/* Informations de la commande au-dessus du tableau */}
@@ -50,7 +50,7 @@ const UserDashboard = () => {
               </div>
 
               {/* Tableau des détails de la commande */}
-              <div className="metallic-border order-table ml-11 mr-11">
+              <div className="golden-border order-table ml-11 mr-11">
                 <table>
                   <thead>
                     <tr>

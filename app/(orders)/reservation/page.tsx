@@ -222,15 +222,19 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         }
         required
       />
-      <input
-        type="text"
-        placeholder="Type de service"
+      <select
         value={formData.serviceType}
         onChange={(e) =>
           setFormData({ ...formData, serviceType: e.target.value })
         }
         required
-      />
+      >
+        <option value="" disabled>
+          Sélectionner un type de service
+        </option>
+        <option value="striptease">Striptease</option>
+        <option value="spectacle_femme">Spectacle Only femme</option>
+      </select>
       <input
         type="number"
         placeholder="Budget"
