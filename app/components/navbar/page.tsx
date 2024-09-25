@@ -63,7 +63,7 @@ export const Navbar = () => {
                   onClick={toggleDropdown}
                   className={styles.dropdownToggle}
                 >
-                  <span className="metallic-text">MON COMPTE</span>
+                  <span className="golden-text">MON COMPTE</span>
                   <svg
                     className={`w-4 h-4 transition-transform ${
                       isDropdownOpen ? "rotate-180" : "rotate-0"

@@ -49,6 +49,13 @@ export default function CatalogArtist() {
                   {artist.city}, {artist.country}
                 </p>
                 <p>{artist.description}</p>
+                {artist.picture_one && (
+                  <img
+                    src={artist.picture_one}
+                    alt={`${artist.pseudo} - ${artist.title}`}
+                    style={{ width: "200px", height: "auto" }} // Tu peux ajuster la taille ici
+                  />
+                )}
               </li>
             </Link>
           ))}

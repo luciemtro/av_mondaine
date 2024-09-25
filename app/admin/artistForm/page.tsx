@@ -92,7 +92,7 @@ export default function ArtistCatalog() {
   };
 
   return (
-    <div>
+    <div className="mt-28">
       <h1>Catalogue des artistes</h1>
 
       <button onClick={handleAddNew}>Ajouter un nouvel artiste</button>
@@ -104,6 +104,13 @@ export default function ArtistCatalog() {
             <p>
               {artist.pseudo} ({artist.city}, {artist.country}) - {artist.title}
             </p>
+            {artist.picture_one && (
+              <img
+                src={artist.picture_one}
+                alt={`${artist.pseudo} - ${artist.title}`}
+                style={{ width: "200px", height: "auto" }} // Tu peux ajuster la taille ici
+              />
+            )}
             <button onClick={() => handleEdit(artist)}>Modifier</button>
             <button onClick={() => handleDelete(artist.id)}>Supprimer</button>
           </div>

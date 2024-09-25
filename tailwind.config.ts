@@ -14,6 +14,9 @@ const config: Config = {
       },
       fontFamily: {
         cabin: ["Cabin", "sans-serif"],
+        quicksand: ["Quicksand", "sans-serif"],
+        cinzel: ["Cinzel", "serif"],
+        raleway: ["Raleway", "sans-serif"],
       },
     },
   },
