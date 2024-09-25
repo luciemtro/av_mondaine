@@ -1,0 +1,21 @@
+.header-avenue-container {
+  width: 100%;
+  height: auto;
+}
+.header-avenue-image {
+  width: 100%;
+  height: auto;
+  display: block; /* Pour s'assurer que l'image prend toute la largeur du conteneur */
+}
+
+.logo-image {
+  width: 280px;
+  height: 280px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.771);
+  border-radius: 50%; /* Assure que le logo est circulaire */
+  border: 2px solid rgb(211, 206, 174); /* Bord initial transparent pour préparer l'animation */
+}

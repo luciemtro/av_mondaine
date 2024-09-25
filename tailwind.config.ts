@@ -17,6 +17,7 @@ const config: Config = {
         quicksand: ["Quicksand", "sans-serif"],
         cinzel: ["Cinzel", "serif"],
         raleway: ["Raleway", "sans-serif"],
+        fira: ["Fira Sans Condensed", "sans-serif"],
       },
     },
   },
