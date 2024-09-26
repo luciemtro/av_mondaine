@@ -2,6 +2,7 @@
 import type { Metadata } from "next";
 import "./styles/globals.scss";
 import "./styles/roots.scss";
+import "./styles/animation.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
 import { Navbar } from "@/app/components/navbar/page";
 

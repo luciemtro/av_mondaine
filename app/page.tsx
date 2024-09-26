@@ -7,7 +7,8 @@ export default function Home() {
           alt="header"
           className="header-avenue-image"
         />
-        {/* Deuxième image : Logo */}
+        <div className="linear-gradiant-header"></div>
+        <div className="gif-logo-container"></div>
         <img src="/images/logo/logo_am.svg" alt="Logo" className="logo-image" />
       </div>
     </main>
