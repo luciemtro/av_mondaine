@@ -108,6 +108,17 @@ export default function ArtistPage() {
               </div>
             </SwiperSlide>
           )}
+          {artist.picture_three && (
+            <SwiperSlide>
+              <div className={`${styles.imageContainer}`}>
+                <img
+                  className={styles.artistImage}
+                  src={artist.picture_three}
+                  alt={artist.pseudo}
+                />
+              </div>
+            </SwiperSlide>
+          )}
         </Swiper>
       </div>
     </section>
