@@ -1,0 +1,122 @@
+@import "./animation.scss";
+
+.artistPageContainer {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(0, 0, 7, 0.959) 5%,
+      rgba(5, 0, 29, 0.648),
+      rgba(9, 0, 54, 0.549)
+    ),
+    url("https://i.ibb.co/5jbn2kc/DALL-E-2024-09-27-11-04-33-A-luxurious-avant-garde-and-futuristic-event-website-header-design-with-a.webp");
+}
+.artistSousContainer {
+  display: flex;
+  min-height: 100vh; /* Assure que la hauteur prend tout l'écran pour centrer correctement */
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+}
+.carousselContainer {
+  width: 450px; /* Taille fixe du carrousel */
+  height: 550px; /* Laisse la hauteur s'ajuster automatiquement en fonction du contenu */
+  @media screen and (max-width: 1000px) {
+    width: 90%;
+  }
+}
+
+.imageContainer {
+  cursor: pointer;
+  width: 450px;
+  height: 550px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.433);
+  padding: 20px;
+
+  img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 95%;
+    width: auto;
+    filter: grayscale(60%) contrast(130%) brightness(130%)
+      drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+  }
+
+  &::after {
+    content: ""; /* Nécessaire pour afficher le ::after */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 2px solid rgb(215, 210, 179);
+    box-sizing: border-box; /* S'assurer que la bordure est incluse dans la taille */
+    background-image: linear-gradient(
+      rgba(7, 1, 22, 0.668),
+      rgba(2, 0, 19, 0.459),
+      rgba(2, 0, 9, 0.867) 90%
+    );
+    z-index: 2; /* Place le ::after derrière le contenu de la carte */
+    pointer-events: none;
+  }
+  &::before {
+    content: ""; /* Nécessaire pour afficher le ::before */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(black, transparent),
+      url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0; /* Place le ::before derrière le contenu de la carte */
+    opacity: 0.5;
+  }
+  @media screen and (max-width: 1000px) {
+    width: 100%;
+    height: 85%;
+  }
+}
+
+.artistDetailsContainer {
+  width: 50%;
+  @media screen and (max-width: 1000px) {
+    width: 90%;
+  }
+}
+.artistDetails {
+  border: 2px solid rgb(215, 210, 179);
+  max-width: 450px;
+  height: fit-content;
+  border-radius: 20px;
+  @media screen and (max-width: 1000px) {
+    width: 90%;
+    max-width: 90%;
+  }
+  &::before {
+    content: ""; /* Nécessaire pour afficher le ::before */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: linear-gradient(
+        rgba(3, 3, 5, 0.804),
+        rgba(14, 14, 16, 0.759)
+      ),
+      url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 0;
+    opacity: 0.7; /* Place le ::before derrière le contenu de la carte */
+  }
+}

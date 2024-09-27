@@ -13,6 +13,7 @@
 @import "./navbar.module.scss";
 @import "./catalogue.module.scss";
 @import "./ordertable.module.scss";
+@import "./singleArtist.module.scss";
 
 @layer utilities {
   .text-responsive {
@@ -93,6 +94,7 @@ button {
   padding: 0;
   box-sizing: border-box;
   position: relative;
+  @apply tracking-wider;
 }
 
 body {
