@@ -3,6 +3,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "@/app/styles/homepage.module.scss";
 
 @tailwind base;
@@ -10,6 +11,7 @@
 @tailwind utilities;
 @import "./roots.scss";
 @import "./navbar.module.scss";
+@import "./catalogue.module.scss";
 @import "./ordertable.module.scss";
 
 @layer utilities {
@@ -22,25 +24,21 @@
   }
 
   .golden-text {
-    @apply font-thin uppercase text-transparent bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 bg-clip-text font-fira relative;
+    @apply font-semibold text-transparent bg-gradient-to-r from-yellow-100 via-yellow-100 to-yellow-100 bg-clip-text font-raleway relative;
     transition: background-position 0.6s ease-in-out;
     background-size: 200%; /* Augmenter la taille du dégradé pour l'effet de brillance */
     background-position: left; /* Position initiale du dégradé */
+    transition: 2s ease-in-out;
   }
 
   .golden-text:hover,
   .golden-text-static:hover {
     background-position: right; /* Déplace subtilement le dégradé vers la droite */
-    background-image: linear-gradient(
-      to right,
-      #fffaf0,
-      /* Couleur plus claire nacrée */ #fff3b1,
-      /* Milieu brillant doré pâle */ #fffaf0 /* Fin claire nacrée */
-    );
+    background-image: linear-gradient(to right, #fffaf0, #c0b36c, #f0e8c4);
   }
 
   .golden-text-static {
-    @apply text-transparent bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 bg-clip-text font-quicksand relative;
+    @apply text-transparent font-light bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 bg-clip-text font-raleway relative;
     transition: background-position 0.5s ease-in-out;
     background-size: 200%; /* Augmenter la taille du dégradé pour l'effet de brillance */
     background-position: left; /* Position initiale du dégradé */

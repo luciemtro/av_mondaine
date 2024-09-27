@@ -3,7 +3,7 @@ export default function Home() {
     <main className="">
       <div className="header-avenue-container">
         <img
-          src="https://i.ibb.co/2hK011n/DALL-E-2024-09-25-03-24-43-A-high-definition-wide-screen-image-featuring-an-imposing-royal-Baroque-s.webp"
+          src="https://i.ibb.co/5jbn2kc/DALL-E-2024-09-27-11-04-33-A-luxurious-avant-garde-and-futuristic-event-website-header-design-with-a.webp"
           alt="header"
           className="header-avenue-image"
         />

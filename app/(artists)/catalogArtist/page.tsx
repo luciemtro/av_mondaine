@@ -41,7 +41,11 @@ export default function CatalogArtist() {
       ) : (
         <ul>
           {artists.map((artist: Artist) => (
-            <Link href={`/artist/${artist.id}`} key={artist.id}>
+            <Link
+              href={`/artist/${artist.id}`}
+              key={artist.id}
+              className="artistCard"
+            >
               <li>
                 <h2>{artist.pseudo}</h2>
                 <p>{artist.title}</p>

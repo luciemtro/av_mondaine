@@ -1,31 +1,27 @@
 .navbar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #1111119b;
+  background-color: #0303099b;
   position: fixed;
   width: 100%;
   top: 0;
   z-index: 1000;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out;
-
+  text-transform: uppercase;
   &.scrolled {
     background-color: rgba(17, 17, 17, 0.9);
   }
 }
+.user-account {
+  position: absolute;
+  right: 0;
 
-.logo {
-  font-size: 1.5rem;
-
-  :global {
-    .golden-text {
-      /* Utilisation de la classe globale golden-text */
-    }
-  }
+  font-size: 1rem;
+  transition: 0.3s ease-in-out;
 }
-
 .hamburger {
   display: none;
   cursor: pointer;
@@ -59,21 +55,20 @@
 }
 
 .navMenu {
+  width: 100%;
   display: flex;
-  gap: 2rem;
-
+  justify-content: center;
   ul {
     list-style: none;
     display: flex;
-    gap: 2rem;
 
     li {
-      a {
-        :global {
-          .metallic-text {
-            /* Utilisation de la classe globale metallic-text */
-          }
+      :global {
+        .golden-text {
+          /* Utilisation de la classe globale metallic-text */
         }
+      }
+      a {
         font-size: 1rem;
         transition: 0.3s ease-in-out;
       }

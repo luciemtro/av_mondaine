@@ -18,6 +18,7 @@ const config: Config = {
         cinzel: ["Cinzel", "serif"],
         raleway: ["Raleway", "sans-serif"],
         fira: ["Fira Sans Condensed", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
     },
   },
