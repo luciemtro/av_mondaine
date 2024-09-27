@@ -23,48 +23,45 @@
     ); /* Ajuster les valeurs selon vos besoins */
   }
 
-  .golden-text {
-    @apply font-semibold text-transparent bg-gradient-to-r from-yellow-100 via-yellow-100 to-yellow-100 bg-clip-text font-raleway relative;
-    transition: background-position 0.6s ease-in-out;
-    background-size: 200%; /* Augmenter la taille du dégradé pour l'effet de brillance */
-    background-position: left; /* Position initiale du dégradé */
-    transition: 2s ease-in-out;
+  @keyframes textShimmer {
+    0% {
+      background-position: left;
+    }
+    50% {
+      background-position: right;
+    }
+    100% {
+      background-position: left;
+    }
   }
 
-  .golden-text:hover,
-  .golden-text-static:hover {
-    background-position: right; /* Déplace subtilement le dégradé vers la droite */
-    background-image: linear-gradient(to right, #fffaf0, #c0b36c, #f0e8c4);
+  .golden-text,
+  .golden-text-static {
+    @apply font-semibold text-transparent bg-gradient-to-r from-[#ffe991] via-[#fffbeb] to-[#ffeca0] bg-clip-text font-raleway relative;
+    background-size: 200%; /* Pour l'effet de brillance */
+    animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
   }
 
   .golden-text-static {
-    @apply text-transparent font-light bg-gradient-to-r from-yellow-100 via-yellow-200 to-yellow-100 bg-clip-text font-raleway relative;
-    transition: background-position 0.5s ease-in-out;
-    background-size: 200%; /* Augmenter la taille du dégradé pour l'effet de brillance */
-    background-position: left; /* Position initiale du dégradé */
+    @apply font-normal;
+    background-size: 200%;
   }
 
+  /* Bouton doré cohérent avec le texte */
   .golden-button {
-    @apply inline-block px-6 py-3 rounded-full text-center font-semibold text-black transition duration-300 ease-in-out;
-    background: linear-gradient(120deg, #fffaf0, #ffe680, #fffaf0);
+    @apply inline-block px-6 py-3 rounded-lg text-center font-semibold transition duration-300 ease-in-out font-raleway uppercase;
+    background: linear-gradient(120deg, #ffe991, #fffbeb, #ffeca0);
+    color: black;
+    background-size: 200%;
+    animation: textShimmer 5s ease-in-out infinite;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-  }
-
-  .golden-button:hover {
-    background: linear-gradient(120deg, #fff4cc, #fff3b1, #fff4cc);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15), 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-
-  .golden-button:active {
-    background: linear-gradient(120deg, #ffeb99, #fff3b1, #ffeb99);
-    transform: translateY(2px); /* Légère translation pour un effet de clic */
-    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2), 0 3px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0s ease-in-out;
   }
 }
 
 .golden-border {
   border: 3.3px solid;
-  border-image: linear-gradient(90deg, #ffe680, #fff5cc, #ffe680) 1;
+  border-image: linear-gradient(90deg, #ffeca0, #fff5cc, #ffeca0) 1;
   animation: goldenBorder 5s infinite;
 }
 
@@ -85,6 +82,10 @@ a,
 Link {
   @apply golden-text;
   cursor: pointer;
+}
+
+button {
+  @apply golden-button;
 }
 
 * {

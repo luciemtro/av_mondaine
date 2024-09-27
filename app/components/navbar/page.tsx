@@ -59,14 +59,15 @@ export const Navbar = () => {
                 onClick={toggleDropdown}
                 className={styles.dropdownToggle}
               >
-                <span className="golden-text">MON COMPTE</span>
+                <span className="text-xs">Mon compte</span>
                 <svg
-                  className={`w-4 h-4 transition-transform ${
+                  className={`w-4 h-4 transition-transform${
                     isDropdownOpen ? "rotate-180" : "rotate-0"
                   }`}
                   xmlns="http://www.w3.org/2000/svg"
                   viewBox="0 0 20 20"
                   fill="currentColor"
+                  style={{ color: "black" }}
                 >
                   <path
                     fillRule="evenodd"
@@ -77,10 +78,12 @@ export const Navbar = () => {
               </button>
               {isDropdownOpen && (
                 <div className={styles.dropdownMenu}>
-                  <Link href="/user/dashboard">Mes commandes</Link>
-                  <button onClick={handleLogout} className="">
+                  <Link href="/user/dashboard" className="text-xs">
+                    Mes commandes
+                  </Link>
+                  <a onClick={handleLogout} className="text-xs deconnexion">
                     DÉCONNEXION
-                  </button>
+                  </a>
                 </div>
               )}
             </div>

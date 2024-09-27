@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { Artist } from "@/app/types/artist.types";
 import Link from "next/link";
+import styles from "@/app/styles/catalogue.module.scss";
 
 export default function CatalogArtist() {
   const [artists, setArtists] = useState<Artist[]>([]);
@@ -34,34 +35,31 @@ export default function CatalogArtist() {
   }
 
   return (
-    <section className="catalog">
-      <h1>Catalogue des Artistes</h1>
+    <section className="text-center catalog-artist-container pb-16">
+      <h1 className="uppercase font-semibold p-5 pt-28">
+        Catalogue de nos artistes
+      </h1>
       {artists.length === 0 ? (
         <p>Chargement des artistes...</p> // Message de chargement
       ) : (
-        <ul>
+        <ul className="flex flex-wrap gap-5 justify-center">
           {artists.map((artist: Artist) => (
-            <Link
-              href={`/artist/${artist.id}`}
-              key={artist.id}
-              className="artistCard"
-            >
-              <li>
-                <h2>{artist.pseudo}</h2>
-                <p>{artist.title}</p>
-                <p>
-                  {artist.city}, {artist.country}
-                </p>
-                <p>{artist.description}</p>
-                {artist.picture_one && (
-                  <img
-                    src={artist.picture_one}
-                    alt={`${artist.pseudo} - ${artist.title}`}
-                    style={{ width: "200px", height: "auto" }} // Tu peux ajuster la taille ici
-                  />
-                )}
-              </li>
-            </Link>
+            <li className={styles.artistCard} key={artist.id}>
+              {/* Le bouton Link positionné au-dessus du h2 */}
+              <Link href={`/catalogArtist/${artist.id}`} passHref>
+                <button className={`${styles.viewProfileButton}`}>
+                  Voir Profil
+                </button>
+              </Link>
+              {artist.picture_one && (
+                <img
+                  src={artist.picture_one}
+                  alt={`${artist.pseudo} - ${artist.title}`}
+                />
+              )}
+              <h2 className="z-10 uppercase font-bold">{artist.pseudo}</h2>
+              <p className="z-10">{artist.title}</p>
+            </li>
           ))}
         </ul>
       )}
