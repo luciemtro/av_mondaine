@@ -33,16 +33,18 @@
     width: auto;
     filter: grayscale(100%) brightness(20%);
     transition: 0.3s ease-in-out;
-    &:hover {
-      filter: grayscale(15%) brightness(100%);
-    }
   }
   .viewProfileButton {
     display: none;
   }
-  &:hover {
+  &:hover,
+  &:focus,
+  &:active {
     .viewProfileButton {
       display: block;
+    }
+    img {
+      filter: grayscale(15%) brightness(100%);
     }
   }
 }

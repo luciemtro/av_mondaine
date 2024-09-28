@@ -1,0 +1,157 @@
+// footer.module.scss
+
+.footer {
+  background-color: #010006; // Couleur de fond similaire à la navbar
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  .footerContainer {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    .footerMenu,
+    .footerInfo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      ul {
+        display: flex;
+        gap: 20px;
+
+        li {
+          list-style: none;
+
+          a {
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+          }
+        }
+      }
+    }
+
+    // Gestion du hamburger pour petits écrans
+    .hamburger {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        margin: 5px 0;
+        background-color: #fff;
+        transition: all 0.3s ease;
+      }
+
+      &.hamburgerOpen {
+        transform: rotate(45deg);
+      }
+
+      @media (max-width: 768px) {
+        display: block;
+      }
+    }
+
+    .infoMenu {
+      display: none;
+
+      &.open {
+        display: flex;
+      }
+
+      ul {
+        display: flex;
+        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+
+        li {
+          list-style: none;
+        }
+      }
+
+      @media (min-width: 768px) {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+
+    // Menu déroulant pour les informations légales
+    .dropdown {
+      position: relative;
+
+      .dropdownToggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+
+        svg {
+          margin-left: 5px;
+          transition: transform 0.3s ease;
+        }
+      }
+
+      .dropdownMenu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background-color: #0f0e12;
+        padding: 10px;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        z-index: 10;
+        border-bottom: 2px solid rgb(253, 244, 192);
+        border-left: 2px solid rgb(253, 244, 192);
+
+        a {
+          text-decoration: none;
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+
+  .footerCopy {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+  }
+}
+// footer.module.scss
+
+.socialMedia {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-top: 20px;
+
+  .socialIcon {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    transition: fill 0.3s ease;
+
+    &:hover {
+      fill: rgb(210, 199, 139);
+    }
+  }
+}

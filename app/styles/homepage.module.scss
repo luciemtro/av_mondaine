@@ -53,25 +53,3 @@
     rgba(9, 0, 54, 0.525)
   );
 }
-
-/* Animation de pulsation */
-@keyframes pulsate {
-  0% {
-    transform: translate(-50%, -50%) scale(1); /* État initial */
-    box-shadow: 0 0 10px rgb(240, 222, 177), 0 0 5px rgb(240, 222, 177),
-      inset 0 0 10px rgb(240, 222, 177), inset 0 0 5px rgb(240, 222, 177);
-    border: rgba(253, 243, 218, 0.867) 3.5px solid;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.1); /* Léger agrandissement */
-    box-shadow: 0 0 25px rgb(253, 243, 218), 0 0 50px rgb(253, 243, 218),
-      inset 0 0 10px rgb(240, 222, 177), inset 0 0 5px rgb(240, 222, 177);
-    border: rgb(253, 243, 218) 4px solid;
-  }
-  100% {
-    transform: translate(-50%, -50%) scale(1); /* Retour à l'état initial */
-    box-shadow: 0 0 10px rgb(240, 222, 177), 0 0 5px rgb(240, 222, 177),
-      inset 0 0 10px rgb(240, 222, 177), inset 0 0 5px rgb(240, 222, 177);
-    border: rgba(253, 243, 218, 0.867) 3.5px solid;
-  }
-}

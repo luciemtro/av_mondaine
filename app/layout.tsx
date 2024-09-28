@@ -5,6 +5,7 @@ import "./styles/roots.scss";
 import "./styles/animation.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
 import { Navbar } from "@/app/components/navbar/page";
+import { Footer } from "@/app/components/footer/page";
 
 export const metadata: Metadata = {
   title: "Avenue Mondaine",
@@ -23,6 +24,7 @@ export default function RootLayout({
         <SessionProviderClient>
           <Navbar />
           {children}
+          <Footer />
         </SessionProviderClient>
       </body>
     </html>

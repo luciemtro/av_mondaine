@@ -14,6 +14,8 @@
 @import "./catalogue.module.scss";
 @import "./ordertable.module.scss";
 @import "./singleArtist.module.scss";
+@import "./footer.module.scss";
+@import "./infoPages.module.scss";
 
 @layer utilities {
   .text-responsive {
@@ -61,7 +63,7 @@
 }
 
 .golden-border {
-  border: 3.3px solid;
+  border: 3px solid;
   border-image: linear-gradient(90deg, #ffeca0, #fff5cc, #ffeca0) 1;
   animation: goldenBorder 5s infinite;
 }

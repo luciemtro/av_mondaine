@@ -1,9 +1,12 @@
 @import "./animation.scss";
-
 .artistPageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
   background-size: cover;
   background-position: center;
-  min-height: 100vh;
   background-image: linear-gradient(
       to bottom,
       rgba(0, 0, 7, 0.959),
@@ -12,111 +15,111 @@
     ),
     url("https://i.ibb.co/5jbn2kc/DALL-E-2024-09-27-11-04-33-A-luxurious-avant-garde-and-futuristic-event-website-header-design-with-a.webp");
 }
-.artistSousContainer {
+
+/* Conteneur pour les infos de l'artiste (pseudo, localisation, détails) et l'image */
+.mainContentContainer {
   display: flex;
-  min-height: 100vh; /* Assure que la hauteur prend tout l'écran pour centrer correctement */
-  @media screen and (max-width: 1000px) {
+  width: 500px; /* Largeur globale de la section */
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 20px; /* Espacement entre les sections */
+
+  /* Chaque section prend respectivement 30% et 70% de la largeur */
+  .artistInfoContainer {
+    flex: 1 1 30%; /* 30% de l'espace pour les détails */
+    display: flex;
     flex-direction: column;
+    gap: 20px; /* Espacement entre les éléments */
+    justify-content: flex-start;
     align-items: center;
-    gap: 30px;
   }
-}
-.carousselContainer {
-  width: 450px; /* Taille fixe du carrousel */
-  height: 550px; /* Laisse la hauteur s'ajuster automatiquement en fonction du contenu */
-  @media screen and (max-width: 1000px) {
-    width: 90%;
+
+  .artistImageContainer {
+    flex: 1 1 70%; /* 70% de l'espace pour l'image */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid white;
+    width: 100%; /* Remplit toute la largeur assignée */
+    height: auto;
+    position: relative;
+  }
+
+  .artistImage {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   }
 }
 
-.imageContainer {
-  cursor: pointer;
-  width: 450px;
-  height: 550px;
-  border-radius: 20px;
+/* Box de chaque détail */
+.artistDetailsBox {
+  padding: 10px 20px;
+  height: 130px;
+  background-image: linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.7),
+      rgba(0, 0, 0, 0.563)
+    ),
+    url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp"); /* Fond semi-transparent */
+  border: 2px solid rgb(215, 210, 179); /* Bordure dorée */
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.artistDescription {
+  width: 500px;
+  text-align: left;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-height: 200px;
+  overflow-y: auto; /* Pour activer la scrollbar quand le texte dépasse la hauteur maximale */
   position: relative;
-  overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.433);
-  padding: 20px;
 
-  img {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    height: 95%;
-    width: auto;
-    filter: grayscale(60%) contrast(120%) brightness(120%)
-      drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.3));
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 10px; /* Largeur de la scrollbar */
   }
 
-  &::after {
-    content: ""; /* Nécessaire pour afficher le ::after */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 2px solid rgb(215, 210, 179);
-    box-sizing: border-box; /* S'assurer que la bordure est incluse dans la taille */
-    background-image: linear-gradient(
-      rgba(7, 1, 22, 0.668),
-      rgba(2, 0, 19, 0.459),
-      rgba(2, 0, 9, 0.867) 90%
-    );
-    z-index: 2; /* Place le ::after derrière le contenu de la carte */
-    pointer-events: none;
+  &::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1); /* Fond de la piste de la scrollbar */
+    border-radius: 10px; /* Arrondi la piste */
   }
-  &::before {
-    content: ""; /* Nécessaire pour afficher le ::before */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(black, transparent),
-      url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp");
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 0; /* Place le ::before derrière le contenu de la carte */
-    opacity: 0.5;
+
+  &::-webkit-scrollbar-thumb {
+    background: linear-gradient(
+      180deg,
+      #ffeca0,
+      #ffe991
+    ); /* Dégradé doré pour le pouce */
+    border-radius: 10px; /* Arrondi la barre de défilement */
+    border: 2px solid rgba(0, 0, 0, 0.3); /* Bordure autour du pouce pour contraste */
+    box-shadow: inset 0 0 5px rgba(255, 236, 160, 0.5); /* Effet de brillance interne */
   }
-  @media screen and (max-width: 1000px) {
-    width: 100%;
-    height: 85%;
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(
+      180deg,
+      #ffe991,
+      #ffd700
+    ); /* Couleur plus vive au survol */
   }
+
+  /* Scrollbar visible pour Firefox */
+  scrollbar-width: thin;
+  scrollbar-color: #ffe991 rgba(255, 255, 255, 0.1); /* Couleurs pour Firefox */
 }
 
-.artistDetailsContainer {
-  width: 50%;
-  @media screen and (max-width: 1000px) {
-    width: 90%;
-  }
+/* Bouton de réservation centré */
+.artistButtonReservation {
+  bottom: 10px;
+  z-index: 10;
+  margin-top: 20px;
+  position: absolute;
+  cursor: pointer;
 }
-.artistDetails {
-  border: 2px solid rgb(215, 210, 179);
-  max-width: 450px;
-  height: fit-content;
-  border-radius: 20px;
-  @media screen and (max-width: 1000px) {
-    width: 90%;
-    max-width: 90%;
-  }
-  &::before {
-    content: ""; /* Nécessaire pour afficher le ::before */
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(
-        rgba(3, 3, 5, 0.804),
-        rgba(0, 0, 19, 0.759)
-      ),
-      url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp");
-    background-repeat: no-repeat;
-    background-size: cover;
-    z-index: 0;
-    opacity: 0.7; /* Place le ::before derrière le contenu de la carte */
-  }
+
+@media screen and (max-width: 650px) {
 }

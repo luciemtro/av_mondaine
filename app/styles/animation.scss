@@ -1,3 +1,4 @@
+//animation.scss
 @keyframes goldenBorder {
   0% {
     border-image-source: linear-gradient(90deg, #ffefaf, #fff5cc, #ffefaf);
@@ -28,5 +29,24 @@
     box-shadow: 0 0 10px rgb(240, 222, 177), 0 0 5px rgb(240, 222, 177),
       inset 0 0 10px rgb(240, 222, 177), inset 0 0 5px rgb(240, 222, 177);
     border: rgba(253, 243, 218, 0.867) 3.5px solid;
+  }
+}
+
+/* Animation de pulsation légère mais plus large */
+@keyframes pulsateLight {
+  0% {
+    box-shadow: 0 0 17px rgb(240, 222, 177), 0 0 7px rgb(240, 222, 177),
+      inset 0 0 7px rgb(240, 222, 177), inset 0 0 3px rgb(240, 222, 177);
+    border: rgba(253, 243, 218, 0.8) 2px solid;
+  }
+  50% {
+    box-shadow: 0 0 20px rgb(253, 243, 218), 0 0 40px rgb(253, 243, 218),
+      inset 0 0 10px rgb(240, 222, 177), inset 0 0 5px rgb(240, 222, 177);
+    border: rgb(253, 243, 218) 2px solid;
+  }
+  100% {
+    box-shadow: 0 0 17px rgb(240, 222, 177), 0 0 7px rgb(240, 222, 177),
+      inset 0 0 7px rgb(240, 222, 177), inset 0 0 3px rgb(240, 222, 177);
+    border: rgba(253, 243, 218, 0.8) 2px solid;
   }
 }

@@ -1,11 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import { Artist } from "@/app/types/artist.types";
 import styles from "@/app/styles/singleArtist.module.scss";
 import Link from "next/link";
@@ -16,7 +11,6 @@ export default function ArtistPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fonction pour récupérer les détails de l'artiste
     async function getArtist() {
       try {
         const response = await fetch(`/api/catalogArtist/${id}`, {
@@ -48,78 +42,72 @@ export default function ArtistPage() {
   }
 
   return (
-    <section className={`${styles.artistPageContainer} pt-28`}>
-      <div className={`${styles.artistSousContainer} flex `}>
-        <div className={`${styles.artistDetailsContainer} flex justify-center`}>
+    <section className={`${styles.artistPageContainer} relative p-28`}>
+      {/* Conteneur global pour les deux sections */}
+      <div className={styles.mainContentContainer}>
+        {/* Conteneur regroupant le Pseudo, Localisation et Détails */}
+        <div className={styles.artistInfoContainer}>
+          {/* Pseudo */}
           <div
-            className={`${styles.artistDetails} .golden-border p-5 flex flex-col justify-center items-center `}
+            className={`${styles.artistDetailsBox} ${styles.artistPseudo} flex flex-col items-center justify-center`}
           >
-            <div className="text-center">
-              <h1 className="text-3xl font-bold uppercase">{artist.pseudo}</h1>
-              <p className="text-xl italic p-3">{artist.title}</p>
-              <p>
-                {artist.country}, {artist.city}
-              </p>
-            </div>
+            <h1 className="text-lg font-bold uppercase">{artist.pseudo}</h1>
+            <p className="text-sm italic p-2 text-center">{artist.title}</p>
+          </div>
 
-            <h2 className="font-semibold text-center p-5 uppercase ">
-              Description
+          {/* Localisation */}
+          <div
+            className={`${styles.artistDetailsBox} ${styles.artistLocalisation} flex flex-col items-center justify-center`}
+          >
+            <h2 className="font-semibold text-center uppercase text-sm">
+              Localisation
             </h2>
-            <p className="">{artist.description}</p>
-            <div className="flex gap-3 justify-center p-5">
-              <h2 className="font-semibold">Poids</h2>
-              <p>{artist.weight} kg</p>
-              <h2 className="font-semibold">Taille</h2>
-              <p>{artist.height} cm</p>
+            <p className="text-xs">
+              {artist.city}, {artist.country}
+            </p>
+          </div>
+
+          {/* Détails */}
+          <div
+            className={`${styles.artistDetailsBox} ${styles.artistDetails} flex flex-col items-center justify-center`}
+          >
+            <h2 className="font-semibold text-center uppercase text-sm">
+              Détails
+            </h2>
+            <div className="flex gap-2 justify-center">
+              <div>
+                <h3 className="font-semibold text-sm">Poids</h3>
+                <p className="text-sm">{artist.weight} kg</p>
+              </div>
+              <div>
+                <h3 className="font-semibold text-sm">Taille</h3>
+                <p className="text-sm">{artist.height} cm</p>
+              </div>
             </div>
-            <Link href={`/reservation`}>
-              <button>Réservez</button>
-            </Link>
           </div>
         </div>
-        <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={40}
-          slidesPerView={1}
-          navigation
-          pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
-          className={`${styles.carousselContainer}`} // Ajout de la classe ici
-        >
-          {artist.picture_one && (
-            <SwiperSlide>
-              <div className={`${styles.imageContainer}`}>
-                <img
-                  className={styles.artistImage}
-                  src={artist.picture_one}
-                  alt={artist.pseudo}
-                />
-              </div>
-            </SwiperSlide>
-          )}
-          {artist.picture_two && (
-            <SwiperSlide>
-              <div className={`${styles.imageContainer}`}>
-                <img
-                  className={styles.artistImage}
-                  src={artist.picture_two}
-                  alt={artist.pseudo}
-                />
-              </div>
-            </SwiperSlide>
-          )}
-          {artist.picture_three && (
-            <SwiperSlide>
-              <div className={`${styles.imageContainer}`}>
-                <img
-                  className={styles.artistImage}
-                  src={artist.picture_three}
-                  alt={artist.pseudo}
-                />
-              </div>
-            </SwiperSlide>
-          )}
-        </Swiper>
+
+        {/* Conteneur de l'image de l'artiste */}
+        <div className={styles.artistImageContainer}>
+          {/* Bouton de Réservation */}
+          <Link
+            href={`/reservation`}
+            className={styles.artistButtonReservation}
+          >
+            <button>Réservez</button>
+          </Link>
+          <img
+            src={artist.picture_one}
+            alt={`Image de ${artist.pseudo}`}
+            className={styles.artistImage}
+          />
+        </div>
+      </div>
+
+      {/* Description */}
+      <div className={`${styles.artistDetailsBox} ${styles.artistDescription}`}>
+        <h2 className="font-semibold text-center uppercase p-3">Description</h2>
+        <p className="text-sm">{artist.description}</p>
       </div>
     </section>
   );

@@ -47,9 +47,7 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="#contact" className="">
-              Contact
-            </Link>
+            <Link href="mailto:contact@avenuemondaine.com">Contact</Link>
           </li>
         </ul>
         <div className="user-account">
