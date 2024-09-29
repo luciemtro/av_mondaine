@@ -16,6 +16,7 @@
 @import "./singleArtist.module.scss";
 @import "./footer.module.scss";
 @import "./infoPages.module.scss";
+@import "./reservation.module.scss";
 
 @layer utilities {
   .text-responsive {
@@ -96,8 +97,7 @@ h5,
 h6,
 p,
 th,
-td,
-select {
+td {
   @apply golden-text-static;
 }
 

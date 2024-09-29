@@ -41,15 +41,15 @@ const AdminOrdersPage = () => {
   return (
     <div className="mt-28">
       <button
-        className="metallic-button mb-4 ml-11"
+        className="golden-button mb-4 ml-11"
         onClick={() => router.push("/admin/dashboard")} // Redirige vers le dashboard
       >
         Retour au dashboard
       </button>
-      <h1 className="pl-11 pb-5 metallic-text">
+      <h1 className="pl-11 pb-5 golden-text">
         Liste des commandes - Total ({orders.length})
       </h1>
-      <div className="metallic-border order-table ml-11 mr-11">
+      <div className=" order-table ml-11 mr-11">
         <table className="order-table">
           <thead>
             <tr>

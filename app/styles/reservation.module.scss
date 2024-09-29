@@ -29,10 +29,33 @@
     padding: 10px;
     border: 1px solid #ebe3c1;
     border-radius: 8px;
-    background-color: rgba(0, 2, 7, 0.737);
     margin-bottom: 15px;
+    z-index: 1;
+    position: relative;
+    &::before {
+      content: "";
+      z-index: 0;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 2, 7, 0.737);
+      border-radius: 8px;
+    }
   }
 
+  .inputField,
+  .selectField,
+  .textArea {
+    @apply font-medium text-transparent bg-gradient-to-r from-[#ffe991] via-[#fffbeb] to-[#ffeca0] bg-clip-text font-raleway relative;
+    background-size: 200%; /* Pour l'effet de brillance */
+    animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
+    &::placeholder {
+      color: #ebe3c1;
+      font-weight: 300;
+    }
+  }
   /* Champs qui nécessitent la largeur complète */
   .fullWidth {
     width: 100%; /* Prend toute la largeur */
