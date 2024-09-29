@@ -1,0 +1,132 @@
+.formContainer {
+  /* Sections du formulaire pour grouper les champs */
+  background-image: linear-gradient(
+      125deg,
+      rgba(1, 0, 7, 0.971),
+      rgba(3, 0, 33, 0.626),
+      rgba(1, 0, 7, 0.971)
+    ),
+    url("https://i.ibb.co/7vvNM9P/7b5cca28-969c-47a5-8852-fab69c6abc36.webp");
+  background-size: cover;
+  padding-top: 100px;
+  .formSection {
+    margin-bottom: 2rem;
+
+    h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  /* Champs de texte et de sélection */
+  .inputField,
+  .selectField {
+    width: 48%; /* Permet de placer deux champs côte à côte */
+    padding: 10px;
+    border: 1px solid #ebe3c1;
+    border-radius: 8px;
+    background-color: rgba(0, 2, 7, 0.737);
+    margin-bottom: 15px;
+  }
+
+  /* Champs qui nécessitent la largeur complète */
+  .fullWidth {
+    width: 100%; /* Prend toute la largeur */
+  }
+
+  /* TextArea pour le commentaire */
+  .textArea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ebe3c1;
+    border-radius: 8px;
+    background-color: rgba(0, 2, 7, 0.737);
+    margin-bottom: 15px;
+  }
+
+  .artistSelectionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+  .artistSelection {
+    display: flex;
+    justify-content: center;
+    position: relative; /* Position relative pour que le pseudo-élément ::before soit positionné correctement */
+    width: 130px;
+    height: 150px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border 0.3s ease;
+
+    &:hover {
+      border-color: #ffe991;
+    }
+
+    /* Input personnalisé pour checkbox */
+    input[type="checkbox"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 12px;
+
+      /* Pseudo-élément ::before stylisé */
+      & + label::before {
+        content: "";
+        position: absolute;
+        opacity: 0.7;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        border: 1px solid #ebe3c1;
+        border-radius: 7px;
+        transition: background-image 0.3s ease, border-color 0.3s ease;
+        background-image: linear-gradient(black, rgba(9, 7, 14, 0.948));
+        background-size: cover;
+      }
+
+      /* Lorsqu'il est coché */
+      &:checked + label::before {
+        background-image: url("https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYjgxMXZxbWRoZnNvYTlwMzV5bHpoYTQ1bGh4aThtNnQydnd4ZXl3aCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/9JxkPTP3alOykb8PmQ/giphy.webp");
+        border: 3.5px solid #e1dabb;
+      }
+    }
+
+    label {
+      display: flex;
+      overflow: hidden;
+      flex-direction: column; /* Met le texte en colonne, au-dessus de l'image */
+      justify-content: flex-start; /* Positionne le contenu au début (en haut) */
+      align-items: center; /* Centre le contenu horizontalement */
+      width: 120px;
+      height: 100%;
+
+      text-align: center;
+      pointer-events: none;
+      position: relative;
+      z-index: 11; /* Place le label et le contenu au-dessus de ::before */
+    }
+
+    img {
+      width: 80px;
+      position: absolute;
+      bottom: 1.3px;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+      z-index: 12;
+    }
+  }
+}

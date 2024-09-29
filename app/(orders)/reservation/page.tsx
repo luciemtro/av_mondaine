@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Artist } from "@/app/types/artist.types";
 import { useSession } from "next-auth/react"; // Import de useSession pour vérifier la session
 import { useRouter } from "next/navigation";
+import styles from "@/app/styles/reservation.module.scss"; // Import du fichier CSS module
 
 const ReservationPage = () => {
   const { data: session, status } = useSession();
@@ -20,21 +21,19 @@ const ReservationPage = () => {
     return <p>Loading...</p>;
   }
 
-  // Utilisation de || "" pour garantir que l'email soit toujours une string
   const userEmail = session?.user?.email || "";
 
   return session && session.user ? <ReservationForm email={userEmail} /> : null;
 };
 
 interface ReservationFormProps {
-  email?: string; // email est optionnel
+  email?: string;
 }
 
 const ReservationForm = ({ email = "" }: ReservationFormProps) => {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
 
-  // Liste des pays prédéfinis, incluant la Suisse
   const countries = [
     { code: "FR", name: "France" },
     { code: "CH", name: "Suisse" },
@@ -45,13 +44,12 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     { code: "ES", name: "Espagne" },
     { code: "PORT", name: "Portugal" },
     { code: "NL", name: "Pays-Bas" },
-    // Ajoute d'autres pays ici
   ];
 
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    email: email, // Pré-remplir avec l'email de la session ou une chaîne vide
+    email: email,
     phone: "",
     eventAddress: "",
     eventCity: "",
@@ -64,17 +62,16 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     budget: 0,
     comment: "",
   });
+
   const [totalFee, setTotalFee] = useState<number>(0);
   const router = useRouter();
 
-  // Calcul du prix par artiste en fonction du pays sélectionné
   useEffect(() => {
-    const feePerArtist = formData.eventCountry === "Suisse" ? 200 : 100; // Si le pays est Suisse, 200, sinon 100
+    const feePerArtist = formData.eventCountry === "Suisse" ? 200 : 100;
     const totalFees = selectedArtists.length * feePerArtist;
     setTotalFee(totalFees);
   }, [formData.eventCountry, selectedArtists]);
 
-  // Récupérer les artistes depuis l'API
   useEffect(() => {
     async function fetchArtists() {
       const response = await fetch("/api/artists");
@@ -92,13 +89,6 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     );
   };
 
-  // Calculer le prix total basé sur le pays sélectionné et le nombre d'artistes
-  useEffect(() => {
-    const feePerArtist = formData.eventCountry === "Suisse" ? 200 : 100; // 200€ pour la Suisse, 100€ pour les autres
-    const totalFees = selectedArtists.length * feePerArtist;
-    setTotalFee(totalFees);
-  }, [formData.eventCountry, selectedArtists]);
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -107,29 +97,24 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         const artist = artists.find((artist) => artist.id === id);
         return artist ? { id: artist.id, pseudo: artist.pseudo } : null;
       })
-      .filter(Boolean); // Filtrer les artistes valides
-
-    console.log("Artistes sélectionnés (avant envoi) :", selectedArtistsData); // Log des artistes sélectionnés
+      .filter(Boolean);
 
     const queryParams = new URLSearchParams(
       Object.entries({
         ...formData,
-        totalFee: totalFee.toString(), // Le totalFee est déjà calculé côté frontend
-        selectedArtists: JSON.stringify(selectedArtists), // JSON.stringify pour envoyer les artistes
+        totalFee: totalFee.toString(),
+        selectedArtists: JSON.stringify(selectedArtists),
       }).reduce((acc, [key, value]) => {
-        acc[key] = String(value); // Convertir tout en string pour l'URL
+        acc[key] = String(value);
         return acc;
       }, {} as Record<string, string>)
     ).toString();
 
     router.push(`/reservation/summary?${queryParams}`);
   };
-  useEffect(() => {
-    console.log("Données du formulaire mises à jour :", formData);
-  }, [formData]);
 
   return (
-    <form onSubmit={handleSubmit} className="mt-28">
+    <form onSubmit={handleSubmit} className={styles.formContainer}>
       <input
         type="text"
         placeholder="Prénom"
@@ -138,6 +123,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, firstName: e.target.value })
         }
         required
+        className={styles.inputField}
       />
       <input
         type="text"
@@ -145,6 +131,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         value={formData.lastName}
         onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
         required
+        className={styles.inputField}
       />
       <input
         type="tel"
@@ -152,6 +139,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         value={formData.phone}
         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
         required
+        className={styles.inputField}
       />
       <input
         type="text"
@@ -161,6 +149,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, eventAddress: e.target.value })
         }
         required
+        className={styles.inputField}
       />
       <input
         type="text"
@@ -170,6 +159,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, eventCity: e.target.value })
         }
         required
+        className={styles.inputField}
       />
       <input
         type="text"
@@ -179,14 +169,15 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, eventPostalCode: e.target.value })
         }
         required
+        className={styles.inputField}
       />
-      {/* Sélection du pays */}
       <select
         value={formData.eventCountry}
         onChange={(e) =>
           setFormData({ ...formData, eventCountry: e.target.value })
         }
         required
+        className={styles.selectField}
       >
         {countries.map((country) => (
           <option key={country.code} value={country.name}>
@@ -196,31 +187,34 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
       </select>
       <input
         type="date"
-        placeholder="Date de l'événement"
         value={formData.eventDate}
         onChange={(e) =>
           setFormData({ ...formData, eventDate: e.target.value })
         }
         required
+        className={styles.inputField}
       />
       <input
         type="time"
-        placeholder="Heure de l'événement"
-        value={formData.eventHour || ""} // Utilise une chaîne vide si 'null'
-        onChange={(e) => {
-          console.log("Heure sélectionnée :", e.target.value); // Afficher l'heure sélectionnée
-          setFormData({ ...formData, eventHour: e.target.value });
-        }}
+        value={formData.eventHour || ""}
+        onChange={(e) =>
+          setFormData({ ...formData, eventHour: e.target.value })
+        }
         required
+        className={styles.inputField}
       />
       <input
         type="number"
         placeholder="Nombre de personnes"
         value={formData.numberOfPeople}
         onChange={(e) =>
-          setFormData({ ...formData, numberOfPeople: parseInt(e.target.value) })
+          setFormData({
+            ...formData,
+            numberOfPeople: parseInt(e.target.value),
+          })
         }
         required
+        className={styles.inputField}
       />
       <select
         value={formData.serviceType}
@@ -228,6 +222,7 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, serviceType: e.target.value })
         }
         required
+        className={styles.selectField}
       >
         <option value="" disabled>
           Sélectionner un type de service
@@ -243,16 +238,12 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
           setFormData({ ...formData, budget: parseInt(e.target.value) })
         }
         required
-      />
-      <textarea
-        placeholder="Commentaire"
-        value={formData.comment}
-        onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+        className={styles.inputField}
       />
       <h3>Sélectionnez les artistes</h3>
-      <div>
+      <div className={styles.artistSelectionContainer}>
         {artists.map((artist) => (
-          <div key={artist.id}>
+          <div key={artist.id} className={styles.artistSelection}>
             <input
               type="checkbox"
               id={`artist-${artist.id}`}
@@ -260,15 +251,27 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
               onChange={() => handleArtistSelection(artist.id)}
             />
             <label htmlFor={`artist-${artist.id}`}>
-              {artist.pseudo} ({artist.city}, {artist.country}) - {artist.title}
+              <img
+                src={artist.picture_one}
+                alt={`Image de ${artist.pseudo}`}
+                className={styles.artistThumbnail}
+              />
+              <p className="uppercase text-sm mt-2">{artist.pseudo}</p>
             </label>
           </div>
         ))}
       </div>
-
+      <textarea
+        placeholder="Commentaire"
+        value={formData.comment}
+        onChange={(e) => setFormData({ ...formData, comment: e.target.value })}
+        className={styles.textArea}
+      />
       <h3>Frais totaux : {totalFee} €</h3>
 
-      <button type="submit">Réserver</button>
+      <button type="submit" className={styles.submitButton}>
+        Réserver
+      </button>
     </form>
   );
 };
