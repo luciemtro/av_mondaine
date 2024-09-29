@@ -10,4 +10,6 @@ export type Artist = {
   picture_one: string;
   picture_two: string;
   picture_three: string;
+  avatar1: string;
+  avatar2: string;
 };

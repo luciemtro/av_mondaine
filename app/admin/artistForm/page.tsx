@@ -20,6 +20,8 @@ export default function ArtistCatalog() {
     picture_one: "",
     picture_two: "",
     picture_three: "",
+    avatar1: "",
+    avatar2: "",
   });
 
   useEffect(() => {
@@ -65,6 +67,8 @@ export default function ArtistCatalog() {
       picture_one: "",
       picture_two: "",
       picture_three: "",
+      avatar1: "",
+      avatar2: "",
     });
   };
 
@@ -237,6 +241,28 @@ export default function ArtistCatalog() {
                 setFormData({
                   ...formData,
                   picture_three: e.target.value,
+                })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Avatar 1"
+              value={formData.avatar1}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  avatar1: e.target.value,
+                })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Avatar 2"
+              value={formData.avatar2}
+              onChange={(e) =>
+                setFormData({
+                  ...formData,
+                  avatar2: e.target.value,
                 })
               }
             />

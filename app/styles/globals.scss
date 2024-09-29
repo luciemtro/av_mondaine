@@ -59,6 +59,26 @@
     animation: textShimmer 5s ease-in-out infinite;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
     transition: all 0s ease-in-out;
+
+    /* Font size and padding for larger screens */
+    font-size: 1rem; /* Par défaut */
+    padding: 0.75rem 1.5rem;
+
+    /* Box shadow for larger screens */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+      font-size: 0.875rem; /* Taille de la police plus petite sur tablette */
+      padding: 0.6rem 1.2rem; /* Padding ajusté pour les petits écrans */
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère */
+    }
+
+    @media screen and (max-width: 480px) {
+      font-size: 0.75rem; /* Réduction supplémentaire de la taille du texte pour les très petits écrans */
+      padding: 0.5rem 1rem; /* Réduction du padding */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04); /* Ombre encore plus légère */
+    }
   }
 }
 

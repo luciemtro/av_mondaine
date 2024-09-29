@@ -25,7 +25,7 @@ export async function GET(
 
     // Requête SQL pour obtenir un artiste par son ID
     const [artist] = await connection.query<Artist[] & RowDataPacket[]>(
-      `SELECT id, pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three
+      `SELECT id, pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three, avatar1, avatar2
       FROM artists WHERE id = ?`,
       [id]
     );

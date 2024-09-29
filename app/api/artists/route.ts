@@ -20,6 +20,8 @@ export async function POST(req: Request) {
       picture_one = "",
       picture_two = "",
       picture_three = "",
+      avatar1 = "",
+      avatar2 = "",
     } = body;
 
     if (!pseudo || !weight || !height || !city || !country || !title) {
@@ -34,8 +36,8 @@ export async function POST(req: Request) {
 
     const insertArtistSql = `
     INSERT INTO artists
-    (pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    (pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three, avatar1, avatar2)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await connection.execute<ResultSetHeader>(
@@ -51,6 +53,8 @@ export async function POST(req: Request) {
         picture_one,
         picture_two,
         picture_three,
+        avatar1,
+        avatar2,
       ]
     );
 
@@ -81,7 +85,7 @@ export async function GET() {
 
     // Exécuter la requête SQL
     const [artists] = await connection.query<Artist[] & RowDataPacket[]>(`
-      SELECT id, pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three
+      SELECT id, pseudo, weight, height, city, country, title, description, picture_one, picture_two, picture_three, avatar1, avatar2
       FROM artists
     `);
 
@@ -118,6 +122,8 @@ export async function PUT(req: Request) {
       picture_one = "",
       picture_two = "",
       picture_three = "",
+      avatar1 = "",
+      avatar2 = "",
     } = body;
 
     if (!id || !pseudo || !weight || !height || !city || !country || !title) {
@@ -132,7 +138,7 @@ export async function PUT(req: Request) {
 
     const updateArtistSql = `
       UPDATE artists
-      SET pseudo = ?, weight = ?, height = ?, city = ?, country = ?, title = ?, description = ?, picture_one = ?, picture_two = ?, picture_three = ?
+      SET pseudo = ?, weight = ?, height = ?, city = ?, country = ?, title = ?, description = ?, picture_one = ?, picture_two = ?, picture_three = ?, avatar1 = ?, avatar2 = ?
       WHERE id = ?
     `;
 
@@ -149,6 +155,8 @@ export async function PUT(req: Request) {
         picture_one,
         picture_two,
         picture_three,
+        avatar1,
+        avatar2,
         id,
       ]
     );

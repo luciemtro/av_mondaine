@@ -9,6 +9,8 @@ export default function ArtistPage() {
   const { id } = useParams(); // Récupère l'ID de l'artiste depuis l'URL
   const [artist, setArtist] = useState<Artist | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [currentImage, setCurrentImage] = useState<string | null>(null); // État pour l'image affichée
+  const [isFading, setIsFading] = useState<boolean>(false); // État pour la transition d'opacité
 
   useEffect(() => {
     async function getArtist() {
@@ -23,6 +25,7 @@ export default function ArtistPage() {
 
         const data = await response.json();
         setArtist(data.artist); // Mettre à jour l'état avec les détails de l'artiste
+        setCurrentImage(data.artist.picture_two); // Définir l'image par défaut (picture_two)
       } catch (err) {
         setError(err instanceof Error ? err.message : "Erreur inconnue");
       }
@@ -32,6 +35,15 @@ export default function ArtistPage() {
       getArtist(); // Appel à l'API pour récupérer l'artiste si l'ID est défini
     }
   }, [id]);
+
+  const handleAvatarClick = (image: string) => {
+    setIsFading(true); // Démarre la transition de fondu
+
+    setTimeout(() => {
+      setCurrentImage(image); // Change l'image après la fin du fondu
+      setIsFading(false); // Termine la transition
+    }, 300); // Le délai doit correspondre à la durée de la transition CSS
+  };
 
   if (error) {
     return <div>Erreur : {error}</div>;
@@ -89,25 +101,37 @@ export default function ArtistPage() {
 
         {/* Conteneur de l'image de l'artiste */}
         <div className={styles.artistImageContainer}>
-          {/* Bouton de Réservation */}
-          <Link
-            href={`/reservation`}
-            className={styles.artistButtonReservation}
-          >
-            <button>Réservez</button>
-          </Link>
           <img
-            src={artist.picture_one}
+            src={currentImage || artist.picture_two} // Affiche l'image courante
             alt={`Image de ${artist.pseudo}`}
-            className={styles.artistImage}
+            className={`${styles.artistImage} ${
+              isFading ? styles.fadeOut : styles.fadeIn
+            }`} // Ajout de la classe d'animation
           />
         </div>
       </div>
-
+      <div className={`${styles.artistAvatarContainer} flex`}>
+        {/* Bouton de Réservation */}
+        <Link href={`/reservation`} className={styles.artistButtonReservation}>
+          <button>Réservez ici</button>
+        </Link>
+        <img
+          src={artist.avatar1}
+          alt={`Avatar de ${artist.pseudo}`}
+          className={styles.artistAvatar}
+          onClick={() => handleAvatarClick(artist.picture_two)} // Au clic sur avatar1
+        />
+        <img
+          src={artist.avatar2}
+          alt={`Avatar de ${artist.pseudo}`}
+          className={styles.artistAvatar}
+          onClick={() => handleAvatarClick(artist.picture_three)} // Au clic sur avatar2
+        />
+      </div>
       {/* Description */}
       <div className={`${styles.artistDetailsBox} ${styles.artistDescription}`}>
         <h2 className="font-semibold text-center uppercase p-3">Description</h2>
-        <p className="text-sm">{artist.description}</p>
+        <p className="text-sm pb-3">{artist.description}</p>
       </div>
     </section>
   );
