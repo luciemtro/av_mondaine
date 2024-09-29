@@ -1,109 +1,59 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import styles from "@/app/styles/footer.module.scss"; // Import des styles SCSS
 
 export const Footer = () => {
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const toggleDropdown = () => {
-    setIsDropdownOpen((prev) => !prev);
-  };
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
-  };
-
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContainer}>
-        <div className={styles.footerMenu}>
-          <ul className="flex gap-4">
-            <li>
-              <Link href="/" className="">
-                Accueil
-              </Link>
-            </li>
-            <li>
-              <Link href="/catalogArtist" className="">
-                Catalogue
-              </Link>
-            </li>
-            <li>
-              <Link href="/reservation" className="">
-                Réservation
-              </Link>
-            </li>
-            <li>
-              <Link href="mailto:contact@avenuemondaine.com" className="">
-                Contact
-              </Link>
-            </li>
-          </ul>
-        </div>
+        <ul className="flex flex-col">
+          <li>
+            <Link href="/" className="">
+              Accueil
+            </Link>
+          </li>
+          <li>
+            <Link href="/catalogArtist" className="">
+              Catalogue
+            </Link>
+          </li>
+          <li>
+            <Link href="/reservation" className="">
+              Réservation
+            </Link>
+          </li>
+          <li>
+            <Link href="mailto:contact@avenuemondaine.com" className="">
+              Contact
+            </Link>
+          </li>
+        </ul>
 
-        <div className={styles.footerInfo}>
-          <button className={styles.hamburger} onClick={toggleMenu}>
-            <span className={isMenuOpen ? styles.hamburgerOpen : ""}></span>
-            <span className={isMenuOpen ? styles.hamburgerOpen : ""}></span>
-            <span className={isMenuOpen ? styles.hamburgerOpen : ""}></span>
-          </button>
-
-          <div
-            className={`${styles.infoMenu} ${isMenuOpen ? styles.open : ""}`}
-          >
-            <ul className="flex gap-4">
-              <li>
-                <Link href="/about">À propos</Link>
-              </li>
-              <li>
-                <Link href="/privacy-policy">Politique de confidentialité</Link>
-              </li>
-              <li>
-                <Link href="/terms">Conditions d'utilisation</Link>
-              </li>
-              <li>
-                <Link href="/faq">FAQ</Link>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="legal">
-          <div className={styles.dropdown}>
-            <button onClick={toggleDropdown} className={styles.dropdownToggle}>
-              <button className="text-xs">
-                Informations légales
-                <svg
-                  className={`w-4 h-4 transition-transform ${
-                    isDropdownOpen ? "rotate-180" : "rotate-0"
-                  }`}
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 20 20"
-                  fill="currentColor"
-                >
-                  <path
-                    fillRule="evenodd"
-                    d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01.02-1.06z"
-                    clipRule="evenodd"
-                  />
-                </svg>
-              </button>
-            </button>
-            {isDropdownOpen && (
-              <div className={styles.dropdownMenu}>
-                <Link href="/legal-mentions" className="text-xs">
-                  Mentions légales
-                </Link>
-                <Link href="/cookie-policy" className="text-xs">
-                  Politique des cookies
-                </Link>
-              </div>
-            )}
-          </div>
-        </div>
+        <ul className="flex flex-col">
+          <li>
+            <Link href="/about">À propos</Link>
+          </li>
+          <li>
+            <Link href="/privacy-policy">Politique de confidentialité</Link>
+          </li>
+          <li>
+            <Link href="/terms">Conditions d'utilisation</Link>
+          </li>
+          <li>
+            <Link href="/faq">FAQ</Link>
+          </li>
+          <li>
+            <Link href="/legal-mentions" className="text-xs">
+              Mentions légales
+            </Link>
+          </li>
+          <li>
+            <Link href="/cookie-policy" className="text-xs">
+              Politique des cookies
+            </Link>
+          </li>
+        </ul>
 
         {/* Réseaux sociaux */}
         <div className={styles.socialMedia}>
