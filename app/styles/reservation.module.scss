@@ -1,5 +1,4 @@
 .formContainer {
-  /* Sections du formulaire pour grouper les champs */
   background-image: linear-gradient(
       125deg,
       rgba(1, 0, 7, 0.971),
@@ -8,13 +7,22 @@
     ),
     url("https://i.ibb.co/7vvNM9P/7b5cca28-969c-47a5-8852-fab69c6abc36.webp");
   background-size: cover;
-  padding-top: 100px;
+  background-position: center;
+  padding: 5rem 2rem; /* Padding ajusté pour plus d'espace */
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+
+  /* Mise en forme des sections */
   .formSection {
     margin-bottom: 2rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Séparation subtile des sections */
 
     h3 {
-      margin-bottom: 10px;
-      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.6rem;
+      font-weight: bold;
+      color: #ffeca0; /* Texte doré pour le titre des sections */
     }
 
     display: flex;
@@ -22,60 +30,74 @@
     justify-content: space-between;
   }
 
-  /* Champs de texte et de sélection */
-  .inputField,
-  .selectField {
-    width: 48%; /* Permet de placer deux champs côte à côte */
-    padding: 10px;
-    border: 1px solid #ebe3c1;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    z-index: 1;
-    position: relative;
-    &::before {
-      content: "";
-      z-index: 0;
-      position: absolute;
-      top: 0;
-      left: 0;
+  section {
+    width: 48%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    @media screen and (max-width: 800px) {
       width: 100%;
-      height: 100%;
-      background-color: rgba(0, 2, 7, 0.737);
-      border-radius: 8px;
     }
   }
 
+  /* Champs de texte et de sélection */
   .inputField,
-  .selectField,
-  .textArea {
-    @apply font-medium text-transparent bg-gradient-to-r from-[#ffe991] via-[#fffbeb] to-[#ffeca0] bg-clip-text font-raleway relative;
-    background-size: 200%; /* Pour l'effet de brillance */
-    animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
+  .selectField {
+    width: 90%; /* Champs placés côte à côte */
+    padding: 12px;
+    border: 1px solid #ebe3c1;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    background-color: rgba(0, 2, 7, 0.7); /* Fond légèrement sombre */
+    color: #ebe3c1; /* Couleur du texte */
+    font-size: 1rem;
+    transition: border 0.3s ease, box-shadow 0.3s ease;
+
+    &:focus {
+      border-color: #ffe991; /* Changement de bordure au focus */
+      box-shadow: 0 0 10px rgba(250, 237, 185, 0.897),
+        0 0 5px rgba(255, 238, 169, 0.8); /* Ombre dorée au focus */
+      outline: none;
+    }
+
     &::placeholder {
       color: #ebe3c1;
       font-weight: 300;
     }
   }
-  /* Champs qui nécessitent la largeur complète */
+
+  /* Champ qui occupe toute la largeur */
   .fullWidth {
-    width: 100%; /* Prend toute la largeur */
+    width: 100%;
   }
 
-  /* TextArea pour le commentaire */
+  /* Champ de commentaire */
   .textArea {
     width: 100%;
-    height: 100px;
-    padding: 10px;
+    height: 120px;
+    padding: 12px;
     border: 1px solid #ebe3c1;
     border-radius: 8px;
-    background-color: rgba(0, 2, 7, 0.737);
-    margin-bottom: 15px;
+    background-color: rgba(0, 2, 7, 0.7);
+    margin-bottom: 1.5rem;
+    color: #ebe3c1;
+    font-size: 1rem;
+    resize: vertical;
+
+    &:focus {
+      border-color: #ffe991;
+      box-shadow: 0 0 10px rgba(255, 233, 145, 0.8);
+      outline: none;
+    }
   }
+
+  /* Bouton de soumission */
 
   .artistSelectionContainer {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    justify-content: center;
   }
   .artistSelection {
     display: flex;

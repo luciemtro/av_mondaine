@@ -32,9 +32,6 @@ export const Footer = () => {
 
         <ul className="flex flex-col">
           <li>
-            <Link href="/about">À propos</Link>
-          </li>
-          <li>
             <Link href="/privacy-policy">Politique de confidentialité</Link>
           </li>
           <li>

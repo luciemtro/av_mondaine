@@ -4,11 +4,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&family=Sofia&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import "@/app/styles/homepage.module.scss";
-@import "@/app/styles/hero.module.scss";
-@import "@/app/styles/valeurs.module.scss";
-@import "@/app/styles/about.module.scss";
-@import "@/app/styles/temoignage.module.scss";
+@import "@/app/styles/(homepage)/header.module.scss";
+@import "@/app/styles/(homepage)/hero.module.scss";
+@import "@/app/styles/(homepage)/valeurs.module.scss";
+@import "@/app/styles/(homepage)/about.module.scss";
+@import "@/app/styles/(homepage)/temoignage.module.scss";
+@import "@/app/styles/(homepage)/services.module.scss";
 
 @tailwind base;
 @tailwind components;
@@ -21,7 +22,6 @@
 @import "./footer.module.scss";
 @import "./infoPages.module.scss";
 @import "./reservation.module.scss";
-@import "./services.module.scss";
 
 @layer utilities {
   .text-responsive {
@@ -47,6 +47,12 @@
   .golden-text,
   .golden-text-static {
     @apply font-semibold text-transparent bg-gradient-to-r from-[#ffe991] via-[#fffbeb] to-[#ffeca0] bg-clip-text font-raleway relative;
+    background-size: 200%; /* Pour l'effet de brillance */
+    animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
+  }
+
+  .reservez-link {
+    @apply font-semibold text-transparent bg-gradient-to-r from-[#ff8cdd] via-[#ffb3ff] to-[#ff66c4] bg-clip-text font-raleway relative;
     background-size: 200%; /* Pour l'effet de brillance */
     animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
   }
@@ -123,6 +129,11 @@
   border-image: linear-gradient(90deg, #ffeca0, #fff5cc, #ffeca0) 1;
   animation: goldenBorder 5s infinite;
 }
+.pink-border {
+  border: 3px solid;
+  border-image: linear-gradient(90deg, #ff66c4, #ffb3ff, #ff66c4) 1;
+  animation: pinkBorder 5s infinite;
+}
 
 h1,
 h2,
@@ -132,7 +143,8 @@ h5,
 h6,
 p,
 th,
-td {
+td,
+label {
   @apply golden-text-static;
 }
 

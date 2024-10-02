@@ -1,4 +1,4 @@
-@import "./animation.scss";
+@import "@/app/styles/animation.scss";
 
 .header-avenue-container {
   width: 100%;
@@ -52,4 +52,12 @@
     rgba(5, 0, 29, 0.648),
     rgba(9, 0, 54, 0.525)
   );
+}
+
+.slogan {
+  position: absolute;
+  top: 70%;
+  left: 50.4%;
+  transform: translateX(-50%);
+  z-index: 10;
 }

@@ -10,6 +10,18 @@
     border-image-source: linear-gradient(90deg, #ffefaf, #fff5cc, #ffefaf);
   }
 }
+
+@keyframes pinkBorder {
+  0% {
+    border-image-source: linear-gradient(90deg, #ff66c4, #ffb3ff, #ff66c4);
+  }
+  50% {
+    border-image-source: linear-gradient(90deg, #ffb3ff, #ff66c4, #ffb3ff);
+  }
+  100% {
+    border-image-source: linear-gradient(90deg, #ff66c4, #ffb3ff, #ff66c4);
+  }
+}
 /* Animation de pulsation */
 @keyframes pulsate {
   0% {
