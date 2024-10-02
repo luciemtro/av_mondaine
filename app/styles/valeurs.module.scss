@@ -1,0 +1,43 @@
+.valeurs-container {
+  text-align: center;
+  padding: 50px 20px;
+  background-color: #f5f5f5; /* Arrière-plan doux pour contraster avec les box */
+}
+
+.valeurs-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 40px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.box-valeurs {
+  background-color: #fff; /* Fond blanc pour chaque box */
+  padding: 30px;
+  margin: 20px 0;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre subtile pour effet luxueux */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.box-valeurs h3 {
+  font-size: 1.8rem;
+  color: #ff00ff; /* Accent couleur luxe */
+  margin-bottom: 15px;
+}
+
+.box-valeurs p {
+  font-size: 1.2rem;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Effet hover */
+.box-valeurs:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+}

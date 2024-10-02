@@ -5,6 +5,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Fira+Sans+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "@/app/styles/homepage.module.scss";
+@import "@/app/styles/hero.module.scss";
+@import "@/app/styles/valeurs.module.scss";
+@import "@/app/styles/about.module.scss";
+@import "@/app/styles/temoignage.module.scss";
 
 @tailwind base;
 @tailwind components;
@@ -17,6 +21,7 @@
 @import "./footer.module.scss";
 @import "./infoPages.module.scss";
 @import "./reservation.module.scss";
+@import "./services.module.scss";
 
 @layer utilities {
   .text-responsive {
@@ -53,32 +58,62 @@
 
   /* Bouton doré cohérent avec le texte */
   .golden-button {
-    @apply inline-block px-6 py-3 rounded-lg text-center font-semibold transition duration-300 ease-in-out font-raleway uppercase;
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    text-align: center;
+    font-weight: 600;
+    font-family: "Raleway", sans-serif;
+    text-transform: uppercase;
     background: linear-gradient(120deg, #ffe991, #fffbeb, #ffeca0);
     color: black;
     background-size: 200%;
     animation: textShimmer 5s ease-in-out infinite;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
-    transition: all 0s ease-in-out;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out,
+      box-shadow 0.3s ease-in-out;
 
-    /* Font size and padding for larger screens */
-    font-size: 1rem; /* Par défaut */
-    padding: 0.75rem 1.5rem;
+    /* Font size for larger screens */
+    font-size: 1rem;
+  }
 
-    /* Box shadow for larger screens */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.06);
+  /* Effet hover: Métallisé rose avec texte blanc */
+  .golden-button:hover {
+    background: linear-gradient(
+      120deg,
+      #ff8cdd,
+      #ffb3ff,
+      #ff66c4
+    ); /* Métallisé rose */
+    color: white; /* Texte blanc */
+    box-shadow: 0 6px 12px rgba(255, 105, 180, 0.4),
+      0 3px 6px rgba(255, 105, 180, 0.2);
+  }
 
-    /* Responsive adjustments */
-    @media screen and (max-width: 768px) {
-      font-size: 0.875rem; /* Taille de la police plus petite sur tablette */
-      padding: 0.6rem 1.2rem; /* Padding ajusté pour les petits écrans */
-      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05); /* Ombre plus légère */
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .golden-button {
+      font-size: 0.875rem;
+      padding: 0.6rem 1.2rem;
+      box-shadow: 0 3px 5px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.05);
     }
+  }
 
-    @media screen and (max-width: 480px) {
-      font-size: 0.75rem; /* Réduction supplémentaire de la taille du texte pour les très petits écrans */
-      padding: 0.5rem 1rem; /* Réduction du padding */
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04); /* Ombre encore plus légère */
+  @media screen and (max-width: 480px) {
+    .golden-button {
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+  }
+
+  /* Animation shimmer */
+  @keyframes textShimmer {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 200% 50%;
     }
   }
 }

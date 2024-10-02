@@ -1,9 +1,10 @@
+/* NAVBAR */
 .navbar {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 1rem 2rem;
-  background-color: #0303099b;
+  background-color: rgba(3, 3, 9, 0.7); /* Fond semi-transparent */
   position: fixed;
   width: 100%;
   top: 0;
@@ -11,22 +12,30 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: background-color 0.3s ease-in-out;
   text-transform: uppercase;
-  &.scrolled {
-    background-color: rgba(5, 0, 17, 0.9);
-  }
 }
+
+.navbar.scrolled {
+  background-color: rgba(5, 0, 17, 0.9); /* Fond plus opaque au défilement */
+}
+
+/* Utilisateur (compte) */
 .user-account {
   position: absolute;
-  right: 0;
-  top: -5px;
+  right: 20px;
+  top: 0;
   transition: 0.3s ease-in-out;
-  @media (max-width: 768px) {
+}
+
+@media (max-width: 1060px) {
+  .user-account {
     position: relative;
     display: flex;
     justify-content: center;
     margin-top: 1rem;
   }
 }
+
+/* HAMBURGER MENU */
 .hamburger {
   display: none;
   cursor: pointer;
@@ -34,46 +43,69 @@
   justify-content: center;
   align-items: center;
   gap: 0.3rem;
+  z-index: 1001;
+}
 
-  span {
-    width: 25px;
-    height: 3px;
-    background-color: black;
-    border-radius: 1px;
-    transition: transform 0.3s ease, background-color 0.3s ease;
-  }
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: currentColor; /* Utilisation de la couleur courante (évite de modifier tes couleurs de base) */
+  border-radius: 1px;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
 
-  &.hamburgerOpen span:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
+.hamburger.hamburgerOpen span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
 
-  &.hamburgerOpen span:nth-child(2) {
-    opacity: 0;
-  }
+.hamburger.hamburgerOpen span:nth-child(2) {
+  opacity: 0;
+}
 
-  &.hamburgerOpen span:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
-  @media (max-width: 768px) {
+.hamburger.hamburgerOpen span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+@media (max-width: 1060px) {
+  .hamburger {
     display: flex;
     position: absolute;
     right: 10px;
     top: 10px;
-    z-index: 1000;
   }
 }
 
+/* NAV MENU */
 .navMenu {
   width: 100%;
   display: flex;
   justify-content: center;
-  ul {
-    list-style: none;
-    display: flex;
-  }
+}
 
-  @media (max-width: 768px) {
-    display: none;
+.navMenu ul {
+  list-style: none;
+  display: flex;
+}
+
+.navMenu ul li {
+  padding: 0 1.5rem;
+}
+
+.navMenu ul li a {
+  text-decoration: none;
+  font-weight: 600;
+  position: relative;
+  transition: color 0.3s ease, opacity 0.3s ease; /* Effet fluide au survol */
+}
+
+.navMenu ul li a:hover {
+  opacity: 0.8; /* Effet d'opacité au hover */
+}
+
+/* Menu responsive */
+@media (max-width: 1060px) {
+  .navMenu {
+    display: flex;
     flex-direction: column;
     position: fixed;
     top: 0;
@@ -81,49 +113,56 @@
     width: 100%;
     background-color: rgba(3, 0, 11, 0.9);
     padding: 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
+    opacity: 0; /* Initialement transparent */
+    transform: translateY(-100%); /* Hors de la vue */
+    transition: transform 0.3s ease, opacity 0.3s ease; /* Transition fluide */
+    z-index: 1000;
+  }
 
-    &.open {
-      display: flex;
-    }
+  /* Quand le menu est ouvert */
+  .navMenu.open {
+    transform: translateY(0); /* Repositionner le menu */
+    opacity: 1; /* Le rendre visible */
+  }
 
-    ul {
-      flex-direction: column;
-      align-items: center;
-    }
+  .navMenu ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .navMenu ul li {
+    padding: 1rem 0;
   }
 }
 
+/* DROPDOWN */
 .dropdown {
   position: relative;
+}
 
-  .dropdownToggle {
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+.dropdownToggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 0.875rem;
+  transition: opacity 0.3s ease; /* Transition fluide sans changer les couleurs */
+}
 
-    font-size: 0.8rem;
+.dropdownToggle svg {
+  margin-left: 5px;
+  transition: transform 0.3s ease;
+}
 
-    svg {
-      transition: transform 0.3s ease;
-      color: white;
-    }
-  }
-
-  .dropdownMenu {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    background-color: #040015;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    z-index: 10;
-    border-left: 2px solid rgb(215, 210, 179);
-    border-bottom: 2px solid rgb(215, 210, 179);
-  }
+.dropdownMenu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #040015;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  z-index: 10;
 }

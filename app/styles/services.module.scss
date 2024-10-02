@@ -1,0 +1,38 @@
+.services-container {
+  text-align: center;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.carousel {
+  position: relative;
+  height: 300px; /* Ajuste la hauteur en fonction de tes besoins */
+}
+
+.service {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transition: opacity 1s ease-in-out; /* Transition d'opacité sur 1 seconde */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.service.active {
+  opacity: 1;
+  z-index: 1; /* Place la diapositive active au-dessus des autres */
+}
+
+.service h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.service p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}

@@ -1,0 +1,55 @@
+.about-container {
+  padding: 60px 20px;
+  background-color: #fafafa; /* Couleur douce pour un look élégant */
+  text-align: center;
+}
+
+.about-container h2 {
+  font-size: 2.5rem;
+  margin-bottom: 50px;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.about-contenu {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Deux colonnes pour un look structuré */
+  gap: 40px;
+  justify-items: center;
+  max-width: 1200px;
+  margin: 0 auto; /* Centrage de la grille */
+}
+
+.section {
+  background-color: #fff; /* Box blanche pour contraste */
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  max-width: 500px;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15); /* Effet au survol */
+}
+
+.section h3 {
+  font-size: 1.8rem;
+  color: #ff00ff; /* Accent couleur luxe */
+  margin-bottom: 20px;
+}
+
+.section p {
+  font-size: 1.2rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* Responsive pour les petits écrans */
+@media (max-width: 768px) {
+  .about-contenu {
+    grid-template-columns: 1fr; /* Une colonne pour mobile */
+  }
+}

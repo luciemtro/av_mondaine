@@ -1,0 +1,26 @@
+/* Styles pour le Hero */
+.hero-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 80vh; /* Prend 80% de la hauteur de l'écran */
+  background-image: url("/path-to-your-image.jpg"); /* Chemin vers ton image d'arrière-plan */
+  background-size: cover;
+  background-position: center;
+  color: white;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.hero-container h2 {
+  font-size: 3rem; /* Taille du titre principal */
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Légère ombre pour plus de contraste */
+}
+
+.hero-container h3 {
+  font-size: 1.5rem; /* Taille du sous-titre */
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+}
