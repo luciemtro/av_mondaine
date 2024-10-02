@@ -1,0 +1,63 @@
+@import "./animation.scss";
+
+.header-avenue-container {
+  width: 100%;
+  height: auto;
+}
+
+.header-avenue-image {
+  width: 100%;
+  height: auto;
+  display: block; /* Pour s'assurer que l'image prend toute la largeur du conteneur */
+  filter: contrast(1.5) brightness(0.5);
+}
+
+.logo-image {
+  cursor: pointer;
+  width: 320px;
+  height: 320px;
+  position: absolute;
+  top: 42.7%;
+  left: 50.4%;
+  transform: translate(-50%, -50%);
+  padding: 40px;
+  border-radius: 50%;
+  border: rgba(253, 243, 218, 0.74) 3px solid;
+  box-shadow: 0 0 5px rgb(240, 222, 177);
+  animation: pulsate 5s infinite; /* Ajout de l'animation de pulsation */
+}
+
+.gif-logo-container {
+  position: absolute;
+  top: 43.3%;
+  left: 50.4%;
+  transform: translate(-50%, -50%);
+  width: 330px;
+  height: 330px;
+  border-radius: 50%;
+  background-image: url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmkxcG50eGxzZjF2MmptaXM0YjV1eXZ3MnpzdGZ1MWppb2cwc3I5ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l4FGE5EZOqikBWaqc/giphy.webp");
+  background-size: cover;
+  opacity: 0.2;
+}
+
+.linear-gradiant-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 7, 0.921) 4%,
+    rgba(5, 0, 29, 0.648),
+    rgba(9, 0, 54, 0.525)
+  );
+}
+
+.slogan {
+  position: absolute;
+  top: 70%;
+  left: 50.4%;
+  transform: translateX(-50%);
+  z-index: 10;
+}
