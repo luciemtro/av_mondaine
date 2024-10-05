@@ -36,13 +36,17 @@ export default function CatalogArtist() {
 
   return (
     <section className="text-center catalog-artist-container pb-16">
-      <h1 className="uppercase font-semibold p-5 pt-28">
+      <h1 className="uppercase font-semibold pt-28">
         Catalogue de nos artistes
       </h1>
+      <div className="Tapotte">
+        <span className="tap-icon" />
+      </div>
+
       {artists.length === 0 ? (
         <p>Chargement des artistes...</p> // Message de chargement
       ) : (
-        <ul className="flex flex-wrap gap-5 justify-center">
+        <ul className="flex flex-wrap gap-5 mt-28 justify-center">
           {artists.map((artist: Artist) => (
             <li className={styles.artistCard} key={artist.id}>
               {/* Le bouton Link positionné au-dessus du h2 */}

@@ -8,8 +8,8 @@ export default function Hero() {
         Striptease à domicile et spectacles réservés aux femmes, pour des
         moments inoubliables
       </h3>
-      <Link href="/reservation">
-        <button className="hero-button">Découvrez nos services</button>
+      <Link href="/catalogArtist">
+        <button className="hero-button">Découvrez nos artistes</button>
       </Link>
     </div>
   );

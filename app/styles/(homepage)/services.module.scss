@@ -1,38 +1,190 @@
 .services-container {
-  text-align: center;
-  margin: 0 auto;
-  padding: 20px;
-}
-
-.carousel {
   position: relative;
-  height: 300px; /* Ajuste la hauteur en fonction de tes besoins */
-}
-
-.service {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  opacity: 0;
-  transition: opacity 1s ease-in-out; /* Transition d'opacité sur 1 seconde */
+  margin: 0 auto;
+  height: 100vh;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1; /* Place l'image derrière tout */
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  filter: brightness(1) contrast(1.3);
+}
+
+.service.active .background-image {
+  opacity: 1;
+}
+
+.carousel {
+  position: relative;
+  z-index: 2; /* Assure que le texte et les éléments interactifs sont au-dessus du dégradé */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+.service {
+  opacity: 0;
+  padding: 30px;
+  transition: opacity 1s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.service::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: radial-gradient(
+    circle,
+    rgba(1, 1, 120, 0.375),
+    rgb(0, 0, 0)
+  );
+  z-index: 1; /* Assure que le dégradé est derrière le texte */
+}
+
 .service.active {
   opacity: 1;
-  z-index: 1; /* Place la diapositive active au-dessus des autres */
 }
 
 .service h3 {
-  font-size: 2rem;
+  font-size: 3.5vw; /* Ajustement dynamique de la taille */
   margin-bottom: 10px;
 }
 
 .service p {
-  font-size: 1.2rem;
+  font-size: 1.5vw; /* Ajustement dynamique de la taille */
   margin-bottom: 20px;
+}
+
+.service-text {
+  padding: 20px;
+  position: absolute;
+  max-width: 30%;
+  right: 0;
+  top: 0;
+  text-align: end;
+  z-index: 4; /* Assure que le texte est au-dessus du dégradé */
+}
+/* Pagination */
+.pagination {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 4;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ddd;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dot.active {
+  background-image: linear-gradient(to right, #f881ea, #f827bc);
+}
+
+/* Responsive : écrans moyens (tablettes) */
+@media (max-width: 1024px) {
+  .services-container {
+    height: 80vh;
+  }
+  .service h3 {
+    font-size: 3.5vw;
+  }
+
+  .service p {
+    font-size: 1.6vw;
+  }
+
+  .service-text {
+    max-width: 35%;
+  }
+}
+
+/* Responsive : petits écrans (mobiles) */
+@media (max-width: 768px) {
+  .services-container {
+    height: 70vh;
+  }
+  .service::after {
+    background-image: radial-gradient(
+      circle,
+      rgba(1, 1, 39, 0.66),
+      rgba(0, 0, 0, 0.949) /* Plus opaque */
+    );
+  }
+  .service h3 {
+    font-size: 5vw;
+  }
+
+  .service p {
+    font-size: 2.5vw;
+  }
+
+  .service-text {
+    max-width: 90%;
+    text-align: center;
+    padding: 10px;
+    position: static; /* Rend le texte fluide pour mobile */
+    margin: 0 auto;
+  }
+
+  /* Ajout du z-index pour garantir que le texte et le bouton restent au-dessus du dégradé sur petits écrans */
+  .service::after {
+    z-index: 0; /* Le dégradé reste derrière le texte et le bouton */
+  }
+
+  .service-text,
+  button {
+    z-index: 3; /* Le texte et le bouton passent au-dessus du dégradé */
+    position: relative; /* Pour garantir que le z-index fonctionne */
+  }
+}
+
+/* Responsive : très petits écrans (petits téléphones) */
+@media (max-width: 480px) {
+  .services-container {
+    height: 60vh;
+  }
+  .service h3 {
+    font-size: 6vw;
+  }
+
+  .service p {
+    font-size: 3vw;
+  }
+
+  .service-text,
+  button {
+    z-index: 3; /* Le texte et le bouton passent au-dessus du dégradé */
+    position: relative; /* Pour garantir que le z-index fonctionne */
+  }
 }

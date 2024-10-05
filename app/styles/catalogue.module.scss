@@ -8,6 +8,50 @@
   background-size: cover;
   min-height: 100vh;
 }
+.Tapotte {
+  position: relative; /* Nécessaire pour positionner l'icône à l'intérieur */
+  margin-top: 20px; /* Optionnel, pour espacer du contenu */
+  opacity: 0;
+}
+
+/* Style de l'icône de doigt */
+.tap-icon {
+  border-radius: 20px;
+  width: 50px; /* Ajuste la taille selon besoin */
+  height: 50px; /* Ajuste la taille selon besoin */
+  background-image: url("https://i.ibb.co/pJ0zSFr/199574100-tapoter-avec-le-doigt-illustration-de-l-ic-ne-de-lueur-n-on-de-l-cran-du-smartphone.jpg"); /* Remplacez par l'URL de l'icône de doigt */
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute; /* Positionné par rapport à .Tapotte */
+  bottom: -60px; /* Positionné en bas */
+  left: 50%;
+  transform: translateX(-50%); /* Centré horizontalement */
+  animation: pulse 1.5s infinite; /* Animation de pulsation */
+}
+
+/* Animation de pulsation */
+@keyframes pulse {
+  0% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2); /* Augmente la taille */
+    opacity: 0.7; /* Réduit l'opacité */
+  }
+  100% {
+    transform: translateX(-50%) scale(1); /* Retourne à la taille normale */
+    opacity: 1; /* Réinitialise l'opacité */
+  }
+}
+
+/* Rendre l'icône visible uniquement sur les petits écrans */
+@media (max-width: 768px) {
+  .Tapotte {
+    opacity: 1; /* Affiche le conteneur sur les petits écrans */
+    z-index: 10; /* Place le conteneur au-dessus du contenu */
+  }
+}
 
 .artistCard {
   cursor: pointer;
@@ -56,10 +100,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(black, transparent),
-    url("https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExZ2EwNmRnd3M5bTNqZThuaWpvdW15YjM3eHdjbTBraHA4MmcxZTMwcCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/3oKIPzi5mrjsEj7Ow0/giphy.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background-image: linear-gradient(black, transparent);
   z-index: 0; /* Place le ::before derrière le contenu de la carte */
 }
 

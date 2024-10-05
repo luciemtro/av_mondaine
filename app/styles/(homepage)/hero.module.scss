@@ -5,22 +5,51 @@
   align-items: center;
   justify-content: center;
   height: 80vh; /* Prend 80% de la hauteur de l'écran */
-  background-image: url("/path-to-your-image.jpg"); /* Chemin vers ton image d'arrière-plan */
+  background-image: radial-gradient(
+    circle,
+    rgba(5, 0, 29, 0.699),
+    rgb(0, 0, 6)
+  );
   background-size: cover;
-  background-position: center;
-  color: white;
+  background-position: top;
   text-align: center;
   padding: 0 20px;
+  filter: contrast(1.1) brightness(1.2);
 }
 
 .hero-container h2 {
-  font-size: 3rem; /* Taille du titre principal */
+  font-size: 3.5vw; /* Taille dynamique basée sur la largeur de l'écran */
   margin-bottom: 20px;
   text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.6); /* Légère ombre pour plus de contraste */
 }
 
 .hero-container h3 {
-  font-size: 1.5rem; /* Taille du sous-titre */
+  font-size: 2vw; /* Taille dynamique basée sur la largeur de l'écran */
   margin-bottom: 40px;
   text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.6);
+}
+
+/* Responsive : écrans petits (mobiles) */
+@media (max-width: 768px) {
+  .hero-container h2 {
+    font-size: 5vw; /* Ajuste la taille pour les petits écrans */
+  }
+
+  .hero-container h3 {
+    font-size: 3vw; /* Ajuste la taille pour les petits écrans */
+  }
+}
+
+/* Responsive : très petits écrans (petits téléphones) */
+@media (max-width: 480px) {
+  .hero-container h2 {
+    font-size: 7vw; /* Ajuste encore plus pour les très petits écrans */
+  }
+  .hero-container {
+    padding: 0 30px;
+  }
+
+  .hero-container h3 {
+    font-size: 4vw; /* Ajuste encore plus pour les très petits écrans */
+  }
 }
