@@ -42,25 +42,32 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="mt-28">
-      <h2>Login</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleLogin}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <button type="submit">Login</button>
-      </form>
-      <Link href="/auth/reset-password/request">Mot de passe oublié ?</Link>
+    <div className="pt-28 accountContainer">
+      <div className="containerFormAccount p-8 pink-border w-full max-w-md">
+        <h2 className="text-center uppercase pink-link ">Connexion</h2>
+        {error && <p style={{ color: "red" }}>{error}</p>}
+        <form onSubmit={handleLogin} className="flex flex-col gap-4 mt-5 mb-5">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            className="w-full px-4 py-2"
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Mot de passe"
+            value={password}
+            className="w-full px-4 py-2"
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <button type="submit">Se connecter</button>
+        </form>
+        <div className="flex flex-col gap-2 text-center ">
+          <Link href="/auth/register">Créer un Compte</Link>
+          <Link href="/auth/reset-password/request">Mot de passe oublié ?</Link>
+        </div>
+      </div>
     </div>
   );
 };

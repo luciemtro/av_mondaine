@@ -3,7 +3,7 @@ export default function Valeurs() {
     <div className="valeurs-container">
       <h2>Nos Valeurs et Engagements</h2>
 
-      <div className="box-valeurs">
+      <div className="box-valeurs pink-border">
         <h3>Qualité</h3>
         <p>
           Des performances d'exception pour une expérience mémorable. Nous nous
@@ -12,8 +12,8 @@ export default function Valeurs() {
         </p>
       </div>
 
-      <div className="box-valeurs">
-        <h3>Satisfaction garantie</h3>
+      <div className="box-valeurs pink-border">
+        <h3 className="pink-text">Satisfaction garantie</h3>
         <p>
           Si un problème survient avec l'artiste choisi, nous fournirons un
           remplaçant ou vous rembourserons intégralement. Votre satisfaction est
@@ -21,7 +21,7 @@ export default function Valeurs() {
         </p>
       </div>
 
-      <div className="box-valeurs">
+      <div className="box-valeurs pink-border">
         <h3>Personnalisation</h3>
         <p>
           Chaque événement est unique, c'est pourquoi nous proposons une

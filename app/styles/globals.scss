@@ -10,6 +10,7 @@
 @import "@/app/styles/(homepage)/about.module.scss";
 @import "@/app/styles/(homepage)/temoignage.module.scss";
 @import "@/app/styles/(homepage)/services.module.scss";
+@import "@/app/styles/(account)/account.module.scss";
 
 @tailwind base;
 @tailwind components;
@@ -31,16 +32,15 @@
       1rem
     ); /* Ajuster les valeurs selon vos besoins */
   }
-
   @keyframes textShimmer {
     0% {
-      background-position: left;
+      background-position: -200% 0%; /* Commence à l'extérieur à gauche */
     }
     50% {
-      background-position: right;
+      background-position: 200% 0%; /* Déplace vers l'extérieur à droite */
     }
     100% {
-      background-position: left;
+      background-position: -200% 0%; /* Retourne à l'extérieur à gauche */
     }
   }
 
@@ -51,8 +51,8 @@
     animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
   }
 
-  .reservez-link {
-    @apply font-semibold text-transparent bg-gradient-to-r from-[#ff8cdd] via-[#ffb3ff] to-[#ff66c4] bg-clip-text font-raleway relative;
+  .pink-link {
+    @apply font-normal text-transparent bg-gradient-to-r from-[#ffb3ff] via-[#ff66c4]  to-[#ffb3ff] bg-clip-text font-raleway relative;
     background-size: 200%; /* Pour l'effet de brillance */
     animation: textShimmer 5s ease-in-out infinite; /* Applique l'animation continue */
   }

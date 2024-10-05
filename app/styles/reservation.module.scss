@@ -1,16 +1,8 @@
 .formContainer {
-  background-image: linear-gradient(
-      125deg,
-      rgba(1, 0, 7, 0.971),
-      rgba(3, 0, 33, 0.626),
-      rgba(1, 0, 7, 0.971)
-    ),
-    url("https://i.ibb.co/7vvNM9P/7b5cca28-969c-47a5-8852-fab69c6abc36.webp");
+  background-image: radial-gradient(circle, rgb(16, 16, 34), black);
   background-size: cover;
   background-position: center;
   padding: 5rem 2rem; /* Padding ajusté pour plus d'espace */
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 
   /* Mise en forme des sections */
   .formSection {

@@ -36,18 +36,18 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+    <div className="accountContainer">
+      <div className="w-full max-w-md p-8 containerFormAccount pink-border">
+        <h2 className="text-2xl pink-link mb-6 text-center">Inscription</h2>
 
         {message && <p className="mb-4 text-center text-red-500">{message}</p>}
 
         <form onSubmit={handleRegister}>
-          <div className="mb-4">
-            <label className="block text-gray-700">Email</label>
+          <div className="mb-4 ">
+            <label className="block pink-link">Email</label>
             <input
               type="email"
-              className="w-full px-4 py-2 border rounded-md"
+              className="w-full px-4 py-2"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -55,10 +55,10 @@ const RegisterPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Password</label>
+            <label className="block pink-link">Mot de passe</label>
             <input
               type="password"
-              className="w-full px-4 py-2 border rounded-md"
+              className="w-full px-4 py-2"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -66,9 +66,9 @@ const RegisterPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-700">Role (optional)</label>
+            <label className="block pink-link">Role (optional)</label>
             <select
-              className="w-full px-4 py-2 border rounded-md"
+              className="w-full px-4 py-2"
               value={role}
               onChange={(e) => setRole(e.target.value)}
             >
@@ -78,11 +78,8 @@ const RegisterPage = () => {
           </div>
 
           <div className="mb-6">
-            <button
-              type="submit"
-              className="w-full bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-            >
-              Register
+            <button type="submit" className="w-full ">
+              S'inscrire
             </button>
           </div>
         </form>

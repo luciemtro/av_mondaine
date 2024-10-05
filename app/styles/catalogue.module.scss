@@ -1,8 +1,8 @@
 .catalog-artist-container {
-  background-image: linear-gradient(
-      to bottom,
-      rgba(1, 0, 7, 0.847),
-      rgba(0, 0, 40, 0.484)
+  background-image: radial-gradient(
+      circle,
+      rgba(0, 0, 40, 0.484),
+      rgba(1, 0, 7, 0.989) 70%
     ),
     url("https://i.ibb.co/b1SqYN9/DALL-E-2024-09-27-15-32-24-A-very-dark-background-featuring-subtle-neon-accents-and-sleek-minimalist.webp");
   background-size: cover;

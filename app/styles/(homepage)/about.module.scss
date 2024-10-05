@@ -1,13 +1,19 @@
 .about-container {
   padding: 60px 20px;
-  background-color: #fafafa; /* Couleur douce pour un look élégant */
+  background-image: radial-gradient(
+      circle,
+      rgba(5, 1, 41, 0.666),
+      rgba(5, 0, 11, 0.944) 80%
+    ),
+    url("https://i.ibb.co/Z6Jqc6C/6b5adf55-d876-4511-ae44-ce32398200bf.webp");
+  filter: contrast(1.04);
+  background-size: cover;
   text-align: center;
 }
 
 .about-container h2 {
   font-size: 2.5rem;
   margin-bottom: 50px;
-  color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -22,10 +28,13 @@
 }
 
 .section {
-  background-color: #fff; /* Box blanche pour contraste */
   padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre légère */
+  background-image: radial-gradient(
+    circle,
+    rgba(18, 2, 44, 0.767),
+    rgba(0, 0, 0, 0.695)
+  );
+  box-shadow: 0 0 4px magenta;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 500px;
 }
@@ -37,13 +46,13 @@
 
 .section h3 {
   font-size: 1.8rem;
-  color: #ff00ff; /* Accent couleur luxe */
+  text-transform: uppercase;
   margin-bottom: 20px;
 }
 
 .section p {
   font-size: 1.2rem;
-  color: #555;
+
   line-height: 1.6;
 }
 

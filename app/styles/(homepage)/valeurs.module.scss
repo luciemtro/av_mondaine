@@ -1,23 +1,31 @@
 .valeurs-container {
   text-align: center;
   padding: 50px 20px;
-  background-color: #f5f5f5; /* Arrière-plan doux pour contraster avec les box */
+  background-image: radial-gradient(
+      circle,
+      rgba(24, 11, 45, 0.522),
+      rgba(5, 0, 11, 0.97) 70%
+    ),
+    url("https://i.ibb.co/RTv70Xx/61e9fec5-17a9-4d61-8ed2-9c6d2277a901.webp");
+  filter: contrast(1.04) brightness(1.2);
 }
 
 .valeurs-container h2 {
   font-size: 2.5rem;
   margin-bottom: 40px;
-  color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .box-valeurs {
-  background-color: #fff; /* Fond blanc pour chaque box */
+  background-image: radial-gradient(
+    circle,
+    rgba(13, 1, 32, 0.775),
+    rgba(0, 0, 0, 0.695)
+  );
+  box-shadow: 0 0 4px magenta;
   padding: 30px;
   margin: 20px 0;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre subtile pour effet luxueux */
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   max-width: 800px;
   margin-left: auto;
@@ -26,13 +34,12 @@
 
 .box-valeurs h3 {
   font-size: 1.8rem;
-  color: #ff00ff; /* Accent couleur luxe */
   margin-bottom: 15px;
+  text-transform: uppercase;
 }
 
 .box-valeurs p {
   font-size: 1.2rem;
-  color: #666;
   line-height: 1.6;
 }
 

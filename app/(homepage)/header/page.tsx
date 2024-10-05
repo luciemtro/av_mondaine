@@ -6,7 +6,7 @@ export default function Header() {
         alt="header"
         className="header-avenue-image"
       />
-      <h1 className="slogan">
+      <h1 className="slogan uppercase italic">
         Des performances d'exception pour une expérience mémorable.
       </h1>
       <div className="linear-gradiant-header"></div>

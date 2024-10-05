@@ -7,11 +7,10 @@
   min-height: 100vh;
   background-size: cover;
   background-position: center;
-  background-image: linear-gradient(
-      to bottom,
-      rgba(0, 0, 7, 0.796),
-      rgba(3, 0, 16, 0.641),
-      rgba(9, 0, 54, 0.404)
+  background-image: radial-gradient(
+      circle,
+      rgba(9, 0, 54, 0.404),
+      rgba(0, 0, 7, 0.949) 90%
     ),
     url("https://i.ibb.co/2Ws8wsy/3d34532d-ee7f-4709-afe5-92c40af1724c.webp");
   filter: contrast(110%) brightness(120%);

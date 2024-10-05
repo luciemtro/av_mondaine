@@ -1,0 +1,35 @@
+.accountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-image: radial-gradient(
+      circle,
+      rgba(9, 0, 54, 0.404),
+      rgba(0, 0, 7, 0.949) 90%
+    ),
+    url("https://i.ibb.co/2Ws8wsy/3d34532d-ee7f-4709-afe5-92c40af1724c.webp");
+  filter: contrast(110%) brightness(120%);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("https://i.gifer.com/1pX9.gif");
+    opacity: 0.1;
+    pointer-events: none;
+  }
+}
+
+.containerFormAccount {
+  background-image: radial-gradient(
+    circle,
+    rgba(18, 2, 44, 0.767),
+    rgba(0, 0, 0, 0.695)
+  );
+}

@@ -25,7 +25,7 @@ export default function Services() {
   useEffect(() => {
     const interval = setInterval(() => {
       setActiveIndex((prevIndex) => (prevIndex + 1) % services.length);
-    }, 10000); // Change de service toutes les 10 secondes
+    }, 7000); // Change de service toutes les 10 secondes
 
     return () => clearInterval(interval); // Nettoie l'intervalle à la fin
   }, [services.length]);

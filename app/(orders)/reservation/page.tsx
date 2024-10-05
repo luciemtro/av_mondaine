@@ -114,7 +114,9 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.formContainer}>
-      <h3 className="text-center pb-6">Informations personnelles</h3>
+      <h3 className="text-center pb-6 uppercase pink-link">
+        Informations personnelles
+      </h3>
       <div className={styles.formSection}>
         <section>
           <label htmlFor="firstName">Prénom*</label>
@@ -160,7 +162,9 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         </section>
       </div>
 
-      <h3 className="text-center pb-6">Informations de l'événement</h3>
+      <h3 className="text-center pb-6 uppercase pink-link">
+        Informations de l'événement
+      </h3>
       <div className={styles.formSection}>
         <section>
           <label htmlFor="eventAddress">Adresse de l'événement*</label>
@@ -299,7 +303,9 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         </section>
       </div>
 
-      <h3 className="text-center pb-6">Sélectionnez les artistes*</h3>
+      <h3 className="text-center pb-6 uppercase pink-link">
+        Sélectionnez les artistes*
+      </h3>
       <div className={styles.artistSelectionContainer}>
         {artists.map((artist) => (
           <div key={artist.id} className={styles.artistSelection}>
@@ -335,7 +341,9 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
         </section>
       </div>
 
-      <h3 className="text-center">Frais totaux : {totalFee} €</h3>
+      <h3 className="text-center uppercase p-4 pink-link">
+        Frais totaux : {totalFee} €
+      </h3>
       <div className="flex justify-center">
         {" "}
         <button type="submit" className={styles.submitButton}>

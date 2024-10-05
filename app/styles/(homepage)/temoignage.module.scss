@@ -1,21 +1,23 @@
 .temoignages-container {
   text-align: center;
   padding: 60px 20px;
-  background-color: #f9f9f9;
+  background-image: radial-gradient(
+    circle,
+    rgba(9, 6, 26, 0.699),
+    rgb(0, 0, 6)
+  );
 }
 
 .temoignages-container h2 {
   font-size: 2.5rem;
   margin-bottom: 40px;
-  color: #333;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
 
 .temoignage-card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background-image: radial-gradient(circle, rgba(10, 0, 25, 0.867), black);
+  box-shadow: 0 0 4px magenta;
   max-width: 800px;
   margin: 0 auto;
   display: flex;
@@ -30,13 +32,11 @@
 
 .image-container {
   width: 40%;
-  border-radius: 10px 0 0 10px;
 }
 
 .image-container img {
   width: 100%;
   height: auto;
-  border-radius: 10px 0 0 10px;
 }
 
 .card-content {
@@ -47,5 +47,4 @@
 .card-content p {
   font-size: 1.2rem;
   margin-bottom: 20px;
-  color: #555;
 }

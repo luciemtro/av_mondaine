@@ -5,7 +5,7 @@ export default function Temoignages() {
     <div className="temoignages-container">
       <h2>Ce que disent nos clients</h2>
 
-      <div className="temoignage-card">
+      <div className="temoignage-card pink-border">
         <div className="image-container">
           {/* Placeholder pour l'image de l'Instagram Story */}
           <img

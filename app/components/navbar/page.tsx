@@ -42,7 +42,7 @@ export const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link href="/reservation" className="reservez-link">
+            <Link href="/reservation" className="pink-link">
               Réservation
             </Link>
           </li>
