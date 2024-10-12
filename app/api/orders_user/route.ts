@@ -45,7 +45,8 @@ export async function GET() {
         o.comment, 
         o.total_fee, 
         o.created_at,
-        GROUP_CONCAT(a.pseudo) AS artists
+        GROUP_CONCAT(a.pseudo) AS artists,
+          GROUP_CONCAT(a.picture_one) AS artist_pictures
       FROM orders o
       LEFT JOIN order_artists oa ON o.id = oa.order_id
       LEFT JOIN artists a ON oa.artist_id = a.id

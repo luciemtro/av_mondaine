@@ -1,18 +1,14 @@
-table {
-  width: 100%;
-  border-collapse: collapse;
+.order-card,
+.container_order_user {
+  background-image: radial-gradient(circle, rgba(10, 0, 25, 0.867), black);
 }
 
-th,
-td {
-  padding: 1rem;
-  text-align: left;
-}
-
-th {
-  background-color: #333;
-}
-
-.order-table {
-  overflow-x: auto;
+.artist-info {
+  background-image: radial-gradient(circle, rgba(10, 0, 25, 0.867), black);
+  padding: 20px;
+  width: 150px;
+  img {
+    width: 100%;
+    height: auto;
+  }
 }

@@ -6,6 +6,10 @@ import "./styles/animation.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
 import { Navbar } from "@/app/components/navbar/page";
 import { Footer } from "@/app/components/footer/page";
+// _app.tsx ou _app.js
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+config.autoAddCss = false; // Evite l'injection multiple des styles
 
 export const metadata: Metadata = {
   title: "Avenue Mondaine",

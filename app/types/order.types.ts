@@ -18,4 +18,6 @@ export type Order = {
   service_type: string;
   budget: number;
   comment: string;
+  artist: string; // Chaîne de noms d'artistes concaténée
+  artist_pictures: string; // Chaîne d'URLs des photos concaténées
 };

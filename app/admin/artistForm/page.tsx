@@ -2,14 +2,15 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Artist } from "@/app/types/artist.types"; // Importation du type
+import { Artist } from "@/app/types/artist.types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faUpload } from "@fortawesome/free-solid-svg-icons";
 
 export default function ArtistCatalog() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  // Spécifie que le state 'artists' est un tableau d'objets de type 'Artist'
+
   const [artists, setArtists] = useState<Artist[]>([]);
-  // 'editingArtist' peut être un objet de type 'Artist' ou 'null'
   const [isEditing, setIsEditing] = useState(false);
   const [editingArtist, setEditingArtist] = useState<Artist | null>(null);
   const [formData, setFormData] = useState({
@@ -26,28 +27,34 @@ export default function ArtistCatalog() {
     avatar1: "",
     avatar2: "",
   });
+
+  // Effect for redirecting if not authenticated or not admin
   useEffect(() => {
     if (status === "unauthenticated") {
-      router.push("/auth/login"); // Rediriger vers la page de login si non authentifié
+      router.push("/auth/login");
     }
   }, [status, router]);
+
+  // Effect for fetching artists
+  useEffect(() => {
+    async function fetchArtists() {
+      if (status === "authenticated" && session?.user?.role === "admin") {
+        const response = await fetch("/api/artists");
+        const data = await response.json();
+        setArtists(data.artists);
+      }
+    }
+    fetchArtists();
+  }, [status, session]);
+
   if (status === "loading") {
     return <p>Loading...</p>;
   }
 
   if (session?.user?.role !== "admin") {
-    router.push("auth/login"); // Si l'utilisateur n'est pas un admin, redirige
+    router.push("/auth/login");
     return null;
   }
-  useEffect(() => {
-    // Récupérer la liste des artistes
-    async function fetchArtists() {
-      const response = await fetch("/api/artists");
-      const data = await response.json();
-      setArtists(data.artists);
-    }
-    fetchArtists();
-  }, []);
 
   const handleDelete = async (id: number) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet artiste ?")) {
@@ -70,7 +77,7 @@ export default function ArtistCatalog() {
 
   const handleAddNew = () => {
     setIsEditing(true);
-    setEditingArtist(null); // Réinitialiser le formulaire pour un nouvel ajout
+    setEditingArtist(null);
     setFormData({
       pseudo: "",
       weight: "",
@@ -91,8 +98,8 @@ export default function ArtistCatalog() {
     e.preventDefault();
     const method = editingArtist ? "PUT" : "POST";
     const url = editingArtist
-      ? `/api/artists?id=${editingArtist.id}` // Utilisation de l'id dans le PUT
-      : "/api/artists"; // POST pour un nouvel artiste
+      ? `/api/artists?id=${editingArtist.id}`
+      : "/api/artists";
 
     await fetch(url, {
       method,
@@ -100,83 +107,136 @@ export default function ArtistCatalog() {
       body: JSON.stringify(formData),
     });
 
-    // Recharger la liste des artistes après modification ou ajout
     const response = await fetch("/api/artists");
     const data = await response.json();
     setArtists(data.artists);
 
-    // Fermer le formulaire
     setIsEditing(false);
     setEditingArtist(null);
   };
 
   return (
-    <div className="mt-28">
-      <h1>Catalogue des artistes</h1>
+    <div className="pt-28 bg-black">
+      <h1 className="text-3xl text-center">Catalogue des artistes</h1>
 
-      <button onClick={handleAddNew}>Ajouter un nouvel artiste</button>
-
-      {/* Liste des artistes */}
-      <div>
+      <div className="flex flex-wrap justify-center gap-5">
         {artists.map((artist) => (
-          <div key={artist.id}>
-            <p>
-              {artist.pseudo} ({artist.city}, {artist.country}) - {artist.title}
-            </p>
-            {artist.picture_one && (
-              <img
-                src={artist.picture_one}
-                alt={`${artist.pseudo} - ${artist.title}`}
-                style={{ width: "200px", height: "auto" }} // Tu peux ajuster la taille ici
-              />
-            )}
-            <button onClick={() => handleEdit(artist)}>Modifier</button>
-            <button onClick={() => handleDelete(artist.id)}>Supprimer</button>
+          <div key={artist.id} className="artistForm_card golden-border p-5">
+            <strong>Images: </strong>
+            <div className="artist-pictures flex flex-wrap gap-10">
+              <div>
+                {" "}
+                <strong>Photo 1</strong>
+                {artist.picture_one && (
+                  <img
+                    src={artist.picture_one}
+                    alt={`${artist.pseudo} - ${artist.title} - Image 1`}
+                    style={{ width: "200px", height: "auto" }}
+                  />
+                )}
+              </div>
+
+              <div>
+                {" "}
+                <strong>Photo 2</strong>
+                {artist.picture_two && (
+                  <img
+                    src={artist.picture_two}
+                    alt={`${artist.pseudo} - ${artist.title} - Image 2`}
+                    style={{ width: "200px", height: "auto" }}
+                  />
+                )}
+              </div>
+
+              <div>
+                {" "}
+                <strong>Photo 3</strong>
+                {artist.picture_three && (
+                  <img
+                    src={artist.picture_three}
+                    alt={`${artist.pseudo} - ${artist.title} - Image 3`}
+                    style={{ width: "200px", height: "auto" }}
+                  />
+                )}
+              </div>
+            </div>
+            <strong>Avatars :</strong>
+            <div className="flex py-5 gap-5">
+              <div>
+                <strong>Avatar 1</strong>
+                {artist.avatar1 && (
+                  <img
+                    src={artist.avatar1}
+                    alt={`${artist.pseudo} - ${artist.title} - Avatar 1`}
+                    style={{ width: "150px", height: "auto" }}
+                  />
+                )}
+              </div>
+              <div>
+                <strong>Avatar 2</strong>
+                {artist.avatar2 && (
+                  <img
+                    src={artist.avatar2}
+                    alt={`${artist.pseudo} - ${artist.title} - Avatar 2`}
+                    style={{ width: "150px", height: "auto" }}
+                  />
+                )}
+              </div>
+            </div>
+            <div className="artist-details flex flex-col gap-5">
+              <p>
+                <strong>Pseudo :</strong> {artist.pseudo}
+              </p>
+              <p>
+                <strong>Ville(s) :</strong> {artist.city}
+              </p>
+              <p>
+                <strong>Pays :</strong> {artist.country}
+              </p>
+              <p>
+                <strong>Poids :</strong> {artist.weight} kg
+              </p>
+              <p>
+                <strong>Taille :</strong> {artist.height} cm
+              </p>
+              <p>
+                <strong>Titre :</strong> {artist.title}
+              </p>
+              <p>
+                <strong>Description :</strong> {artist.description}
+              </p>
+            </div>
+
+            <div className="flex gap-2 py-5">
+              <button onClick={() => handleEdit(artist)}>Modifier</button>
+              <button onClick={() => handleDelete(artist.id)}>
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
+            </div>
           </div>
         ))}
       </div>
 
-      {/* Formulaire d'ajout/modification */}
+      <div className="col-span-full flex justify-center py-8">
+        <button onClick={handleAddNew} className="text-center">
+          Ajouter un nouvel artiste
+        </button>
+      </div>
+
       {isEditing && (
         <div>
-          <h2>
+          <h2 className="text-center text-2xl">
             {editingArtist ? "Modifier l'artiste" : "Ajouter un nouvel artiste"}
           </h2>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5">
             <input
               type="text"
               placeholder="Pseudo"
               value={formData.pseudo}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  pseudo: e.target.value,
-                })
+                setFormData({ ...formData, pseudo: e.target.value })
               }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Poids"
-              value={formData.weight}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  weight: e.target.value,
-                })
-              }
-              required
-            />
-            <input
-              type="text"
-              placeholder="Taille"
-              value={formData.height}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  height: e.target.value,
-                })
-              }
+              className="p-2"
               required
             />
             <input
@@ -184,11 +244,9 @@ export default function ArtistCatalog() {
               placeholder="Ville"
               value={formData.city}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  city: e.target.value,
-                })
+                setFormData({ ...formData, city: e.target.value })
               }
+              className="p-2"
               required
             />
             <input
@@ -196,11 +254,29 @@ export default function ArtistCatalog() {
               placeholder="Pays"
               value={formData.country}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  country: e.target.value,
-                })
+                setFormData({ ...formData, country: e.target.value })
               }
+              className="p-2"
+              required
+            />
+            <input
+              type="number"
+              placeholder="Poids"
+              value={formData.weight}
+              onChange={(e) =>
+                setFormData({ ...formData, weight: e.target.value })
+              }
+              className="p-2"
+              required
+            />
+            <input
+              type="number"
+              placeholder="Taille"
+              value={formData.height}
+              onChange={(e) =>
+                setFormData({ ...formData, height: e.target.value })
+              }
+              className="p-2"
               required
             />
             <input
@@ -208,79 +284,72 @@ export default function ArtistCatalog() {
               placeholder="Titre"
               value={formData.title}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  title: e.target.value,
-                })
+                setFormData({ ...formData, title: e.target.value })
               }
+              className="p-2"
+              required
+            />
+            <textarea
+              placeholder="Description"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData({ ...formData, description: e.target.value })
+              }
+              className="p-2"
               required
             />
             <input
               type="text"
-              placeholder="Description"
-              value={formData.description}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  description: e.target.value,
-                })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Photo 1"
+              placeholder="Lien de la première image"
               value={formData.picture_one}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  picture_one: e.target.value,
-                })
+                setFormData({ ...formData, picture_one: e.target.value })
               }
+              className="p-2"
+              required
             />
             <input
               type="text"
-              placeholder="Photo 2"
+              placeholder="Lien de la deuxième image"
               value={formData.picture_two}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  picture_two: e.target.value,
-                })
+                setFormData({ ...formData, picture_two: e.target.value })
               }
+              className="p-2"
+              required
             />
             <input
               type="text"
-              placeholder="Photo 3"
+              placeholder="Lien de la troisième image"
               value={formData.picture_three}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  picture_three: e.target.value,
-                })
+                setFormData({ ...formData, picture_three: e.target.value })
               }
+              className="p-2"
+              required
             />
             <input
               type="text"
-              placeholder="Avatar 1"
+              placeholder="Lien de l'avatar 1"
               value={formData.avatar1}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  avatar1: e.target.value,
-                })
+                setFormData({ ...formData, avatar1: e.target.value })
               }
+              className="p-2"
+              required
             />
             <input
               type="text"
-              placeholder="Avatar 2"
+              placeholder="Lien de l'avatar 2"
               value={formData.avatar2}
               onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  avatar2: e.target.value,
-                })
+                setFormData({ ...formData, avatar2: e.target.value })
               }
+              className="p-2"
+              required
             />
+
+            {/* Les autres inputs suivent la même logique */}
             <button type="submit">
               {editingArtist ? "Modifier" : "Ajouter"}
             </button>

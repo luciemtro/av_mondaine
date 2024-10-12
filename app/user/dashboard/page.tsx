@@ -31,69 +31,99 @@ const UserDashboard = () => {
   }
 
   return (
-    <div>
-      <h1>Bienvenue, {session.user.email}</h1>
-
+    <div className="container_order_user">
       {orders.length === 0 ? (
         <p>Vous n'avez aucune commande pour le moment.</p>
       ) : (
-        <section className="mt-20">
-          <h2 className="pb-5 pl-11 golden-text">Vos commandes</h2>
+        <section className="pt-20">
+          <h1 className="text-center">Bienvenue, {session.user.email}</h1>
+          <h2 className="pb-5 pl-11 text-center text-lg">Vos commandes</h2>
           {orders.map((order) => (
-            <div key={order.id} className="mb-8">
-              {/* Informations de la commande au-dessus du tableau */}
-              <div className="order-info pl-11 pr-11">
-                <h3>
+            <div
+              key={order.id}
+              className="order-card pink-border shadow-md rounded-lg p-5 m-8"
+            >
+              {/* Informations de la commande */}
+              <div className="order-header mb-4">
+                <h3 className="text-lg text-center font-semibold pink-link">
                   Commande #{order.id} - Créée le{" "}
                   {new Date(order.created_at).toLocaleDateString()}
                 </h3>
               </div>
 
-              {/* Tableau des détails de la commande */}
-              <div className="golden-border order-table ml-11 mr-11">
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Date de l'événement</th>
-                      <th>Heure de l'événement</th>
-                      <th>Téléphone</th>
-                      <th>Nombre de personnes</th>
-                      <th>Type de service</th>
-                      <th>Budget (€)</th>
-                      {/* Afficher le commentaire seulement s'il existe */}
-                      {order.comment && <th>Commentaire</th>}
-                      <th>Artiste(s)</th>
-                      <th>Adresse de l'événement</th>
-                      <th>Prix total (€)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{new Date(order.event_date).toLocaleDateString()}</td>
-                      <td>{order.event_hour}</td>
-                      <td>{order.phone}</td>
-                      <td>{order.number_of_people}</td>
-                      <td>{order.service_type}</td>
-                      <td>{order.budget}</td>
-                      {/* Afficher la cellule de commentaire seulement s'il y a un commentaire */}
-                      {order.comment && <td>{order.comment}</td>}
-                      <td>
-                        {order.artists
-                          ? order.artists
-                              .split(",")
-                              .map((artist, index) => (
-                                <span key={index}>{artist}</span>
-                              ))
-                          : "Aucun artiste sélectionné"}
-                      </td>
-                      <td>
-                        {order.event_address}, {order.event_city},{" "}
-                        {order.event_country}
-                      </td>
-                      <td>{order.total_fee} €</td>
-                    </tr>
-                  </tbody>
-                </table>
+              {/* Détails de la commande en tant que sections */}
+              <div className="order-details grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                <div>
+                  <p className="font-medium pink-link">Date de l'événement:</p>
+                  <p>{new Date(order.event_date).toLocaleDateString()}</p>
+                </div>
+
+                <div>
+                  <p className="font-medium pink-link">Heure de l'événement:</p>
+                  <p>{order.event_hour}</p>
+                </div>
+
+                <div>
+                  <p className="font-medium pink-link">Téléphone:</p>
+                  <p>{order.phone}</p>
+                </div>
+
+                <div>
+                  <p className="font-medium pink-link">Nombre de personnes:</p>
+                  <p>{order.number_of_people}</p>
+                </div>
+
+                <div>
+                  <p className="font-medium pink-link">Type de service:</p>
+                  <p>{order.service_type}</p>
+                </div>
+
+                <div>
+                  <p className="font-medium pink-link">Budget (€):</p>
+                  <p>{order.budget}</p>
+                </div>
+                <div className="col-span-full">
+                  <p className="font-medium pink-link">
+                    Adresse de l'événement:
+                  </p>
+                  <p>
+                    {order.event_address}, {order.event_city},{" "}
+                    {order.event_country}
+                  </p>
+                </div>
+
+                {order.comment && (
+                  <div className="col-span-full ">
+                    <p className="font-medium pink-link">Commentaire:</p>
+                    <p>{order.comment}</p>
+                  </div>
+                )}
+
+                <div className="col-span-full flex flex-col justify-center items-center">
+                  <p className="font-medium pink-link">Artiste(s):</p>
+                  <div className="flex flex-wrap">
+                    {order.artists.split(",").map((artist, index) => (
+                      <div
+                        key={index}
+                        className="artist-info pink-border flex flex-col items-center"
+                      >
+                        <img
+                          src={order.artist_pictures.split(",")[index]} // Afficher la photo
+                          alt={`Photo de ${artist}`}
+                          className="w-12 h-12 rounded-full mr-2"
+                        />
+                        <p className="block">{artist}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="col-span-full">
+                  <p className="font-medium pink-link text-center">
+                    Prix total (€):
+                  </p>
+                  <p className="text-center">{order.total_fee} €</p>
+                </div>
               </div>
             </div>
           ))}

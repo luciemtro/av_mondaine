@@ -11,6 +11,8 @@
 @import "@/app/styles/(homepage)/temoignage.module.scss";
 @import "@/app/styles/(homepage)/services.module.scss";
 @import "@/app/styles/(account)/account.module.scss";
+@import "@/app/styles/adminDashboard.module.scss";
+@import "@/app/styles/artistForm.module.scss";
 
 @tailwind base;
 @tailwind components;
@@ -144,6 +146,7 @@ h6,
 p,
 th,
 td,
+strong,
 label {
   @apply golden-text-static;
 }

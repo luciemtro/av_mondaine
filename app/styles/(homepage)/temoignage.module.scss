@@ -13,6 +13,9 @@
   margin-bottom: 40px;
   text-transform: uppercase;
   letter-spacing: 2px;
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+  }
 }
 
 .temoignage-card {
@@ -47,4 +50,18 @@
 .card-content p {
   font-size: 1.2rem;
   margin-bottom: 20px;
+}
+@media screen and (max-width: 768px) {
+  .temoignage-card {
+    flex-direction: column;
+  }
+
+  .image-container {
+    width: 100%;
+  }
+
+  .card-content {
+    padding: 20px 0;
+    text-align: center;
+  }
 }
