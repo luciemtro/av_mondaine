@@ -105,12 +105,12 @@ const UserDashboard = () => {
                     {order.artists.split(",").map((artist, index) => (
                       <div
                         key={index}
-                        className="artist-info pink-border flex flex-col items-center"
+                        className="artist-info pink-border flex flex-col items-center-3"
                       >
                         <img
                           src={order.artist_pictures.split(",")[index]} // Afficher la photo
                           alt={`Photo de ${artist}`}
-                          className="w-12 h-12 rounded-full mr-2"
+                          className=""
                         />
                         <p className="block">{artist}</p>
                       </div>

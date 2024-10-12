@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Artist } from "@/app/types/artist.types";
-import { useSession } from "next-auth/react"; // Import de useSession pour vérifier la session
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import styles from "@/app/styles/reservation.module.scss"; // Import du fichier CSS module
 
@@ -31,7 +31,9 @@ interface ReservationFormProps {
 
 const ReservationForm = ({ email = "" }: ReservationFormProps) => {
   const [artists, setArtists] = useState<Artist[]>([]);
-  const [selectedArtists, setSelectedArtists] = useState<number[]>([]);
+  const [selectedArtists, setSelectedArtists] = useState<
+    { id: number; pseudo: string }[]
+  >([]);
 
   const countries = [
     { code: "FR", name: "France" },
@@ -80,29 +82,22 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
     fetchArtists();
   }, []);
 
-  const handleArtistSelection = (id: number) => {
+  const handleArtistSelection = (id: number, pseudo: string) => {
     setSelectedArtists((prevSelected) =>
-      prevSelected.includes(id)
-        ? prevSelected.filter((artistId) => artistId !== id)
-        : [...prevSelected, id]
+      prevSelected.some((artist) => artist.id === id)
+        ? prevSelected.filter((artist) => artist.id !== id)
+        : [...prevSelected, { id, pseudo }]
     );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const selectedArtistsData = selectedArtists
-      .map((id) => {
-        const artist = artists.find((artist) => artist.id === id);
-        return artist ? { id: artist.id, pseudo: artist.pseudo } : null;
-      })
-      .filter(Boolean);
-
     const queryParams = new URLSearchParams(
       Object.entries({
         ...formData,
         totalFee: totalFee.toString(),
-        selectedArtists: JSON.stringify(selectedArtists),
+        selectedArtists: JSON.stringify(selectedArtists), // On passe non seulement les IDs, mais aussi les pseudos
       }).reduce((acc, [key, value]) => {
         acc[key] = String(value);
         return acc;
@@ -312,8 +307,8 @@ const ReservationForm = ({ email = "" }: ReservationFormProps) => {
             <input
               type="checkbox"
               id={`artist-${artist.id}`}
-              checked={selectedArtists.includes(artist.id)}
-              onChange={() => handleArtistSelection(artist.id)}
+              checked={selectedArtists.some((a) => a.id === artist.id)}
+              onChange={() => handleArtistSelection(artist.id, artist.pseudo)}
             />
             <label htmlFor={`artist-${artist.id}`}>
               <img

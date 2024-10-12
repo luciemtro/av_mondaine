@@ -79,10 +79,11 @@ export default function PaymentPage() {
   };
 
   return (
-    <div className="mt-28">
-      <h1>Paiement</h1>
-      <p>Montant total à payer: {formData.totalFee} €</p>
-      <button onClick={handlePayment}>Payer avec Stripe</button>
+    <div className="pt-28 payment-container flex flex-col justify-center items-center">
+      <p className="text-2xl p-5 golden-text">
+        Montant total à payer: {formData.totalFee} €
+      </p>
+      <button onClick={handlePayment}>Passer au paiement</button>
     </div>
   );
 }
