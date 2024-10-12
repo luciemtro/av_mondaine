@@ -3,11 +3,19 @@
 .header-avenue-container {
   width: 100%;
   height: auto;
+  @media screen and (max-width: 768px) {
+    height: 80vh;
+  }
+  @media screen and (max-width: 600px) {
+    height: 70vh;
+  }
 }
 
 .header-avenue-image {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
   display: block; /* Pour s'assurer que l'image prend toute la largeur du conteneur */
   filter: contrast(1.5) brightness(0.5);
 }
@@ -25,6 +33,16 @@
   border: rgba(253, 243, 218, 0.74) 3px solid;
   box-shadow: 0 0 5px rgb(240, 222, 177);
   animation: pulsate 5s infinite; /* Ajout de l'animation de pulsation */
+  @media screen and (max-width: 768px) {
+    width: 250px;
+    height: 250px;
+  }
+
+  @media screen and (max-width: 450px) {
+    width: 200px;
+    height: 200px;
+    padding: 15px;
+  }
 }
 
 .gif-logo-container {
@@ -38,6 +56,15 @@
   background-image: url("https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZmkxcG50eGxzZjF2MmptaXM0YjV1eXZ3MnpzdGZ1MWppb2cwc3I5ZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/l4FGE5EZOqikBWaqc/giphy.webp");
   background-size: cover;
   opacity: 0.2;
+  @media screen and (max-width: 768px) {
+    width: 250px;
+    height: 250px;
+  }
+
+  @media screen and (max-width: 450px) {
+    width: 200px;
+    height: 200px;
+  }
 }
 
 .linear-gradiant-header {
@@ -56,8 +83,17 @@
 
 .slogan {
   position: absolute;
+  width: 100%;
   bottom: 13%;
   left: 50.4%;
   transform: translateX(-50%);
   z-index: 10;
+  text-align: center;
+  font-size: 1rem;
+  @media screen and (max-width: 1000px) {
+    bottom: 7%;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 0.8rem;
+  }
 }

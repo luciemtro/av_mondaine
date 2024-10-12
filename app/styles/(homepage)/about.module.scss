@@ -16,6 +16,9 @@
   margin-bottom: 50px;
   text-transform: uppercase;
   letter-spacing: 2px;
+  @media screen and (max-width: 768px) {
+    font-size: 2rem;
+  }
 }
 
 .about-contenu {
@@ -48,6 +51,9 @@
   font-size: 1.8rem;
   text-transform: uppercase;
   margin-bottom: 20px;
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 .section p {

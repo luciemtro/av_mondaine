@@ -56,6 +56,9 @@ export default function ArtistPage() {
   return (
     <section className={`${styles.artistPageContainer} relative p-28`}>
       {/* Conteneur global pour les deux sections */}
+      <Link href="/catalogArtist">
+        <button className="m-5">Retour</button>
+      </Link>
       <div className={styles.mainContentContainer}>
         {/* Conteneur regroupant le Pseudo, Localisation et Détails */}
         <div className={styles.artistInfoContainer}>
@@ -115,6 +118,7 @@ export default function ArtistPage() {
         <Link href={`/reservation`} className={styles.artistButtonReservation}>
           <button>Réservez ici</button>
         </Link>
+
         <img
           src={artist.avatar1}
           alt={`Avatar de ${artist.pseudo}`}
@@ -129,6 +133,7 @@ export default function ArtistPage() {
         />
       </div>
       {/* Description */}
+
       <div className={`${styles.artistDetailsBox} ${styles.artistDescription}`}>
         <h2 className="font-semibold text-center uppercase p-3">Description</h2>
         <p className="text-sm pb-3">{artist.description}</p>

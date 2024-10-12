@@ -1,9 +1,12 @@
 "use client";
-
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Artist } from "@/app/types/artist.types"; // Importation du type
 
 export default function ArtistCatalog() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   // Spécifie que le state 'artists' est un tableau d'objets de type 'Artist'
   const [artists, setArtists] = useState<Artist[]>([]);
   // 'editingArtist' peut être un objet de type 'Artist' ou 'null'
@@ -23,7 +26,19 @@ export default function ArtistCatalog() {
     avatar1: "",
     avatar2: "",
   });
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/login"); // Rediriger vers la page de login si non authentifié
+    }
+  }, [status, router]);
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  }
 
+  if (session?.user?.role !== "admin") {
+    router.push("auth/login"); // Si l'utilisateur n'est pas un admin, redirige
+    return null;
+  }
   useEffect(() => {
     // Récupérer la liste des artistes
     async function fetchArtists() {
