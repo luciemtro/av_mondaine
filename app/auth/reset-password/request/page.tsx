@@ -31,17 +31,25 @@ export default function RequestResetPassword() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-10">
-      <h1>Mot de passe oublié</h1>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="Votre adresse email"
-        required
-      />
-      <button type="submit">Envoyer</button>
-      {message && <p>{message}</p>}
-    </form>
+    <div className="accountContainer pt-28">
+      <div className="containerFormAccount p-8 pink-border ">
+        <form
+          onSubmit={handleSubmit}
+          className="flex flex-col items-center gap-5"
+        >
+          <h1>Entrez votre mail pour récupérer votre mot de passe</h1>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Votre adresse email"
+            required
+            className="w-full px-4 py-2"
+          />
+          <button type="submit">Envoyer</button>
+          {message && <p>{message}</p>}
+        </form>
+      </div>
+    </div>
   );
 }

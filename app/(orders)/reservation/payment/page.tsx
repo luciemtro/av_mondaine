@@ -1,8 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { useSearchParams } from "next/navigation";
+
+export const dynamic = "force-dynamic";
 
 // Charger Stripe avec ta clé publique
 const stripePromise = loadStripe(
@@ -10,11 +12,9 @@ const stripePromise = loadStripe(
 );
 
 export default function PaymentPage() {
-  const searchParams = useSearchParams();
-  const formData = Object.fromEntries(searchParams.entries());
-
   const [stripe, setStripe] = useState<any>(null);
 
+  // Charger l'instance Stripe
   useEffect(() => {
     async function load() {
       const stripeInstance = await stripePromise;
@@ -23,10 +23,9 @@ export default function PaymentPage() {
     load();
   }, []);
 
-  const handlePayment = async () => {
+  const handlePayment = async (formData: any) => {
     if (!stripe) return;
 
-    // Vérifier si formData.selectedArtists est déjà un objet ou une chaîne JSON
     // Désérialiser les artistes sélectionnés
     let selectedArtists = [];
     try {
@@ -41,11 +40,6 @@ export default function PaymentPage() {
       return;
     }
 
-    console.log(
-      "Artistes sélectionnés (avant envoi à Stripe) :",
-      selectedArtists
-    );
-
     // Créer une session de paiement sur ton serveur
     const res = await fetch("/api/create-checkout-session", {
       method: "POST",
@@ -54,7 +48,7 @@ export default function PaymentPage() {
       },
       body: JSON.stringify({
         totalFee: formData.totalFee,
-        firstName: formData.firstName || "", // Assurer que les champs existent
+        firstName: formData.firstName || "",
         lastName: formData.lastName || "",
         email: formData.email || "",
         phone: formData.phone || "",
@@ -63,12 +57,12 @@ export default function PaymentPage() {
         eventPostalCode: formData.eventPostalCode || "",
         eventCountry: formData.eventCountry || "",
         eventDate: formData.eventDate || "",
-        eventHour: formData.eventHour || "", // Assurer que l'heure est bien une chaîne
+        eventHour: formData.eventHour || "",
         numberOfPeople: formData.numberOfPeople || "0",
         serviceType: formData.serviceType || "",
         budget: formData.budget || "0",
         comment: formData.comment || "",
-        selectedArtists: selectedArtists, // Envoyer le tableau d'artistes
+        selectedArtists: selectedArtists,
       }),
     });
 
@@ -79,11 +73,23 @@ export default function PaymentPage() {
   };
 
   return (
+    <Suspense fallback={<div>Chargement des informations de paiement...</div>}>
+      <PaymentContent onPayment={handlePayment} />
+    </Suspense>
+  );
+}
+
+// Contenu de la page de paiement encapsulé dans Suspense
+function PaymentContent({ onPayment }: { onPayment: (formData: any) => void }) {
+  const searchParams = useSearchParams();
+  const formData = Object.fromEntries(searchParams.entries());
+
+  return (
     <div className="pt-28 payment-container flex flex-col justify-center items-center">
       <p className="text-2xl p-5 golden-text">
         Montant total à payer: {formData.totalFee} €
       </p>
-      <button onClick={handlePayment}>Passer au paiement</button>
+      <button onClick={() => onPayment(formData)}>Passer au paiement</button>
     </div>
   );
 }

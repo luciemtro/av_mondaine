@@ -3,7 +3,8 @@ import { NextResponse } from "next/server";
 import { RowDataPacket } from "mysql2";
 import { Order } from "@/app/types/order.types";
 import { getServerSession } from "next-auth";
-import { handler as authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/app/api/auth/authOptions"; // Import correct de authOptions
+
 import { Session } from "next-auth"; // Import du type Session
 
 // Fonction pour récupérer uniquement les commandes de l'utilisateur connecté

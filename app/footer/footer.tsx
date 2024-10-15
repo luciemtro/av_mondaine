@@ -1,9 +1,11 @@
 "use client";
 
+import React from "react"; // Import de React pour utiliser les types
 import Link from "next/link";
 import styles from "@/app/styles/footer.module.scss"; // Import des styles SCSS
 
-export const Footer = () => {
+// Typage du composant Footer en tant que fonction React
+export const Footer: React.FC = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContainer}>
@@ -52,7 +54,6 @@ export const Footer = () => {
           </li>
         </ul>
 
-        {/* Réseaux sociaux */}
         <div className={styles.socialMedia}>
           <Link
             href="https://www.instagram.com/avenue.mondaine/"

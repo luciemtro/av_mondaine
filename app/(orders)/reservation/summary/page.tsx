@@ -1,41 +1,97 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { Suspense, useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 
-export default function Summary() {
+export const dynamic = "force-dynamic";
+
+// Interface pour les données de réservation
+interface ReservationFormData {
+  totalFee?: string;
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  eventAddress?: string;
+  eventCity?: string;
+  eventPostalCode?: string;
+  eventCountry?: string;
+  eventDate?: string;
+  eventHour?: string;
+  numberOfPeople?: string;
+  serviceType?: string;
+  budget?: string;
+  comment?: string;
+  selectedArtists?: string; // JSON string
+}
+
+// Composant principal avec Suspense
+export default function SummaryPage() {
+  return (
+    <Suspense fallback={<div>Chargement du récapitulatif...</div>}>
+      <SummaryContent />
+    </Suspense>
+  );
+}
+
+// Composant contenant le contenu de la page de récapitulatif
+function SummaryContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const formData = Object.fromEntries(searchParams.entries());
 
-  // Décoder les artistes sélectionnés depuis la chaîne JSON
-  const selectedArtists = formData.selectedArtists
-    ? JSON.parse(formData.selectedArtists)
-    : [];
+  const [formData, setFormData] = useState<ReservationFormData>({});
+  const [selectedArtists, setSelectedArtists] = useState<any[]>([]);
+
+  useEffect(() => {
+    try {
+      // Extraire les paramètres de recherche et les assigner à formData
+      const data = Object.fromEntries(
+        searchParams.entries()
+      ) as unknown as ReservationFormData;
+      setFormData(data);
+
+      // Décoder les artistes sélectionnés depuis la chaîne JSON
+      if (data.selectedArtists) {
+        setSelectedArtists(JSON.parse(data.selectedArtists));
+      }
+    } catch (error) {
+      console.error(
+        "Erreur lors de l'extraction des paramètres de recherche : ",
+        error
+      );
+    }
+  }, [searchParams]);
 
   const handlePayment = () => {
-    const queryParams = new URLSearchParams(
-      Object.entries({
-        totalFee: formData.totalFee?.toString() || "0",
-        firstName: formData.firstName || "",
-        lastName: formData.lastName || "",
-        email: formData.email || "",
-        phone: formData.phone || "",
-        eventAddress: formData.eventAddress || "",
-        eventCity: formData.eventCity || "",
-        eventPostalCode: formData.eventPostalCode || "",
-        eventCountry: formData.eventCountry || "",
-        eventDate: formData.eventDate || "",
-        eventHour: formData.eventHour?.toString() || "",
-        numberOfPeople: formData.numberOfPeople?.toString() || "0",
-        serviceType: formData.serviceType || "",
-        budget: formData.budget?.toString() || "0",
-        comment: formData.comment || "",
-        selectedArtists: JSON.stringify(selectedArtists),
-      })
-    ).toString();
+    try {
+      const queryParams = new URLSearchParams(
+        Object.entries({
+          totalFee: formData.totalFee?.toString() || "0",
+          firstName: formData.firstName || "",
+          lastName: formData.lastName || "",
+          email: formData.email || "",
+          phone: formData.phone || "",
+          eventAddress: formData.eventAddress || "",
+          eventCity: formData.eventCity || "",
+          eventPostalCode: formData.eventPostalCode || "",
+          eventCountry: formData.eventCountry || "",
+          eventDate: formData.eventDate || "",
+          eventHour: formData.eventHour?.toString() || "",
+          numberOfPeople: formData.numberOfPeople?.toString() || "0",
+          serviceType: formData.serviceType || "",
+          budget: formData.budget?.toString() || "0",
+          comment: formData.comment || "",
+          selectedArtists: JSON.stringify(selectedArtists),
+        })
+      ).toString();
 
-    router.push(`/reservation/payment?${queryParams}`);
+      router.push(`/reservation/payment?${queryParams}`);
+    } catch (error) {
+      console.error(
+        "Erreur lors de la redirection vers la page de paiement : ",
+        error
+      );
+    }
   };
 
   return (

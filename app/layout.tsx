@@ -4,8 +4,8 @@ import "./styles/globals.scss";
 import "./styles/roots.scss";
 import "./styles/animation.scss";
 import SessionProviderClient from "@/app/SessionProviderClient";
-import { Navbar } from "@/app/components/navbar/page";
-import { Footer } from "@/app/components/footer/page";
+import { Navbar } from "@/app/navbar/navbar";
+import { Footer } from "@/app/footer/footer";
 // _app.tsx ou _app.js
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
