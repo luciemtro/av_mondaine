@@ -151,32 +151,223 @@ export async function POST(req: Request) {
           const customerEmail = session.customer_details?.email || "";
 
           const emailBody = `
-            Nouvelle commande reçue pour ${session.metadata?.first_name} ${
+  <!DOCTYPE html>
+  <html lang="fr">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      body {
+        background-color: #1b1b1b;
+        color: #eaeaea;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .container {
+        width: 100%;
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #2a2a2a;
+        border-radius: 10px;
+      }
+      .header {
+        text-align: center;
+        padding: 20px 0;
+      }
+      .header img {
+        width: 150px;
+        height: auto;
+      }
+      .content {
+        padding: 20px;
+        line-height: 1.6;
+      }
+      h1 {
+        color: #ff007f;
+        text-align: center;
+        font-size: 24px;
+      }
+      p {
+        font-size: 16px;
+        margin: 10px 0;
+        color: #d4d4d4;
+      }
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      li {
+        font-size: 16px;
+        color: #d4d4d4;
+        margin-bottom: 10px;
+      }
+      .button {
+        display: block;
+        text-align: center;
+        margin: 20px 0;
+      }
+      .footer {
+        padding: 20px;
+      }
+
+      strong {
+        color: #ff007f;
+      }
+      .white {
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <img src="https://i.ibb.co/JKJPZmp/avenue-mondaine-logo-mail.png" alt="Avenue Mondaine Logo">
+      </div>
+      <div class="content">
+        <h1>Nouvelle commande reçue</h1>
+        <p>Bonjour,</p>
+        <p>Une nouvelle commande vient d'être confirmée. Voici les détails de la réservation :</p>
+        <ul>
+          <li><strong>Nom :</strong> ${session.metadata?.first_name} ${
             session.metadata?.last_name
-          }.
-            Détails :
-            - Montant: ${session.amount_total / 100} €
-            - Événement: ${session.metadata?.event_date}, ${
+          }</li>
+          <li><strong>Email :</strong> ${session.customer_details?.email}</li>
+          <li><strong>Montant :</strong> ${session.amount_total / 100} €</li>
+          <li><strong>Adresse de l'événement :</strong> ${
             session.metadata?.event_address
-          }, ${session.metadata?.event_city}
-            - Artistes: ${session.metadata?.selected_artists || "Aucun"}
-          `;
+          }, ${session.metadata?.event_city}</li>
+          <li><strong>Date de l'événement :</strong> ${
+            session.metadata?.event_date
+          }</li>
+          <li><strong>Artistes sélectionnés :</strong> ${
+            session.metadata?.selected_artists || "Aucun"
+          }</li>
+          <li><strong>Type de service :</strong> ${
+            session.metadata?.service_type
+          }</li>
+        </ul>
+        <p>Veuillez vous connecter à votre tableau de bord pour voir plus de détails et traiter la commande.</p>
+      </div>
+      <div class="footer">
+      </div>
+    </div>
+  </body>
+  </html>
+`;
 
           await sendEmail(adminEmail, "Nouvelle commande reçue", emailBody);
 
           const customerEmailBody = `
-            Bonjour ${session.metadata?.first_name},
-            
-            Merci pour votre commande ! Voici un récapitulatif de votre réservation :
-            - Montant: ${session.amount_total / 100} €
-            - Événement: ${session.metadata?.event_date}, ${
-            session.metadata?.event_address
-          }, ${session.metadata?.event_city}
-            
-            Nous vous recontacterons sous peu.
-
-            Merci,
-            L'équipe
+            <!DOCTYPE html>
+            <html lang="fr">
+            <head>
+              <meta charset="UTF-8">
+              <meta name="viewport" content="width=device-width, initial-scale=1.0">
+              <style>
+                body {
+                  background-color: #1b1b1b;
+                  color: #eaeaea;
+                  font-family: 'Arial', sans-serif;
+                  margin: 0;
+                  padding: 0;
+                }
+                .container {
+                  width: 100%;
+                  max-width: 600px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  background-color: #2a2a2a;
+                  border-radius: 10px;
+                }
+                .header {
+                  text-align: center;
+                  padding: 20px 0;
+                }
+                .header img {
+                  width: 150px;
+                  height: auto;
+                }
+                .content {
+                  padding: 20px;
+                  line-height: 1.6;
+                }
+                h1 {
+                  color: #ff007f;
+                  text-align: center;
+                  font-size: 24px;
+                }
+                p {
+                  font-size: 16px;
+                  margin: 10px 0;
+                  color: #d4d4d4;
+                }
+                .button {
+                  display: block;
+                  text-align: center;
+                  margin: 20px 0;
+                }
+                .button a {
+                  background-color: #ff007f;
+                  color: white;
+                  padding: 10px 20px;
+                  border-radius: 50px;
+                  text-decoration: none;
+                  font-size: 16px;
+                }
+                .footer {
+                  text-align: center;
+                  padding: 20px;
+                  font-size: 12px;
+                  color: #777;
+                }
+                .footer a {
+                  color: #ff007f;
+                  text-decoration: none;
+                }
+                strong{
+                color: #ff007f;
+                }
+                .white{
+                color: white;
+                }
+              </style>
+            </head>
+            <body>
+              <div class="container">
+                <div class="header">
+                  <img src="https://i.ibb.co/JKJPZmp/avenue-mondaine-logo-mail.png" alt="Avenue Mondaine Logo">
+                </div>
+                <div class="content">
+                  <h1>Merci pour votre commande !</h1>
+                  <p>Bonjour <strong>${
+                    session.metadata?.first_name
+                  }</strong>,</p>
+                  <p>Nous sommes ravis de vous informer que votre commande a bien été confirmée. Voici un récapitulatif de votre réservation :</p>
+                  <ul>
+                    <li class="white"><strong>Montant :</strong> ${
+                      session.amount_total / 100
+                    } €</li>
+                    <li class="white"><strong>Événement :</strong> ${
+                      session.metadata?.event_date
+                    } à  ${session.metadata?.event_address}, ${
+            session.metadata?.event_city
+          }</li>
+   
+                    <li class="white"><strong>Type de service :</strong> ${
+                      session.metadata?.service_type
+                    }</li>
+                  </ul>
+                  <p>Nous vous contacterons sous peu pour finaliser les détails de votre événement. Nous vous remercions de votre confiance.</p>
+                </div>
+                <div class="footer">
+                  <p>Si vous avez des questions, vous pouvez nous contacter à tout moment à <a href="mailto:contact@avenuemondaine.com">contact@avenuemondaine.com</a>.</p>
+                  <p>&copy; 2024 Avenue Mondaine. Tous droits réservés.</p>
+                </div>
+              </div>
+            </body>
+            </html>
           `;
           await sendEmail(
             customerEmail,
